@@ -6,6 +6,7 @@
     tools:context=".HomeFragment">
 
     <TextView
+        android:id="@+id/accountTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Account"
@@ -13,5 +14,15 @@
         android:textStyle="bold"
         android:textSize="30dp"
         android:layout_margin="15dp"/>
+    <TextView
+        android:id="@+id/helloTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hi,"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_margin="15dp"
+        android:layout_below="@id/accountTitle"/>
 
 </RelativeLayout>

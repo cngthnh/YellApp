@@ -2,32 +2,47 @@ package com.yellion.yellapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, View.OnClickListener {
 
-    static int currentFragmentPosition = 0;
+    static int currentFragmentPosition = -1;
+    static SharedPreferences sharedPreferences = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-
-        BottomNavigationView bnv = findViewById(R.id.bottomNavView);
-        bnv.setOnItemSelectedListener(this);
-
-        bnv.setSelectedItemId(R.id.navHome);
+        setNavListener();
     }
-
+    private void setNavListener()
+    {
+        ImageButton btn = (ImageButton) findViewById(R.id.navHome);
+        btn.setOnClickListener(this);
+        btn.performClick();
+        btn = (ImageButton) findViewById(R.id.navDashboards);
+        btn.setOnClickListener(this);
+        btn = (ImageButton) findViewById(R.id.navBudgets);
+        btn.setOnClickListener(this);
+        btn = (ImageButton) findViewById(R.id.navAccount);
+        btn.setOnClickListener(this);
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment selected = null;
@@ -78,5 +93,60 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         }
 
         return false;
+    }
+
+    @Override
+    public void onClick(View view) {
+        Fragment selected = null;
+        int nextPosition = currentFragmentPosition;
+        int viewId = view.getId();
+        if (viewId == R.id.navHome) {
+            selected = new HomeFragment();
+            nextPosition = 0;
+        }
+        else if (viewId == R.id.navDashboards) {
+            selected = new DashboardsFragment();
+            nextPosition = 1;
+        }
+        else if (viewId == R.id.navBudgets) {
+            selected = new BudgetsFragment();
+            nextPosition = 2;
+        }
+        else if (viewId == R.id.navAccount) {
+            selected = new AccountFragment();
+            nextPosition = 3;
+        }
+
+        if (currentFragmentPosition != nextPosition) {
+            ImageButton btn = null;
+            switch (currentFragmentPosition)
+            {
+                case 0:
+                    btn = (ImageButton) findViewById(R.id.navHome);
+                    btn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.dark_yellow),
+                            android.graphics.PorterDuff.Mode.SRC_IN);
+                    break;
+                case 1:
+                    btn = (ImageButton) findViewById(R.id.navDashboards);
+                    btn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.dark_yellow),
+                            android.graphics.PorterDuff.Mode.SRC_IN);
+                    break;
+                case 2:
+                    btn = (ImageButton) findViewById(R.id.navBudgets);
+                    btn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.dark_yellow),
+                            android.graphics.PorterDuff.Mode.SRC_IN);
+                    break;
+                case 3:
+                    btn = (ImageButton) findViewById(R.id.navAccount);
+                    btn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.dark_yellow),
+                            android.graphics.PorterDuff.Mode.SRC_IN);
+                    break;
+            }
+
+            loadFragment(selected, nextPosition);
+
+            btn = (ImageButton) findViewById(viewId);
+            btn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN);
+        }
     }
 }
