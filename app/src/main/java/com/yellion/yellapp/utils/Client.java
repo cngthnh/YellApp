@@ -4,7 +4,6 @@ import com.yellion.yellapp.models.TokenPair;
 
 import java.io.IOException;
 
-import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -14,7 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class Client {
-    private final static String API_URL = "https://yell-backend.herokuapp.com/api/";
+    private final static String API_URL = "https://yell-backend-dev.herokuapp.com/api/";
     private final static OkHttpClient client = buildClient();
     private final static Retrofit retrofit = buildRetrofit(client);
 
@@ -52,7 +51,7 @@ public class Client {
         return retrofit.create(service);
     }
 
-    public static <T> T createServiceWithAuth(Class<T> service, final TokenManager tokenManager){
+    public static <T> T createServiceWithAuth(Class<T> service, final SessionManager sessionManager){
 
         class accessTokenBinder implements  Interceptor {
 
@@ -62,8 +61,8 @@ public class Client {
 
                 Request.Builder builder = request.newBuilder();
 
-                if (tokenManager.getToken().getAccessToken() != null) {
-                    builder.addHeader("Authorization", "Bearer " + tokenManager.getToken().getAccessToken());
+                if (sessionManager.getToken().getAccessToken() != null) {
+                    builder.addHeader("Authorization", "Bearer " + sessionManager.getToken().getAccessToken());
                 }
                 request = builder.build();
                 return chain.proceed(request);
@@ -81,14 +80,14 @@ public class Client {
                 if (response.code() == 401) {
 
                     if (responseCount(response) >= 3) {
-                        tokenManager.deleteToken();
+                        sessionManager.deleteToken();
                         response.close();
                         return response;
                     }
 
                     response.close();
 
-                    TokenPair token = tokenManager.getToken();
+                    TokenPair token = sessionManager.getToken();
 
                     ApiService service = Client.createService(ApiService.class);
                     Call<TokenPair> call = service.refresh("Bearer " + token.getRefreshToken());
@@ -98,13 +97,13 @@ public class Client {
 
                     if (resCode == 200) {
                         TokenPair newToken = res.body();
-                        tokenManager.saveToken(newToken);
+                        sessionManager.saveToken(newToken);
                         request = chain.request().newBuilder().header("Authorization", "Bearer " + newToken.getAccessToken()).build();
                         return chain.proceed(request);
                     }
                     // invalid session
                     else if (resCode == 403) {
-                        tokenManager.deleteToken();
+                        sessionManager.deleteToken();
                         return response;
                     }
                 }

@@ -24,5 +24,12 @@
         android:textSize="20dp"
         android:layout_margin="15dp"
         android:layout_below="@id/accountTitle"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signoutBtn"
+        android:layout_below="@id/helloTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:text="Đăng xuất"/>
 
 </RelativeLayout>

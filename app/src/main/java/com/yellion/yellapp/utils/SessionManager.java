@@ -4,18 +4,18 @@ import android.content.SharedPreferences;
 
 import com.yellion.yellapp.models.TokenPair;
 
-public class TokenManager {
+public class SessionManager {
     private SharedPreferences prefs;
 
-    private static TokenManager INSTANCE = null;
+    private static SessionManager INSTANCE = null;
 
-    private TokenManager(SharedPreferences prefs){
+    private SessionManager(SharedPreferences prefs){
         this.prefs = prefs;
     }
 
-    public static synchronized TokenManager getInstance(SharedPreferences prefs){
+    public static synchronized SessionManager getInstance(SharedPreferences prefs){
         if(INSTANCE == null){
-            INSTANCE = new TokenManager(prefs);
+            INSTANCE = new SessionManager(prefs);
         }
         return INSTANCE;
     }
