@@ -101,6 +101,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void prepareComponents() {
+        binding.resend.setOnClickListener(this);
+        binding.checkVeri.setOnClickListener(this);
         binding.registerBtn.setOnClickListener(this);
         binding.gotoLogin.setOnClickListener(this);
         binding.code1.addTextChangedListener(new TextWatcher() {
@@ -212,10 +214,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             gotoLogin();
         } else if (viewId == R.id.confirmEmailBtn) {
             sendConfirmation();
+        } else if (viewId == R.id.resend) {
+            resendEmail();
+        } else if (viewId == R.id.checkVeri) {
+            login(true);
         }
     }
 
-    private void login() {
+    private void resendEmail() {
+    }
+
+    private void login(boolean stay) {
         showLoading();
 
         UserCredentials userCredentials = new UserCredentials(currentUsername, currentHash);
@@ -237,7 +246,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    gotoLogin();
+                    if (stay) {
+                        Toast.makeText(RegisterActivity.this, "Email chưa được xác thực. Vui lòng thử lại", Toast.LENGTH_LONG).show();
+                        showConfForm();
+                    }
+                    else {
+                        gotoLogin();
+                        Toast.makeText(RegisterActivity.this, "Email chưa được xác thực. Vui lòng thử đăng nhập lại", Toast.LENGTH_LONG).show();
+                    }
                 }
 
             }
@@ -276,7 +292,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (response.isSuccessful()) {
                     showLoading();
                     Toast.makeText(RegisterActivity.this, "Đã xác thực email thành công!", Toast.LENGTH_LONG).show();
-                    login();
+                    login(false);
                 } else {
                     showConfForm();
                     Toast.makeText(RegisterActivity.this, "Mã bảo mật không chính xác", Toast.LENGTH_LONG).show();
@@ -355,5 +371,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange)), description.length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.instructionText.setText(spannable);
         binding.confirmEmailBtn.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        savePrevInfo();
     }
 }

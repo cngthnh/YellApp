@@ -5,7 +5,7 @@ import com.squareup.moshi.Json;
 import java.util.List;
 
 public class UserAccount {
-    @Json(name="id")
+    @Json(name="uid")
     public String id;
     @Json(name="name")
     public String name;

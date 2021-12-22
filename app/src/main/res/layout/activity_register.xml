@@ -235,7 +235,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/confirmEmailForm"
-            android:visibility="gone"
+            android:visibility="visible"
             android:padding="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -375,6 +375,28 @@
                     android:clickable="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:text="Gửi lại"
+                    android:focusable="false"
+                    android:textColor="@color/orange"
+                    android:textStyle="bold"
+                    android:textSize="15dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đã xác nhận bằng link qua email? "
+                    android:textSize="15dp"/>
+                <EditText
+                    android:id="@+id/checkVeri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:text="Kiểm tra"
                     android:focusable="false"
                     android:textColor="@color/orange"
                     android:textStyle="bold"
