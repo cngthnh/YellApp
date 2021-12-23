@@ -235,7 +235,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/confirmEmailForm"
-            android:visibility="visible"
+            android:visibility="gone"
             android:padding="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -246,6 +246,7 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="10dp">
                 <ImageButton
+                    android:id="@+id/cancelVeri"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     style="?android:attr/borderlessButtonStyle"
