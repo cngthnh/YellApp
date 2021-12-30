@@ -1,30 +1,28 @@
 package com.yellion.yellapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yellion.yellapp.adapters.DashboardsAdapter;
-import com.yellion.yellapp.databinding.FragmentDashboardsBinding;
+import com.yellion.yellapp.databinding.FragmentListDashboardsBinding;
 import com.yellion.yellapp.models.DashboardCard;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardsFragment extends Fragment {
-    FragmentDashboardsBinding binding;
+public class ListDashboardsFragment extends Fragment {
+    FragmentListDashboardsBinding binding;
     DashboardsAdapter dashboardsAdapter = null;
     List<DashboardCard> list;
 
 
-    public DashboardsFragment() {
+    public ListDashboardsFragment() {
     }
 
     @Override
@@ -36,7 +34,7 @@ public class DashboardsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentDashboardsBinding.inflate(inflater, container, false );
+        binding = FragmentListDashboardsBinding.inflate(inflater, container, false );
         View view = binding.getRoot();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recycleView.setLayoutManager(layoutManager);

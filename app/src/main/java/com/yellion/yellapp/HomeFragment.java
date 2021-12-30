@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.yellion.yellapp.databinding.FragmentHomeBinding;
 
@@ -31,7 +30,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                DashboardsFragment dashboardsFragment = new DashboardsFragment();
+                ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,dashboardsFragment).addToBackStack(null).commit();
             }
         });

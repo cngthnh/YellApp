@@ -7,16 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, View.OnClickListener {
@@ -52,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 nextPosition = 0;
                 break;
             case R.id.navDashboards:
-                selected = new DashboardsFragment();
+                selected = new ListDashboardsFragment();
                 nextPosition = 1;
                 break;
             case R.id.navBudgets:
@@ -105,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             nextPosition = 0;
         }
         else if (viewId == R.id.navDashboards) {
-            selected = new DashboardsFragment();
+            selected = new ListDashboardsFragment();
             nextPosition = 1;
         }
         else if (viewId == R.id.navBudgets) {
