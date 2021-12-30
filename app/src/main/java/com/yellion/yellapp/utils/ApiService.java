@@ -2,12 +2,14 @@ package com.yellion.yellapp.utils;
 
 import android.media.session.MediaSession;
 
+import com.yellion.yellapp.models.InfoMessage;
 import com.yellion.yellapp.models.TokenPair;
 import com.yellion.yellapp.models.UserAccount;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -20,7 +22,7 @@ public interface ApiService {
 
     @POST("users")
     @Headers("Content-Type: application/json")
-    Call<TokenPair> register(@Body String body);
+    Call<InfoMessage> register(@Body RequestBody body);
 
     @POST("auth")
     @Headers("Content-Type: application/json")
@@ -32,4 +34,14 @@ public interface ApiService {
     @GET("users")
     Call<UserAccount> getUserProfile(@Query("fetch") String fetch);
 
+    @DELETE("auth")
+    Call<InfoMessage> logout();
+
+    @POST("users/verify")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> verify(@Body RequestBody body);
+
+    @POST("users/verify/resend")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> resendVerification(@Body RequestBody body);
 }
