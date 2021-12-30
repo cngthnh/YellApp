@@ -3,15 +3,40 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/bg_item_user.xml" value="0.14635416666666667" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/fram_topbar.xml" value="0.2703125" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/frame_cover_item_dashboard.xml" value="0.2703125" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_back.xml" value="0.2703125" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_delete.xml" value="0.2703125" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/activity_register.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/dialog_delete_dashboard.xml" value="0.264" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_budgets.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_dashboard.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_dashboard1.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_dashboards.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/item_dashboard.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/item_user.xml" value="0.2" />
+        <entry key="app/src/main/res/drawable-v24/ic_google.xml" value="0.3619791666666667" />
+        <entry key="app/src/main/res/drawable/ic_account.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/drawable/ic_budget.xml" value="0.2078125" />
+        <entry key="app/src/main/res/drawable/ic_eye_hide.xml" value="0.3619791666666667" />
+        <entry key="app/src/main/res/drawable/ic_eye_hide_1_svgrepo_com.xml" value="0.3619791666666667" />
+        <entry key="app/src/main/res/drawable/ic_eye_show.xml" value="0.3619791666666667" />
+        <entry key="app/src/main/res/drawable/ic_facebook.xml" value="0.3619791666666667" />
+        <entry key="app/src/main/res/drawable/ic_google.xml" value="0.3619791666666667" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.2078125" />
+        <entry key="app/src/main/res/drawable/ic_question.xml" value="0.2078125" />
         <entry key="app/src/main/res/drawable/ic_ripple.xml" value="0.3619791666666667" />
         <entry key="app/src/main/res/layout-v26/activity_main.xml" value="0.19166666666666668" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3458333333333333" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3458333333333333" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.19166666666666668" />
-        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.3458333333333333" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3458333333333333" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
       </map>
     </option>
   </component>

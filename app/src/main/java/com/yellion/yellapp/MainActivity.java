@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         setNavListener();
     }
@@ -74,18 +72,20 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             if(newPosition == currentFragmentPosition) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentContainer, fragment).commit();
+                        .replace(R.id.fragmentContainer, fragment).addToBackStack(null).commit();
             }
             if(currentFragmentPosition > newPosition) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 ((FragmentTransaction) transaction).setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right );
                 transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
             if(currentFragmentPosition < newPosition) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
                 transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
             currentFragmentPosition = newPosition;

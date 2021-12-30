@@ -1,101 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:background="@color/yellow_primary">
 
-
-    <ProgressBar
-        android:id="@+id/loader"
-        android:visibility="invisible"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:text="@string/action_sign_in_short"
-        style="@style/Base.TextAppearance.AppCompat.Headline"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/formContainer"
-        android:layout_centerHorizontal="true"/>
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/formContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/usernameInput"
-            android:hint="@string/prompt_username"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:contentPaddingBottom="30dp"
+        android:layout_marginBottom="-30dp"
+        app:cardCornerRadius="30dp">
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:inputType="textEmailAddress"
-                android:drawablePadding="10dp"
-                android:imeOptions="actionNext"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordInput"
+            android:layout_height="4dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="-2dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/orange"
+            android:scaleY="4"
+            android:visibility="gone"/>
+        <LinearLayout
+            android:padding="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            android:hint="@string/prompt_password">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:inputType="textPassword"
-                android:drawablePadding="10dp"
+            android:orientation="vertical">
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Đăng nhập"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:textColor="?titleTextColor"
+                android:layout_marginBottom="10dp"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="?editTextBackground"
+                app:cardElevation="0dp"
+                android:layout_marginVertical="5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Email"/>
+                    <EditText
+                        android:id="@+id/usernameInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="Nhập email của bạn"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="?editTextBackground"
+                app:cardElevation="0dp"
+                android:layout_marginVertical="5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="10dp"
+                        android:layout_weight="1">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mật khẩu"/>
+                        <EditText
+                            android:inputType="textPassword"
+                            android:id="@+id/passwordInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="Nhập mật khẩu của bạn"/>
+                    </LinearLayout>
+                    <ImageButton
+                        android:id="@+id/revealPassword"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:src="@drawable/ic_eye_show"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:padding="0dp"
+                        android:layout_marginHorizontal="10dp"
+                        app:tint="?iconTint"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/orange"
+                android:text="Quên mật khẩu?"
+                android:layout_gravity="right"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/yellow_primary"
+                android:text="Đăng nhập"
+                app:cornerRadius="10dp"
+                android:textColor="?itemTextColor"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="hoặc đăng nhập với"
+                android:textAlignment="center"
+                android:textColor="@color/icon_tint"
+                android:layout_marginTop="5dp"
+                android:textSize="15dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="5dp"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:src="@drawable/ic_facebook"
+                    />
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleX="0.94"
+                    android:scaleY="0.94"
+                    android:layout_marginHorizontal="5dp"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:src="@drawable/ic_google"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="?iconTint"
+                android:layout_marginVertical="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa có tài khoản? "
+                    android:textSize="15dp"/>
+                <EditText
+                    android:id="@+id/gotoRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:text="Đăng ký ngay!"
+                    android:focusable="false"
+                    android:textColor="@color/orange"
+                    android:textStyle="bold"
+                    android:textSize="15dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <TextView
-            android:id="@+id/goToRegister"
-            android:text="@string/not_yet_registered"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            style="@style/Base.TextAppearance.AppCompat.Medium"
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/loginBtn"
-            android:text="@string/action_sign_in_short"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-    <Button
-        android:id="@+id/guestBtn"
-        android:text="@string/use_as_guest"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@android:color/transparent"
-        android:textColor="@color/black"
-        android:textSize="10dp"/>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
