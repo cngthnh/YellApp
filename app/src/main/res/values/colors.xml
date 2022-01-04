@@ -20,4 +20,7 @@
     <color name="icon_tint_dark">#707070</color>
     <color name="title">#000000</color>
     <color name="title_dark">#DFDFDF</color>
+    <color name="red">#E74C3C</color>
+    <color name="green">#2ECC71</color>
+    <color name="light_gray">#ecf0f1</color>
 </resources>

@@ -20,4 +20,11 @@
     <string name="not_yet_registered">Chưa có tài khoản?</string>
     <string name="use_as_guest">Sử dụng với tài khoản khách</string>
     <string name="invalid_email_conf_code">Bạn phải điền đầy đủ 4 chữ số trong mã bảo mật</string>
+    <string-array name="reminder_mode">
+        <item>None</item>
+        <item>Before 1 day</item>
+        <item>Before 2 days</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

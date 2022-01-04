@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 nextPosition = 1;
                 break;
             case R.id.navBudgets:
-                selected = new BudgetsFragment();
+                selected = new TaskFragment();
                 nextPosition = 2;
                 break;
             case R.id.navAccount:
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             nextPosition = 1;
         }
         else if (viewId == R.id.navBudgets) {
-            selected = new BudgetsFragment();
+            selected = new TaskFragment();
             nextPosition = 2;
         }
         else if (viewId == R.id.navAccount) {
