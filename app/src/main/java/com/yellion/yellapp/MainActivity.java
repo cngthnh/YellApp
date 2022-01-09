@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.yellion.yellapp.models.BudgetCard;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, View.OnClickListener {
 
@@ -47,11 +48,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 nextPosition = 0;
                 break;
             case R.id.navDashboards:
-                selected = new ListDashboardsFragment();
+                selected = new ListBudgetsFragment();
                 nextPosition = 1;
                 break;
             case R.id.navBudgets:
-                selected = new BudgetsFragment();
+                selected = new BudgetsFragment(new BudgetCard("Sổ tay chi tiêu",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd"));
                 nextPosition = 2;
                 break;
             case R.id.navAccount:
@@ -100,11 +101,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             nextPosition = 0;
         }
         else if (viewId == R.id.navDashboards) {
-            selected = new ListDashboardsFragment();
+            selected = new ListBudgetsFragment();
             nextPosition = 1;
         }
         else if (viewId == R.id.navBudgets) {
-            selected = new BudgetsFragment();
+            selected = new BudgetsFragment(new BudgetCard("Sổ tay chi tiêu",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
             nextPosition = 2;
         }
         else if (viewId == R.id.navAccount) {

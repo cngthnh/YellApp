@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,45 +22,46 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
-import com.yellion.yellapp.DashboardFragment;
+import com.yellion.yellapp.BudgetsFragment;
 import com.yellion.yellapp.R;
-import com.yellion.yellapp.models.DashboardCard;
+import com.yellion.yellapp.models.BudgetCard;
 
 import java.util.List;
 
-public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.DashboardsViewHolder>{
+public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsViewHolder>{
 
     private Context mContext = null;
-    private List<DashboardCard> mListDashboard;
+    private List<BudgetCard> mListBudget;
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
-    public DashboardsAdapter(Context mContext) {
+    public BudgetsAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void setData(List<DashboardCard> mListDashboard) {
-        this.mListDashboard = mListDashboard;
+    public void setData(List<BudgetCard> mListBudget) {
+        this.mListBudget = mListBudget;
     }
 
     @NonNull
     @Override
-    public DashboardsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dashboard, parent, false);
-        return new DashboardsViewHolder(view);
+    public BudgetsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_budget, parent, false);
+        return new BudgetsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DashboardsViewHolder holder, int position) {
-        DashboardCard dashboardCard = mListDashboard.get(position);
-        if(dashboardCard == null){
+    public void onBindViewHolder(@NonNull BudgetsViewHolder holder, int position) {
+        BudgetCard budgetCard = mListBudget.get(position);
+        if(budgetCard == null){
             return;
         }
-        holder.nameDashboard.setText(dashboardCard.getName());
+        holder.budget_id.setText(budgetCard.name);
+        holder.threshold.setText(budgetCard.threshold.toString());
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(1));
         holder.deleteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialogDeleteDashboard(holder, dashboardCard);
+                openDialogDeleteBudget(holder, budgetCard);
             }
         });
 
@@ -69,8 +69,8 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_dashboards,dashboardFragment).addToBackStack(null).commit();
+                BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets,budgetsFragment).addToBackStack(null).commit();
             }
         });
 
@@ -78,10 +78,10 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
 
     }
 
-    private void openDialogDeleteDashboard(DashboardsViewHolder holder, DashboardCard dashboardCard) {
+    private void openDialogDeleteBudget(BudgetsViewHolder holder, BudgetCard budgetCard) {
         final Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_delete_dashboard);
+        dialog.setContentView(R.layout.dialog_delete_budget);
 
         Window window = dialog.getWindow();
         if(window == null){
@@ -97,23 +97,23 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
 
         dialog.setCancelable(true);
 
-        TextView title = dialog.findViewById(R.id.title_delete_db);
-        TextView deleteBt = dialog.findViewById(R.id.delete_db);
-        TextView cancelDeleteBt = dialog.findViewById(R.id.cancel_delete_db);
+        TextView title = dialog.findViewById(R.id.title_delete_bg);
+        TextView deleteBt = dialog.findViewById(R.id.delete_bg);
+        TextView cancelDeleteBt = dialog.findViewById(R.id.cancel_delete_bg);
 
 
-        String elementS = "Bạn có chắc là muốn xoá bảng ";
-        String s = elementS + dashboardCard.getName() + " không?";
+        String elementS = "Bạn có chắc là muốn xoá sổ tay ";
+        String s = elementS + budgetCard.getName() + " không?";
 
         Spannable spannable = new SpannableString(s);
-        spannable.setSpan(new ForegroundColorSpan(Color.rgb(255,152,0)), elementS.length(), elementS.length() + dashboardCard.getName().length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.rgb(255,152,0)), elementS.length(), elementS.length() + budgetCard.getName().length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         title.setText(spannable);
 
         deleteBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListDashboard.remove(holder.getAdapterPosition());
+                mListBudget.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
                 dialog.dismiss();
             }
@@ -131,27 +131,25 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
 
     @Override
     public int getItemCount() {
-        if(mListDashboard != null){
-            return mListDashboard.size();
+        if(mListBudget != null){
+            return mListBudget.size();
         }
         return 0;
     }
 
-    public class DashboardsViewHolder extends RecyclerView.ViewHolder{
-        private ImageView cover;
-        private TextView nameDashboard;
-        private TextView label;
+    public class BudgetsViewHolder extends RecyclerView.ViewHolder{
+        private TextView budget_id;
+        private TextView threshold;
         private SwipeRevealLayout swipeRevealLayout;
         private CardView deleteLayout;
         private CardView itemLayout;
 
-        public DashboardsViewHolder(@NonNull View itemView) {
+        public BudgetsViewHolder(@NonNull View itemView) {
             super(itemView);
-            cover = itemView.findViewById(R.id.cover_image);
-            nameDashboard = itemView.findViewById((R.id.name_db_item));
-            label = itemView.findViewById(R.id.label);
+            budget_id = itemView.findViewById((R.id.name_bg_item));
             swipeRevealLayout = itemView.findViewById(R.id.swipe);
-            deleteLayout = itemView.findViewById(R.id.delete_layout);
+            threshold=itemView.findViewById(R.id.threshold);
+            deleteLayout = itemView.findViewById(R.id.delete_item_budget);
             itemLayout = itemView.findViewById(R.id.item_layout);
         }
     }

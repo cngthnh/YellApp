@@ -26,12 +26,13 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container,false);
         View view = binding.getRoot();
 
-        binding.viewAllDashboardsBtn.setOnClickListener(new View.OnClickListener() {
+        binding.viewAllBudgetsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,dashboardsFragment).addToBackStack(null).commit();
+                ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,listBudgetsFragment).addToBackStack(null).commit();
+                binding.highlightCard.setVisibility(View.GONE);
             }
         });
 
