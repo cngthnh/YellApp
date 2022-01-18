@@ -65,7 +65,7 @@
                         android:id="@+id/avatarImg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/sample_avatar" />
+                        android:src="@color/blue_secondary" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </LinearLayout>
