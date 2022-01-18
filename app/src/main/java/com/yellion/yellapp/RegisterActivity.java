@@ -11,10 +11,14 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -88,6 +92,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editor.apply();
     }
 
+    private void removePrevInfo() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        currentEmail = null;
+        currentUsername = null;
+        currentHash = null;
+        editor.remove("CR_UID");
+        editor.remove("CR_HSH");
+        editor.remove("CR_EML");
+        editor.apply();
+    }
+
     private void setupInputRules() {
         registerValidator.addValidation(binding.nameInput, RegexTemplate.NOT_EMPTY, getResources().getString(R.string.invalid_name));
         registerValidator.addValidation(binding.usernameInput, RegexTemplate.NOT_EMPTY, getResources().getString(R.string.invalid_username));
@@ -101,6 +116,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void prepareComponents() {
+        binding.revealPassword.setOnClickListener(this);
+        binding.cancelVeri.setOnClickListener(this);
+        binding.resend.setOnClickListener(this);
+        binding.checkVeri.setOnClickListener(this);
         binding.registerBtn.setOnClickListener(this);
         binding.gotoLogin.setOnClickListener(this);
         binding.code1.addTextChangedListener(new TextWatcher() {
@@ -212,10 +231,58 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             gotoLogin();
         } else if (viewId == R.id.confirmEmailBtn) {
             sendConfirmation();
+        } else if (viewId == R.id.resend) {
+            resendEmail();
+        } else if (viewId == R.id.checkVeri) {
+            login(true);
+        } else if (viewId == R.id.cancelVeri) {
+            removePrevInfo();
+            showForm();
+        } else if (viewId == R.id.revealPassword) {
+            revealOrHidePassword(view);
         }
     }
 
-    private void login() {
+    private void revealOrHidePassword(View view) {
+        ImageButton imageButton = (ImageButton) view;
+        if (binding.passwordInput.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
+            binding.passwordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            imageButton.setImageResource(R.drawable.ic_eye_hide);
+        } else {
+            binding.passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            imageButton.setImageResource(R.drawable.ic_eye_show);
+        }
+    }
+
+    private void resendEmail() {
+        showLoading();
+
+        UserCredentials userCredentials = new UserCredentials(currentUsername);
+
+        String jsonCredentials = moshi.adapter(UserCredentials.class).toJson(userCredentials);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonCredentials);
+
+        Call<InfoMessage> resendCall;
+        resendCall = service.resendVerification(requestBody);
+        resendCall.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "Đã gửi lại email xác thực", Toast.LENGTH_LONG).show();
+                    showConfForm();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Không thể gửi email xác thực", Toast.LENGTH_LONG).show();
+                showConfForm();
+            }
+        });
+    }
+
+    private void login(boolean stay) {
         showLoading();
 
         UserCredentials userCredentials = new UserCredentials(currentUsername, currentHash);
@@ -234,10 +301,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 if (response.isSuccessful()) {
                     sessionManager.saveToken(response.body());
+                    removePrevInfo();
                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    gotoLogin();
+                    if (stay) {
+                        Toast.makeText(RegisterActivity.this, "Email chưa được xác thực. Vui lòng thử lại", Toast.LENGTH_LONG).show();
+                        showConfForm();
+                    }
+                    else {
+                        removePrevInfo();
+                        gotoLogin();
+                        Toast.makeText(RegisterActivity.this, "Email chưa được xác thực. Vui lòng thử đăng nhập lại", Toast.LENGTH_LONG).show();
+                    }
                 }
 
             }
@@ -276,7 +352,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (response.isSuccessful()) {
                     showLoading();
                     Toast.makeText(RegisterActivity.this, "Đã xác thực email thành công!", Toast.LENGTH_LONG).show();
-                    login();
+                    login(false);
                 } else {
                     showConfForm();
                     Toast.makeText(RegisterActivity.this, "Mã bảo mật không chính xác", Toast.LENGTH_LONG).show();
@@ -355,5 +431,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.orange)), description.length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.instructionText.setText(spannable);
         binding.confirmEmailBtn.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (currentUsername != null)
+            savePrevInfo();
     }
 }

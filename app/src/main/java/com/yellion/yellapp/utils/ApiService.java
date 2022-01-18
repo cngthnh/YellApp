@@ -34,10 +34,14 @@ public interface ApiService {
     @GET("users")
     Call<UserAccount> getUserProfile(@Query("fetch") String fetch);
 
-    @DELETE("users")
+    @DELETE("auth")
     Call<InfoMessage> logout();
 
     @POST("users/verify")
     @Headers("Content-Type: application/json")
     Call<InfoMessage> verify(@Body RequestBody body);
+
+    @POST("users/verify/resend")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> resendVerification(@Body RequestBody body);
 }

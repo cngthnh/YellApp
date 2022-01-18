@@ -7,16 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, View.OnClickListener {
@@ -52,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 nextPosition = 0;
                 break;
             case R.id.navDashboards:
-                selected = new DashboardsFragment();
+                selected = new ListDashboardsFragment();
                 nextPosition = 1;
                 break;
             case R.id.navBudgets:
@@ -72,18 +67,20 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             if(newPosition == currentFragmentPosition) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentContainer, fragment).commit();
+                        .replace(R.id.fragmentContainer, fragment).addToBackStack(null).commit();
             }
             if(currentFragmentPosition > newPosition) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 ((FragmentTransaction) transaction).setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right );
                 transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
             if(currentFragmentPosition < newPosition) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
                 transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
             currentFragmentPosition = newPosition;
@@ -103,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             nextPosition = 0;
         }
         else if (viewId == R.id.navDashboards) {
-            selected = new DashboardsFragment();
+            selected = new ListDashboardsFragment();
             nextPosition = 1;
         }
         else if (viewId == R.id.navBudgets) {

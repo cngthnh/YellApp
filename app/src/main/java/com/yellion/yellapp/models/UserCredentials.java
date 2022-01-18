@@ -12,6 +12,13 @@ public class UserCredentials {
     @Json(name="name")
     public String name;
 
+    public UserCredentials(String uid) {
+        this.uid = uid;
+        this.hash = null;
+        this.email = null;
+        this.name = null;
+    }
+
     public UserCredentials(String uid, String hash)
     {
         this.uid = uid;

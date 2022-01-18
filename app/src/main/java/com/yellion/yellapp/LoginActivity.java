@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -73,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void prepareOnClickListeners() {
         binding.loginBtn.setOnClickListener(this);
         binding.gotoRegister.setOnClickListener(this);
+        binding.revealPassword.setOnClickListener(this);
     }
 
     private void showLoading(){
@@ -83,6 +87,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void showForm(){
         binding.progressBar.setVisibility(View.GONE);
         binding.loginBtn.setEnabled(true);
+    }
+
+    private void revealOrHidePassword(View view) {
+        ImageButton imageButton = (ImageButton) view;
+        if (binding.passwordInput.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
+            binding.passwordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            imageButton.setImageResource(R.drawable.ic_eye_hide);
+        } else {
+            binding.passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            imageButton.setImageResource(R.drawable.ic_eye_show);
+        }
     }
 
 
@@ -174,6 +189,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             login();
         } else if (viewId == R.id.gotoRegister) {
             goToRegister();
+        } else if (viewId == R.id.revealPassword) {
+            revealOrHidePassword(view);
         }
     }
 }

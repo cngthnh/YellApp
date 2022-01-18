@@ -27,4 +27,8 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="invalid_email_conf_code">Bạn phải điền đầy đủ 4 chữ số trong mã bảo mật</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="expand">Most of these features work out of the box, while some may require basic configuration to get the best experience. This page summarizes the Julia features included in the Julia VS Code extension. For a more in-depth guide on how these features work and can be configured, see the Julia in VS Code documentation.</string>
 </resources>

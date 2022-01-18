@@ -71,7 +71,8 @@ public class AccountFragment extends Fragment {
                 @Override
                 public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
                     if (response.isSuccessful()) {
-                        binding.helloTitle.setText("Hi, " + response.body().getName());
+                        binding.fullNameText.setText(response.body().getName());
+                        binding.usernameText.setText("@" + response.body().getId());
                     } else {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
                         Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();

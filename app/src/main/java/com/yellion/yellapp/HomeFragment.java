@@ -6,9 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.yellion.yellapp.databinding.FragmentHomeBinding;
+
 public class HomeFragment extends Fragment {
+
+    FragmentHomeBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,7 +23,19 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container,false);
+        View view = binding.getRoot();
+
+        binding.viewAllDashboardsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,dashboardsFragment).addToBackStack(null).commit();
+            }
+        });
+
+
+        return view;
     }
 }
