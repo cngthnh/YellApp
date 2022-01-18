@@ -51,7 +51,6 @@
                     android:id="@+id/cover_image"
                     android:layout_width="match_parent"
                     android:layout_height="125dp"
-                    android:src="@drawable/cover1"
                     android:scaleType="centerCrop"
 
                     />

@@ -359,6 +359,7 @@
                     android:layout_margin="12dp"
                     android:src="@drawable/ic_add"
                     android:tint="@color/white"
+                    android:id="@+id/addTaskFloatingButton"
                     android:layout_gravity="bottom|right"/>
 
             </FrameLayout>

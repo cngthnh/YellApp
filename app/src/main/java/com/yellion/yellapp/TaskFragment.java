@@ -20,8 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.maltaisn.icondialog.IconDialog;
-import com.maltaisn.icondialog.IconDialogSettings;
 import com.yellion.yellapp.databinding.FragmentTaskBinding;
 
 /**
@@ -89,7 +87,7 @@ public class TaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.mainFloatingButton);
+        FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.addTaskFloatingButton);
         floatingActionButton.setVisibility(View.GONE);
         BottomAppBar navBar = getActivity().findViewById(R.id.mainAppBar);
         navBar.setVisibility(View.GONE);

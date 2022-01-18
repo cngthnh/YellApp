@@ -2,9 +2,8 @@ package com.yellion.yellapp.models;
 
 import com.squareup.moshi.Json;
 
-import io.realm.RealmObject;
 
-public class Task extends RealmObject {
+public class Task {
     @Json(name = "dashboard_id")
     public String dashboard_id;
     @Json(name = "task_id")
