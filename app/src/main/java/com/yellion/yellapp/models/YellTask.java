@@ -3,7 +3,7 @@ package com.yellion.yellapp.models;
 import com.squareup.moshi.Json;
 
 
-public class Task {
+public class YellTask {
     @Json(name = "dashboard_id")
     public String dashboard_id;
     @Json(name = "task_id")
@@ -27,14 +27,14 @@ public class Task {
     @Json(name = "content")
     public String content;
 
-    public Task() {
+    public YellTask() {
     }
 
-    public Task(String dashboard_id, String name,
-                Integer status, Integer noti_level,
-                Integer priority, String parent_id,
-                String start_time, String end_time,
-                String labels, String content) {
+    public YellTask(String dashboard_id, String name,
+                    Integer status, Integer noti_level,
+                    Integer priority, String parent_id,
+                    String start_time, String end_time,
+                    String labels, String content) {
         this.dashboard_id = dashboard_id;
         this.name = name;
         this.status = status;
@@ -45,6 +45,19 @@ public class Task {
         this.end_time = end_time;
         this.labels = labels;
         this.content = content;
+    }
+
+    public YellTask(String dashboard_id, String name) {
+        this.dashboard_id = dashboard_id;
+        this.name = name;
+        this.status = null;
+        this.noti_level = null;
+        this.priority = null;
+        this.parent_id = null;
+        this.start_time = null;
+        this.end_time = null;
+        this.labels = null;
+        this.content = null;
     }
 
     public String getDashboard_id() {

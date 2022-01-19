@@ -1,9 +1,7 @@
 package com.yellion.yellapp.utils;
 
-import android.media.session.MediaSession;
-
 import com.yellion.yellapp.models.InfoMessage;
-import com.yellion.yellapp.models.Task;
+import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.models.TokenPair;
 import com.yellion.yellapp.models.UserAccount;
 
@@ -11,8 +9,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -48,7 +44,7 @@ public interface ApiService {
     Call<InfoMessage> resendVerification(@Body RequestBody body);
 
     @GET("tasks")
-    Call<Task> getTask(@Query("task_id") String taskId);
+    Call<YellTask> getTask(@Query("task_id") String taskId);
 
     @POST("users")
     @Headers("Content-Type: application/json")

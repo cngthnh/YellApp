@@ -2,7 +2,6 @@ package com.yellion.yellapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -22,15 +21,17 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yellion.yellapp.databinding.FragmentTaskBinding;
 import com.yellion.yellapp.models.ErrorMessage;
-import com.yellion.yellapp.models.Task;
-import com.yellion.yellapp.models.UserAccount;
+import com.yellion.yellapp.models.InfoMessage;
+import com.squareup.moshi.Moshi;
+import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.utils.ApiService;
 import com.yellion.yellapp.utils.Client;
 import com.yellion.yellapp.utils.SessionManager;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,6 +50,9 @@ public class TaskFragment extends Fragment {
     SessionManager sessionManager;
     ApiService service;
     String taskId;
+    String dashBoardId;
+    Moshi moshi = new Moshi.Builder().build();
+    YellTask currentYellTask;
     private FragmentTaskBinding binding;
 
     // TODO: Rename and change types of parameters
@@ -301,13 +305,13 @@ public class TaskFragment extends Fragment {
 
 
     }
-    private void getDataFromServer() {
+    private void getTaskFromServer() {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
-        Call<Task> call;
+        Call<YellTask> call;
         call = service.getTask(taskId);
-        call.enqueue(new Callback<Task>() {
+        call.enqueue(new Callback<YellTask>() {
             @Override
-            public void onResponse(Call<Task> call, Response<Task> response) {
+            public void onResponse(Call<YellTask> call, Response<YellTask> response) {
                 if (response.isSuccessful()) {
                     // TODO: Binding data for field
                 } else {
@@ -317,9 +321,45 @@ public class TaskFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Task> call, Throwable t) {
+            public void onFailure(Call<YellTask> call, Throwable t) {
                 Log.w("YellTaskFragment", "onFailure: " + t.getMessage() );
             }
         });
+    }
+    private void addTaskToServer() {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+        RequestBody requestBody = taskToJson();
+        call = service.addTask(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+
+                Log.w("YellTaskCreate", "onResponse: " + response);
+
+                if (response.isSuccessful()) {
+                    // TODO
+                }
+                else {
+                    if (response.code() == 401) {
+                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                        Toast.makeText(getContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    // TODO
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
+                // TODO:
+            }
+        });
+    }
+    private RequestBody taskToJson() {
+        String jsonYellTask = moshi.adapter(YellTask.class).toJson(currentYellTask);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonYellTask);
+        return requestBody;
     }
 }
