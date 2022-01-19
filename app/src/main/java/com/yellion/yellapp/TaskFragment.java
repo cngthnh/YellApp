@@ -2,6 +2,7 @@ package com.yellion.yellapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -12,15 +13,27 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yellion.yellapp.databinding.FragmentTaskBinding;
+import com.yellion.yellapp.models.ErrorMessage;
+import com.yellion.yellapp.models.Task;
+import com.yellion.yellapp.models.UserAccount;
+import com.yellion.yellapp.utils.ApiService;
+import com.yellion.yellapp.utils.Client;
+import com.yellion.yellapp.utils.SessionManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +46,9 @@ public class TaskFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    SessionManager sessionManager;
+    ApiService service;
+    String taskId;
     private FragmentTaskBinding binding;
 
     // TODO: Rename and change types of parameters
@@ -87,8 +103,6 @@ public class TaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.addTaskFloatingButton);
-        floatingActionButton.setVisibility(View.GONE);
         BottomAppBar navBar = getActivity().findViewById(R.id.mainAppBar);
         navBar.setVisibility(View.GONE);
     }
@@ -286,5 +300,26 @@ public class TaskFragment extends Fragment {
         });
 
 
+    }
+    private void getDataFromServer() {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<Task> call;
+        call = service.getTask(taskId);
+        call.enqueue(new Callback<Task>() {
+            @Override
+            public void onResponse(Call<Task> call, Response<Task> response) {
+                if (response.isSuccessful()) {
+                    // TODO: Binding data for field
+                } else {
+                    ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                    Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Task> call, Throwable t) {
+                Log.w("YellTaskFragment", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 }

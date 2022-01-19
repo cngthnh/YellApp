@@ -11,11 +11,11 @@ public class Task {
     @Json(name = "name")
     public String name;
     @Json(name = "status")
-    public String status;
+    public Integer status;
     @Json(name = "noti_level")
-    public String noti_level;
+    public Integer noti_level;
     @Json(name = "priority")
-    public String priority;
+    public Integer priority;
     @Json(name = "parent_id")
     public String parent_id;
     @Json(name = "start_time")
@@ -31,8 +31,8 @@ public class Task {
     }
 
     public Task(String dashboard_id, String name,
-                String status, String noti_level,
-                String priority, String parent_id,
+                Integer status, Integer noti_level,
+                Integer priority, String parent_id,
                 String start_time, String end_time,
                 String labels, String content) {
         this.dashboard_id = dashboard_id;
@@ -71,27 +71,27 @@ public class Task {
         this.name = name;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public String getNoti_level() {
+    public Integer getNoti_level() {
         return noti_level;
     }
 
-    public void setNoti_level(String noti_level) {
+    public void setNoti_level(Integer noti_level) {
         this.noti_level = noti_level;
     }
 
-    public String getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 
