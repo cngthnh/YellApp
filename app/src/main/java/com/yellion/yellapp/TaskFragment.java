@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Switch;
 import android.widget.Toast;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -35,6 +36,7 @@ import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.utils.ApiService;
 import com.yellion.yellapp.utils.Client;
 import com.yellion.yellapp.utils.SessionManager;
+import com.yellion.yellapp.viewmodels.YellTaskViewModel;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -56,11 +58,11 @@ public class TaskFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "taskId";
     private static final String ARG_PARAM2 = "dashboardId";
-    SessionManager sessionManager;
-    ApiService service;
-    Moshi moshi = new Moshi.Builder().build();
+
     YellTask currentYellTask;
-    private FragmentTaskBinding binding;
+    FragmentTaskBinding binding;
+    YellTaskViewModel viewModel;
+
 
     // TODO: Rename and change types of parameters
     private String taskId;
@@ -96,6 +98,11 @@ public class TaskFragment extends Fragment {
             dashBoardId = getArguments().getString(ARG_PARAM2);
             currentYellTask = new YellTask(dashBoardId,taskId);
         }
+        else {
+            currentYellTask = new YellTask();
+        }
+        viewModel = new ViewModelProvider(this).get(YellTaskViewModel.class);
+        viewModel.init();
     }
 
 
@@ -390,61 +397,5 @@ public class TaskFragment extends Fragment {
 
 
     }
-    private void getTaskFromServer() {
-        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
-        Call<YellTask> call;
-        call = service.getTask(taskId);
-        call.enqueue(new Callback<YellTask>() {
-            @Override
-            public void onResponse(Call<YellTask> call, Response<YellTask> response) {
-                if (response.isSuccessful()) {
-                    // TODO: Binding data for field
-                } else {
-                    ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                    Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<YellTask> call, Throwable t) {
-                Log.w("YellTaskFragment", "onFailure: " + t.getMessage() );
-            }
-        });
-    }
-    private void addTaskToServer() {
-        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
-        Call<InfoMessage> call;
-        RequestBody requestBody = taskToJson();
-        call = service.addTask(requestBody);
-        call.enqueue(new Callback<InfoMessage>() {
-            @Override
-            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
-
-                Log.w("YellTaskCreate", "onResponse: " + response);
-
-                if (response.isSuccessful()) {
-                    // TODO
-                }
-                else {
-                    if (response.code() == 401) {
-                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                        Toast.makeText(getContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                    // TODO
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<InfoMessage> call, Throwable t) {
-                Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
-                // TODO:
-            }
-        });
-    }
-    private RequestBody taskToJson() {
-        String jsonYellTask = moshi.adapter(YellTask.class).toJson(currentYellTask);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonYellTask);
-        return requestBody;
-    }
 }
