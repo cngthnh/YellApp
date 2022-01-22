@@ -19,6 +19,7 @@ import com.yellion.yellapp.utils.Client;
 import com.yellion.yellapp.utils.SessionManager;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,19 +68,52 @@ public class YellTaskRepository {
         return YellTaskResponseLiveData;
     }
 
-    private void addTaskToServer(YellTask yellTask) {
+    public void addTaskToServer(YellTask yellTask) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<YellTask> call;
+        RequestBody requestBody = taskToJson(yellTask);
+        call = service.addTask(null,requestBody);
+        call.enqueue(new Callback<YellTask>() {
+            @Override
+            public void onResponse(Call<YellTask> call, Response<YellTask> response) {
+                Log.w("YellTaskCreate", "onResponse: " + response.body());
+                if (response.isSuccessful()) {
+                    yellTask.setTask_id(response.body().getTask_id());
+                    YellTaskResponseLiveData.postValue(yellTask);
+                }
+                else {
+                    if (response.code() == 401) {
+                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                        Toast.makeText(application.getApplicationContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    // TODO
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<YellTask> call, Throwable t) {
+                Toast.makeText(application.getApplicationContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
+                // TODO:
+            }
+        });
+    }
+    private RequestBody taskToJson(YellTask currentYellTask) {
+        String jsonYellTask = moshi.adapter(YellTask.class).toJson(currentYellTask);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonYellTask);
+        return requestBody;
+    }
+
+    public void patchTaskToServer(YellTask yellTask) {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
         Call<InfoMessage> call;
         RequestBody requestBody = taskToJson(yellTask);
-        call = service.addTask(requestBody);
+        call = service.editTask(null,requestBody);
         call.enqueue(new Callback<InfoMessage>() {
             @Override
             public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
-
-                Log.w("YellTaskCreate", "onResponse: " + response);
-
+                Log.w("YellTaskCreate", "onResponse: " + response.body());
                 if (response.isSuccessful()) {
-                    // TODO
                 }
                 else {
                     if (response.code() == 401) {
@@ -97,10 +131,5 @@ public class YellTaskRepository {
                 // TODO:
             }
         });
-    }
-    private RequestBody taskToJson(YellTask currentYellTask) {
-        String jsonYellTask = moshi.adapter(YellTask.class).toJson(currentYellTask);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonYellTask);
-        return requestBody;
     }
 }

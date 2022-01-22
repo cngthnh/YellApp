@@ -24,7 +24,7 @@ public class DashboardCard {
     public DashboardCard(String id, String name, String description, List<YellTask> tasks) {
         this.id = id;
         this.name = name;
-        this.description = description;
+        //this.description = description;
         this.tasks = tasks;
     }
 

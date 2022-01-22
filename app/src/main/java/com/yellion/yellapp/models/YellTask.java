@@ -35,6 +35,7 @@ public class YellTask {
                     Integer priority, String parent_id,
                     String start_time, String end_time,
                     String labels, String content) {
+        this.task_id = null;
         this.dashboard_id = dashboard_id;
         this.name = name;
         this.status = status;
@@ -51,6 +52,7 @@ public class YellTask {
         this.dashboard_id = dashboard_id;
         this.name = name;
         this.status = 0;
+        this.task_id = null;
         this.noti_level = null;
         this.priority = null;
         this.parent_id = null;

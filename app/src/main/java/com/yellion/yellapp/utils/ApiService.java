@@ -6,6 +6,7 @@ import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.models.TokenPair;
 import com.yellion.yellapp.models.UserAccount;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -13,8 +14,10 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -58,17 +61,15 @@ public interface ApiService {
     @GET("tasks")
     Call<YellTask> getTask(@Query("task_id") String taskId);
 
-    @POST("users")
-    @Headers("Content-Type: application/json")
-    Call<InfoMessage> addTask(@Body RequestBody body);
+    @Multipart
+    @POST("tasks")
+    Call<YellTask> addTask(@Part MultipartBody.Part file, @Part("data") RequestBody body);
 
+    @Multipart
+    @PATCH("tasks")
+    Call<InfoMessage> editTask(@Part MultipartBody.Part file, @Part("data") RequestBody body);
 
-
-    @PATCH("users")
-    @Headers("Content-Type: application/json")
-    Call<InfoMessage> editTask(@Body RequestBody body);
-
-    @DELETE("users")
+    @DELETE("tasks")
     @Headers("Content-Type: application/json")
     Call<InfoMessage> deleteTask(@Body RequestBody body);
 }
