@@ -2,16 +2,23 @@ package com.yellion.yellapp.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yellion.yellapp.R;
+import com.yellion.yellapp.TaskFragment;
 import com.yellion.yellapp.models.YellTask;
 
 import java.util.ArrayList;
@@ -19,9 +26,9 @@ import java.util.ArrayList;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     ArrayList<YellTask> yellTaskArrayList;
-    Activity activity;
+    FragmentActivity activity;
 
-    public TaskAdapter(Activity activity) {
+    public TaskAdapter(FragmentActivity activity) {
         this.activity = activity;
         yellTaskArrayList = new ArrayList<>();
     }
@@ -65,6 +72,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             @Override
             public void onClick(View v) {
                 removeYellTask(holder.getLayoutPosition());
+            }
+        });
+        holder.taskName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskFragment fragment = TaskFragment.newInstance(yellTask.getName(),
+                        yellTask.getDashboard_id(),null,
+                        ((AppCompatEditText)activity.findViewById(R.id.taskName)).getText().toString());
+                activity.getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                                android.R.anim.slide_in_left, android.R.anim.slide_in_left)
+                        .replace(R.id.fragmentContainer, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }

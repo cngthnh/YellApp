@@ -38,6 +38,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/previousTask"
                     android:text="Trở lại"
                     android:textSize="16dp">
 
@@ -352,6 +353,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:padding="14dp"
+                        android:id="@+id/listTask"
                         android:layout_height="match_parent"/>
 
 
@@ -362,6 +364,7 @@
                     android:layout_margin="12dp"
                     android:elevation="3dp"
                     android:src="@drawable/ic_add"
+                    android:id="@+id/addSubTask"
                     android:tint="@color/white"
                     android:layout_gravity="bottom|right"/>
 

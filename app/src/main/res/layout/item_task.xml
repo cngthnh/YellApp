@@ -54,7 +54,7 @@
                     android:text="Đồ án môn học"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
-                    android:textSize="24dp"/>
+                    android:textSize="18dp"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/taskLabelItem"
                     android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
                     android:background="@drawable/frame_cover_item_dashboard"
                     android:text="Môn học"
                     android:fontFamily="@font/roboto_medium"
-                    android:textSize="18dp"
+                    android:textSize="10dp"
                     android:textColor="@color/white"
                     android:layout_marginVertical="4dp"
                     android:paddingStart="10dp"
