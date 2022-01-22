@@ -19,6 +19,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:src="@drawable/cover"
             android:scaleType="centerCrop"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,6 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 >
                 <ImageView
                     android:id="@+id/back_dashboard"
@@ -37,8 +39,6 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_back"
                     app:tint="@color/white"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
                     android:layout_gravity="start"/>
             </LinearLayout>
 
@@ -58,9 +58,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic__edit"
                     app:tint="@color/white"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:gravity="end"/>
+                    android:layout_gravity="end"
+                    />
                 <ImageView
                     android:visibility="gone"
                     android:id="@+id/complete_edit_db"
@@ -68,9 +67,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_check"
                     app:tint="@color/white"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:gravity="end"/>
+                    android:layout_gravity="end"
+                    />
             </FrameLayout>
             <FrameLayout
                 android:layout_width="0dp"
@@ -82,11 +80,10 @@
                     android:id="@+id/delete_in_db"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete"
+                    android:src="@drawable/ic_delete_1"
                     app:tint="@color/white"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:gravity="start"/>
+                    android:layout_gravity="center"
+                    />
                 <ImageView
                     android:visibility="gone"
                     android:id="@+id/cancel_edit_db"
@@ -94,9 +91,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_cancel"
                     app:tint="@color/white"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:gravity="end"/>
+                    android:layout_gravity="center"
+                    />
             </FrameLayout>
 
         </LinearLayout>

@@ -1,5 +1,6 @@
 package com.yellion.yellapp.utils;
 
+import com.yellion.yellapp.models.DashboardCard;
 import com.yellion.yellapp.models.InfoMessage;
 import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.models.TokenPair;
@@ -43,12 +44,25 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     Call<InfoMessage> resendVerification(@Body RequestBody body);
 
+    @POST("dashboards")
+    @Headers("Content-Type: application/json")
+    Call<DashboardCard> addDashboard(@Body RequestBody body);
+
+    @GET("dashboards")
+    Call<DashboardCard> getDashboard(@Query("dashboard_id") String dashboardId, @Query("fetch") String fetch);
+
+    @PATCH("dashboards")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> editDashboard(@Body RequestBody body);
+
     @GET("tasks")
     Call<YellTask> getTask(@Query("task_id") String taskId);
 
     @POST("users")
     @Headers("Content-Type: application/json")
     Call<InfoMessage> addTask(@Body RequestBody body);
+
+
 
     @PATCH("users")
     @Headers("Content-Type: application/json")
