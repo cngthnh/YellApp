@@ -43,7 +43,7 @@ public class FileNameAdapter extends RecyclerView.Adapter<FileNameAdapter.FileNa
     @NonNull
     @Override
     public FileNameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.filename_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_file,parent,false);
         return new FileNameViewHolder(view);
     }
 

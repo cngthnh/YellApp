@@ -28,7 +28,10 @@
                     android:layout_gravity="start"
                     android:layout_margin="12dp"
                     android:background="@color/white"
-                    android:src="@drawable/ic_arrow_back">
+                    android:id="@+id/backButton"
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    android:src="@drawable/ic_back">
 
                 </androidx.appcompat.widget.AppCompatImageButton>
 

@@ -123,7 +123,7 @@ public class TaskFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         BottomAppBar navBar = getActivity().findViewById(R.id.mainAppBar);
-        navBar.setVisibility(View.GONE);
+        //navBar.setVisibility(View.GONE);
     }
 
     private void setToolbarTaskListener() {
@@ -218,6 +218,13 @@ public class TaskFragment extends Fragment {
             public void onClick(View v) {
                 BottomSheetIconPicker bottomSheetIconPicker = new BottomSheetIconPicker();
                 bottomSheetIconPicker.show(getActivity().getSupportFragmentManager(),"Icon Picker");
+            }
+        });
+
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
