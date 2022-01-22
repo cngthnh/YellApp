@@ -1,5 +1,6 @@
 package com.yellion.yellapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yellion.yellapp.R;
@@ -20,23 +22,28 @@ public class FileNameAdapter extends RecyclerView.Adapter<FileNameAdapter.FileNa
 
     ArrayList<String> fileNameList;
     Activity activity;
+    MutableLiveData<Integer> countFileItem;
 
     public FileNameAdapter(Activity activity) {
         this.activity = activity;
         fileNameList = new ArrayList<>();
+        countFileItem = new MutableLiveData<>();
+        countFileItem.postValue(0);
     }
 
-    public String getSizeFileNameList () {
-        return String.valueOf(fileNameList.size()) + " tệp";
+    public MutableLiveData<Integer> getSizeFileNameList () {
+        return countFileItem;
     }
 
     public void addFileName(String filename) {
         fileNameList.add(filename);
+        countFileItem.postValue(getItemCount());
         notifyItemInserted(fileNameList.size()-1);
     }
 
-    public void deleteFile(int position) {
+    public void removeFile(int position) {
         fileNameList.remove(position);
+        countFileItem.postValue(getItemCount());
         notifyItemRemoved(position);
     }
 
@@ -53,6 +60,12 @@ public class FileNameAdapter extends RecyclerView.Adapter<FileNameAdapter.FileNa
         if (fileName == null)
             return;
         holder.filename.setText(fileName);
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeFile(holder.getLayoutPosition());
+            }
+        });
     }
 
     @Override

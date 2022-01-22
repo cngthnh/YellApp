@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,6 +57,13 @@ public class BottomSheetFilePicker extends BottomSheetDialogFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(fileNameAdapter);
+        fileNameAdapter.getSizeFileNameList().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                AppCompatTextView fileCount = ((AppCompatTextView)getActivity().findViewById(R.id.chooseFileTextView));
+                fileCount.setText(String.valueOf(integer)+" tệp");
+            }
+        });
         AppCompatButton chooseFileButton = binding.chooseFileButton;
         AppCompatButton cancelFileButton = binding.cancelFileButton;
         chooseFileButton.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +78,7 @@ public class BottomSheetFilePicker extends BottomSheetDialogFragment {
                     cancelFileButton.setVisibility(View.GONE);
                     chooseFileButton.setText("Chọn tệp");
                     binding.fileNameShow.setText("Empty");
-                    AppCompatTextView fileCount = ((AppCompatTextView)getActivity().findViewById(R.id.chooseFileTextView));
-                    fileCount.setText(fileNameAdapter.getSizeFileNameList());
+
                 }
             }
         });
