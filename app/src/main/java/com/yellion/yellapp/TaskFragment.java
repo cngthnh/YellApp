@@ -181,12 +181,30 @@ public class TaskFragment extends Fragment {
                 }
             }
         });
+        taskName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length()>40)
+                    taskName.setError("Nhập quá 40 ký tự");
+            }
+        });
         deleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ((String)taskIcon.getTag() == "true") {
                     taskName.setEnabled(false);
                     taskName.setText(currentName);
+                    taskName.setError(null);
 
                     taskIcon.setClickable(false);
                     taskIcon.setTag("false");
@@ -390,6 +408,7 @@ public class TaskFragment extends Fragment {
             public void onClick(View v) {
                 content.setEnabled(false);
                 content.setText(currentContent.toString());
+                content.setError(null);
                 currentContent.delete(0,currentContent.length());
 
 
@@ -406,6 +425,24 @@ public class TaskFragment extends Fragment {
             public void onClick(View v) {
                 BottomSheetFilePicker filePicker = new BottomSheetFilePicker();
                 filePicker.show(getActivity().getSupportFragmentManager(),"File Picker");
+            }
+        });
+
+        content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length()>200)
+                    content.setError("Nhập quá 200 ký tự");
             }
         });
 
