@@ -13,16 +13,16 @@ import okhttp3.Route;
 import retrofit2.Call;
 
 public class YellAuth implements Authenticator {
-    private TokenManager tokenManager;
+    private SessionManager sessionManager;
     private static YellAuth INSTANCE;
 
-    private YellAuth(TokenManager tokenManager){
-        this.tokenManager = tokenManager;
+    private YellAuth(SessionManager sessionManager){
+        this.sessionManager = sessionManager;
     }
 
-    static synchronized YellAuth getInstance(TokenManager tokenManager){
+    static synchronized YellAuth getInstance(SessionManager sessionManager){
         if(INSTANCE == null){
-            INSTANCE = new YellAuth(tokenManager);
+            INSTANCE = new YellAuth(sessionManager);
         }
 
         return INSTANCE;
@@ -34,11 +34,11 @@ public class YellAuth implements Authenticator {
     public Request authenticate(Route route, Response response) throws IOException {
 
         if (responseCount(response) >= 3) {
-            tokenManager.deleteToken();
+            sessionManager.deleteToken();
             return null;
         }
 
-        TokenPair token = tokenManager.getToken();
+        TokenPair token = sessionManager.getToken();
 
         ApiService service = Client.createService(ApiService.class);
         Call<TokenPair> call = service.refresh(token.getRefreshToken());
@@ -46,7 +46,7 @@ public class YellAuth implements Authenticator {
 
         if (res.isSuccessful()) {
             TokenPair newToken = res.body();
-            tokenManager.saveToken(newToken);
+            sessionManager.saveToken(newToken);
 
             return response.request().newBuilder().header("Authorization", "Bearer " + res.body().getAccessToken()).build();
         }

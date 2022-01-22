@@ -3,11 +3,13 @@ package com.yellion.yellapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.transition.TransitionManager;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -21,8 +23,7 @@ import com.yellion.yellapp.models.TokenPair;
 import com.yellion.yellapp.models.UserCredentials;
 import com.yellion.yellapp.utils.ApiService;
 import com.yellion.yellapp.utils.Client;
-import com.yellion.yellapp.utils.GlobalStatus;
-import com.yellion.yellapp.utils.TokenManager;
+import com.yellion.yellapp.utils.SessionManager;
 
 import java.nio.charset.StandardCharsets;
 
@@ -33,14 +34,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     ApiService service;
-    TokenManager tokenManager;
+    SessionManager sessionManager;
     AwesomeValidation validator;
     Call<TokenPair> call;
     private ActivityLoginBinding binding;
     Moshi moshi = new Moshi.Builder().build();
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,83 +51,80 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        binding.loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
-        });
-
-        binding.goToRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToRegister();
-            }
-        });
-
-        binding.guestBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GlobalStatus.getInstance().setGuestMode(true);
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
-            }
-        });
+        prepareOnClickListeners();
 
         service = Client.createService(ApiService.class);
-        tokenManager = TokenManager.getInstance(getSharedPreferences(getResources().getString(R.string.yell_sp), MODE_PRIVATE));
-        validator = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
+
+        sharedPreferences = getSharedPreferences(getResources().getString(R.string.yell_sp), MODE_PRIVATE);
+        // if exists registration in progress
+        if (sharedPreferences.contains("CR_UID")) {
+            goToRegister();
+        }
+
+        sessionManager = SessionManager.getInstance(sharedPreferences);
+
+        validator = new AwesomeValidation(ValidationStyle.BASIC);
 
         setupInputRules();
 
-        if (tokenManager.getToken().getAccessToken() != null){
+        if (sessionManager.getToken().getAccessToken() != null){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
     }
 
+    private void prepareOnClickListeners() {
+        binding.loginBtn.setOnClickListener(this);
+        binding.gotoRegister.setOnClickListener(this);
+        binding.revealPassword.setOnClickListener(this);
+    }
+
     private void showLoading(){
-        TransitionManager.beginDelayedTransition(binding.container);
-        binding.formContainer.setVisibility(View.GONE);
-        binding.loader.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.loginBtn.setEnabled(false);
     }
 
     private void showForm(){
-        TransitionManager.beginDelayedTransition(binding.container);
-        binding.formContainer.setVisibility(View.VISIBLE);
-        binding.loader.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+        binding.loginBtn.setEnabled(true);
+    }
+
+    private void revealOrHidePassword(View view) {
+        ImageButton imageButton = (ImageButton) view;
+        if (binding.passwordInput.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
+            binding.passwordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            imageButton.setImageResource(R.drawable.ic_eye_hide);
+        } else {
+            binding.passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            imageButton.setImageResource(R.drawable.ic_eye_show);
+        }
     }
 
 
     void login() {
 
-        String username = binding.usernameInput.getEditText().getText().toString();
-        String password = binding.passwordInput.getEditText().getText().toString();
-
-        String hash = Hashing.sha256()
-                .hashString(password, StandardCharsets.UTF_8)
-                .toString();
-
-        UserCredentials userCredentials = new UserCredentials(username, hash);
-
-        String jsonCredentials = moshi.adapter(UserCredentials.class).toJson(userCredentials);
-
-        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonCredentials);
-
-        binding.usernameInput.setError(null);
-        binding.passwordInput.setError(null);
-
         validator.clear();
 
-        if (validator.validate()) {
+        if (!validator.validate()) {
+            return;
+        }
+        else {
             showLoading();
-            try {
-                call = service.login(requestBody);
-            }
-            catch (Exception e)
-            {
-                Log.e("YellLogin", e.toString());
-            }
+
+            String username = binding.usernameInput.getText().toString();
+            String password = binding.passwordInput.getText().toString();
+
+            String hash = Hashing.sha256()
+                    .hashString(password, StandardCharsets.UTF_8)
+                    .toString();
+
+            UserCredentials userCredentials = new UserCredentials(username, hash);
+
+            String jsonCredentials = moshi.adapter(UserCredentials.class).toJson(userCredentials);
+
+            RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonCredentials);
+
+            call = service.login(requestBody);
             call.enqueue(new Callback<TokenPair>() {
                 @Override
                 public void onResponse(Call<TokenPair> call, Response<TokenPair> response) {
@@ -133,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.w("YellLogin", "onResponse: " + response);
 
                     if (response.isSuccessful()) {
-                        tokenManager.saveToken(response.body());
+                        sessionManager.saveToken(response.body());
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     }
@@ -158,20 +157,15 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    void goToRegister(){
+    void goToRegister() {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-    }
-
-    private void handleErrors(ResponseBody response) {
-
-        ErrorMessage apiError = ErrorMessage.convertErrors(response);
-
+        finish();
     }
 
     public void setupInputRules() {
 
-        //validator.addValidation(this, R.id.usernameInput, Patterns.EMAIL_ADDRESS, R.string.invalid_username);
-        validator.addValidation(this, R.id.passwordInput, RegexTemplate.NOT_EMPTY, R.string.invalid_password);
+        validator.addValidation(binding.usernameInput, RegexTemplate.NOT_EMPTY, getResources().getString(R.string.invalid_username));
+        validator.addValidation(binding.passwordInput, "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$", getResources().getString(R.string.invalid_password));
     }
 
     @Override
@@ -185,6 +179,18 @@ public class LoginActivity extends AppCompatActivity {
         if (call != null) {
             call.cancel();
             call = null;
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if (viewId == R.id.loginBtn) {
+            login();
+        } else if (viewId == R.id.gotoRegister) {
+            goToRegister();
+        } else if (viewId == R.id.revealPassword) {
+            revealOrHidePassword(view);
         }
     }
 }

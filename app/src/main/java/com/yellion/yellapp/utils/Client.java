@@ -4,7 +4,6 @@ import com.yellion.yellapp.models.TokenPair;
 
 import java.io.IOException;
 
-import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -14,7 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class Client {
-    private final static String API_URL = "https://yell-backend.herokuapp.com/api/";
+    private final static String API_URL = "https://yell-backend-dev.herokuapp.com/api/";
     private final static OkHttpClient client = buildClient();
     private final static Retrofit retrofit = buildRetrofit(client);
 
@@ -52,70 +51,13 @@ public class Client {
         return retrofit.create(service);
     }
 
-    public static <T> T createServiceWithAuth(Class<T> service, final TokenManager tokenManager){
+    public static <T> T createServiceWithAuth(Class<T> service, final SessionManager sessionManager){
 
-        class accessTokenBinder implements  Interceptor {
-
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-
-                Request.Builder builder = request.newBuilder();
-
-                if (tokenManager.getToken().getAccessToken() != null) {
-                    builder.addHeader("Authorization", "Bearer " + tokenManager.getToken().getAccessToken());
-                }
-                request = builder.build();
-                return chain.proceed(request);
-            }
-        }
-
-        class tokenMaintainer implements Interceptor {
-
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-
-                Response response = chain.proceed(request);
-
-                if (response.code() == 401) {
-
-                    if (responseCount(response) >= 3) {
-                        tokenManager.deleteToken();
-                        response.close();
-                        return response;
-                    }
-
-                    response.close();
-
-                    TokenPair token = tokenManager.getToken();
-
-                    ApiService service = Client.createService(ApiService.class);
-                    Call<TokenPair> call = service.refresh("Bearer " + token.getRefreshToken());
-                    retrofit2.Response<TokenPair> res = call.execute();
-
-                    int resCode = res.code();
-
-                    if (resCode == 200) {
-                        TokenPair newToken = res.body();
-                        tokenManager.saveToken(newToken);
-                        request = chain.request().newBuilder().header("Authorization", "Bearer " + newToken.getAccessToken()).build();
-                        return chain.proceed(request);
-                    }
-                    // invalid session
-                    else if (resCode == 403) {
-                        tokenManager.deleteToken();
-                        return response;
-                    }
-                }
-
-                return response;
-            }
-        }
+        Interceptors.sessionManager = sessionManager;
 
         OkHttpClient newClient = client.newBuilder()
-                .addInterceptor(new accessTokenBinder())
-                .addInterceptor(new tokenMaintainer())
+                .addInterceptor(new Interceptors.AccessTokenBinder())
+                .addInterceptor(new Interceptors.TokenMaintainer())
                 .build();
 
         Retrofit newRetrofit = retrofit.newBuilder().client(newClient).build();
@@ -127,11 +69,5 @@ public class Client {
         return retrofit;
     }
 
-    private static int responseCount(Response response) {
-        int result = 1;
-        while ((response = response.priorResponse()) != null) {
-            result++;
-        }
-        return result;
-    }
+
 }

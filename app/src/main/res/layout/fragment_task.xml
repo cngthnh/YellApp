@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".TaskFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_margin="12dp"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_arrow_back">
+
+                </androidx.appcompat.widget.AppCompatImageButton>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trở lại"
+                    android:textSize="16dp">
+
+                </androidx.appcompat.widget.AppCompatTextView>
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:id="@+id/editNameTask"
+                    android:layout_margin="12dp"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_edit_mode">
+
+                </androidx.appcompat.widget.AppCompatImageButton>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:id="@+id/deleteTask"
+                    android:layout_margin="12dp"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_delete">
+
+                </androidx.appcompat.widget.AppCompatImageButton>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="false"
+                        android:clickable="false"
+                        android:backgroundTint="@color/design_default_color_surface"
+                        android:padding="12dp"
+                        android:id="@+id/taskIcon"
+                        android:src="@drawable/ic_home">
+
+                    </androidx.appcompat.widget.AppCompatImageButton>
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:textStyle="bold"
+                        android:enabled="false"
+                        android:textColor="@color/black"
+                        android:id="@+id/taskName"
+                        android:background="@android:color/transparent"
+                        android:text="Công việc chưa có tiêu đề"
+                        android:textSize="25dp">
+
+                    </androidx.appcompat.widget.AppCompatEditText>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:text="Hạn cuối"
+                        android:drawablePadding="8dp"
+                        android:textSize="18dp"
+                        android:drawableStart="@drawable/ic_calendar">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:id="@+id/deadlineTask"
+                        android:text="23:59 31/12/2021"
+                        android:textSize="18dp">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:text="Độ ưu tiên"
+                        android:drawablePadding="8dp"
+                        android:textSize="18dp"
+                        android:drawableStart="@drawable/ic_priority">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:text="Thường"
+                        android:textSize="18dp"
+                        android:id="@+id/priorityTextView">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:text="Tình trạng"
+                        android:drawablePadding="8dp"
+                        android:textSize="18dp"
+                        android:drawableStart="@drawable/ic_check_box">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:text="Chưa hoàn thành"
+                        android:id="@+id/statusTextView"
+                        android:textSize="18dp">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:text="Đính kèm"
+                        android:drawablePadding="8dp"
+                        android:textSize="18dp"
+                        android:drawableStart="@drawable/ic_attach">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:id="@+id/chooseFileTextView"
+                        android:text="0 tệp"
+                        android:textSize="18dp">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp">
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/light_gray"
+                        android:padding="6dp"
+                        android:layout_weight="2"
+                        android:text="Chia sẻ"
+                        android:textSize="18dp">
+
+                    </androidx.appcompat.widget.AppCompatButton>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:layout_width="match_parent"
+                        android:padding="4dp"
+                        android:layout_height="2dp"
+                        android:background="@android:color/darker_gray"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="6">
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="18dp"
+                            android:textStyle="bold"
+                            android:layout_weight="8"
+                            android:text="Mô tả"
+                            android:textSize="25dp">
+
+                        </androidx.appcompat.widget.AppCompatTextView>
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_close"
+                            android:visibility="gone"
+                            android:tint="@color/red"
+                            android:background="@color/design_default_color_surface"
+                            android:layout_weight="2"
+                            android:id="@+id/editContentDiscard"
+                            android:layout_gravity="center">
+
+                        </androidx.appcompat.widget.AppCompatImageButton>
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_edit_mode"
+                            android:tint="@color/dark_gray"
+                            android:background="@color/design_default_color_surface"
+                            android:layout_weight="2"
+                            android:id="@+id/editContent"
+                            android:layout_gravity="center">
+
+                        </androidx.appcompat.widget.AppCompatImageButton>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="vertical"
+                        android:paddingHorizontal="10dp">
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:background="@android:color/transparent"
+                            android:id="@+id/contentEditText"
+                            android:hint="Thêm mô tả ..."
+                            android:enabled="false"
+                            android:paddingVertical="6dp"
+                            android:paddingHorizontal="8dp"
+                            android:textSize="20dp">
+
+                        </androidx.appcompat.widget.AppCompatEditText>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="56dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/toolbar_shape"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterButton
+                android:layout_width="wrap_content"
+                android:layout_height="4dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/design_default_color_surface"
+                android:scaleX="2"
+                android:src="@drawable/ic_minimize"
+                android:tint="@color/icon_tint" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Danh sách công việc con"
+                    android:textSize="15dp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:padding="14dp"
+                        android:layout_height="match_parent"/>
+
+
+                </androidx.core.widget.NestedScrollView>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:elevation="3dp"
+                    android:src="@drawable/ic_add"
+                    android:tint="@color/white"
+                    android:layout_gravity="bottom|right"/>
+
+            </FrameLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
