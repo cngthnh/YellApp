@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
@@ -54,6 +55,10 @@ public interface ApiService {
     @PATCH("dashboards")
     @Headers("Content-Type: application/json")
     Call<InfoMessage> editDashboard(@Body RequestBody body);
+
+    @HTTP(method = "DELETE", path = "dashboards", hasBody = true)
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> deleteDashboard(@Body RequestBody body);
 
     @GET("tasks")
     Call<YellTask> getTask(@Query("task_id") String taskId);

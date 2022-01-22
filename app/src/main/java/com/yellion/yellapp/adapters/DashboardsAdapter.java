@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,20 +24,36 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.DashboardFragment;
 import com.yellion.yellapp.R;
 import com.yellion.yellapp.models.DashboardCard;
+import com.yellion.yellapp.models.InfoMessage;
+import com.yellion.yellapp.models.UserAccount;
+import com.yellion.yellapp.utils.ApiService;
+import com.yellion.yellapp.utils.Client;
+import com.yellion.yellapp.utils.SessionManager;
 
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.DashboardsViewHolder>{
 
     private Context mContext = null;
     private List<DashboardCard> mListDashboard;
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
+    SessionManager sessionManager;
+    ApiService service;
+    Moshi moshi = new Moshi.Builder().build();
 
-    public DashboardsAdapter(Context mContext) {
+    public DashboardsAdapter(Context mContext, SessionManager sessionManager) {
         this.mContext = mContext;
+        this.sessionManager = sessionManager;
     }
 
     public void setData(List<DashboardCard> mListDashboard) {
@@ -69,7 +86,7 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard);
+                DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_dashboards,dashboardFragment).addToBackStack(null).commit();
             }
         });
@@ -113,6 +130,8 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
         deleteBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                deleteDashboardFromServer(dashboardCard);
                 mListDashboard.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
                 dialog.dismiss();
@@ -127,6 +146,27 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
         });
 
         dialog.show();
+    }
+
+    private void deleteDashboardFromServer(DashboardCard dashboardCard) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(DashboardCard.class).toJson(dashboardCard);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.deleteDashboard(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellDeleteDashboard", "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellDeleteDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
     @Override

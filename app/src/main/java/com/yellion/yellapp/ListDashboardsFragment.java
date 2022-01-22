@@ -72,7 +72,7 @@ public class ListDashboardsFragment extends Fragment {
         dashboardViewModel.getListDashboardLiveData().observe(this.getActivity(), new Observer<List<DashboardCard>>() {
             @Override
             public void onChanged(List<DashboardCard> dashboardCards) {
-                dashboardsAdapter = new DashboardsAdapter(getContext());
+                dashboardsAdapter = new DashboardsAdapter(getContext(), sessionManager);
                 dashboardsAdapter.setData(dashboardCards);
                 binding.recycleView.setAdapter(dashboardsAdapter);
             }
@@ -101,22 +101,29 @@ public class ListDashboardsFragment extends Fragment {
         binding.fabListDashboards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addDashboardToServer();
+                DashboardCard dashboardCard = new DashboardCard("Untitled");
+                addDashboardToServer(dashboardCard);
 
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                DashboardFragment dashboardFragment = new DashboardFragment(new DashboardCard("Untitled"));
+                DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_dashboards,dashboardFragment).addToBackStack(null).commit();
+
+                /*
+                dashboardViewModel.getListDashboardLiveData().observe(getActivity(), new Observer<List<DashboardCard>>() {
+                    @Override
+                    public void onChanged(List<DashboardCard> dashboardCards) {
+                        }
+                });*/
+
             }
         });
-
 
         return view;
     }
 
-    private void addDashboardToServer() {
+    private void addDashboardToServer(DashboardCard dashboardCard) {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
         Call<DashboardCard> call;
-        DashboardCard dashboardCard = new DashboardCard("Untitled");
 
         String json = moshi.adapter(DashboardCard.class).toJson(dashboardCard);
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
@@ -127,7 +134,8 @@ public class ListDashboardsFragment extends Fragment {
                 Log.w("YellDashboardCreate", "onResponse: " + response);
                 if (response.isSuccessful()) {
                     String id = response.body().getId();
-                    AddList(id);
+                    dashboardCard.setId(id);
+                    addList(dashboardCard);
                 } else {
                     if (response.code() == 401) {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
@@ -136,7 +144,6 @@ public class ListDashboardsFragment extends Fragment {
 
                 }
             }
-
             @Override
             public void onFailure(Call<DashboardCard> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
@@ -144,9 +151,7 @@ public class ListDashboardsFragment extends Fragment {
         });
     }
 
-    private void AddList(String id) {
-        DashboardCard dashboardCard = new DashboardCard("Untitled");
-        dashboardCard.setId(id);
+    private void addList(DashboardCard dashboardCard) {
         dashboardViewModel.addDashboard(dashboardCard);
     }
 
@@ -174,18 +179,41 @@ public class ListDashboardsFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<UserAccount> call, Throwable t) {
-                    Log.w("YellAccFragment", "onFailure: " + t.getMessage() );
+                    Log.w("YellDashboardFragment", "onFailure: " + t.getMessage() );
                 }
             });
         }
     }
 
     private void getListDashboard(List<String> dashboards) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<DashboardCard> call;
+
         for (int i = 0; i < dashboards.size(); i++)
         {
-            list.add(new DashboardCard(dashboards.get(i)));
+            call = service.getDashboard(dashboards.get(i), "full");
+            call.enqueue(new Callback<DashboardCard>() {
+                @Override
+                public void onResponse(Call<DashboardCard> call, Response<DashboardCard> response) {
+                    Log.w("YellDashboardGet", "onResponse: " + response);
+                    if (response.isSuccessful()) {
+                        list.add(response.body());
+                        dashboardsAdapter.notifyDataSetChanged();
+                    } else {
+                        /*ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                        Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                        sessionManager.deleteToken();
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);*/
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DashboardCard> call, Throwable t) {
+                    Log.w("YellDashboardFragment", "onFailure: " + t.getMessage() );
+                }
+            });
+
         }
-        list.add(new DashboardCard("Đồ án SE"));
-        dashboardsAdapter.notifyDataSetChanged();
     }
 }

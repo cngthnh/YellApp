@@ -129,12 +129,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="20dp"
-        android:weightSum="5"
+        android:weightSum="6"
         >
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
@@ -143,12 +143,32 @@
                 android:text="Thành viên"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="18dp"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_users"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-            </androidx.recyclerview.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_users"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/edit_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:background="@drawable/bg_item_user"
+                    android:fontFamily="@font/roboto_light"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical"
+                    android:textSize="25dp"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="RtlCompat" />
+            </LinearLayout>
+
 
         </LinearLayout>
         <LinearLayout

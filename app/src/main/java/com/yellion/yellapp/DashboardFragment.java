@@ -15,34 +15,57 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.adapters.UsersAdapter;
+import com.yellion.yellapp.adapters.UsersDetailAdapter;
 import com.yellion.yellapp.databinding.FragmentDashboardBinding;
 import com.yellion.yellapp.models.DashboardCard;
+import com.yellion.yellapp.models.DashboardPermission;
+import com.yellion.yellapp.models.InfoMessage;
+import com.yellion.yellapp.utils.ApiService;
+import com.yellion.yellapp.utils.Client;
 import com.yellion.yellapp.utils.MySpannable;
+import com.yellion.yellapp.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardFragment extends Fragment {
     FragmentDashboardBinding binding;
     DashboardCard dashboardCard;
     UsersAdapter usersAdapter = null;
+    UsersDetailAdapter usersDetailAdapter = null;
     List<String> usernames;
+    SessionManager sessionManager;
+    ApiService service;
+    Moshi moshi = new Moshi.Builder().build();
 
-
-    public DashboardFragment(DashboardCard dashboardCard) {
+    public DashboardFragment(DashboardCard dashboardCard, SessionManager sessionManager) {
         this.dashboardCard = dashboardCard;
+        this.sessionManager = sessionManager;
     }
 
     @Override
@@ -58,6 +81,10 @@ public class DashboardFragment extends Fragment {
         View view = binding.getRoot();
         binding.edtNameDb.setText(dashboardCard.getName());
 
+        if(dashboardCard.getDescription()!=null){
+            binding.tvDescriptionDb.setText(dashboardCard.getDescription());
+            binding.edtDescriptionDb.setText(dashboardCard.getDescription());
+        }
         binding.backDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,6 +154,18 @@ public class DashboardFragment extends Fragment {
                 binding.backDashboard.setVisibility(View.VISIBLE);
                 binding.tvDescriptionDb.setVisibility(View.VISIBLE);
                 String dsc = binding.edtDescriptionDb.getText().toString();
+                String name = binding.edtNameDb.getText().toString();
+                if(name.length() == 0)
+                {
+                    binding.edtNameDb.setText(dashboardCard.getName());
+                    Toast.makeText(getActivity(), "Tên bảng công việc phải có ít nhất 1 kí tự", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    dashboardCard.setName(name);
+                }
+                dashboardCard.setDescription(dsc);
+                editDashboardOnServer();
+
                 binding.tvDescriptionDb.setText(dsc);
                 binding.tvDescriptionDb.setTag(null);
                 makeTextViewResizable(binding.tvDescriptionDb, 3, "...Xem thêm", true);
@@ -153,9 +192,97 @@ public class DashboardFragment extends Fragment {
         binding.listUsers.setVisibility(View.VISIBLE);
         binding.listUsers.setAdapter(usersAdapter);
 
+        binding.editUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialogListShareDashboard();
+            }
+        });
 
 
         return view;
+    }
+
+    private void openDialogListShareDashboard() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_share);
+
+        Window window = dialog.getWindow();
+        if(window == null){
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.BOTTOM;
+        window.setAttributes(windowAttributes);
+
+        dialog.setCancelable(true);
+        AppCompatButton invite = dialog.findViewById(R.id.invite);
+        TextView email = dialog.findViewById(R.id.uid);
+        RecyclerView listUser = dialog.findViewById(R.id.userList);
+
+        invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), invite);
+                popupMenu.getMenuInflater().inflate(R.menu.permission_menu, popupMenu.getMenu());
+                Log.e("Datat", "Popup");
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.menu_edit:
+                                Log.e("Datat", "Edit");
+                                break;
+                            case R.id.menu_view:
+                                Log.e("Datat", "View");
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity(),  LinearLayoutManager.HORIZONTAL, false);
+        listUser.setLayoutManager(layoutManager1);
+        usersDetailAdapter = new UsersDetailAdapter(getContext());
+
+        List<DashboardPermission> listUserDetail = new ArrayList<>();
+        listUserDetail.add(new DashboardPermission("15", "bacuong", "xem"));
+
+        usersDetailAdapter.setData(listUserDetail);
+        usersDetailAdapter.notifyDataSetChanged();
+        listUser.setVisibility(View.VISIBLE);
+        listUser.setAdapter(usersDetailAdapter);
+
+        dialog.show();
+    }
+
+    private void editDashboardOnServer() {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(DashboardCard.class).toJson(dashboardCard);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.editDashboard(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellEditDashboard", "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellDeleteDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
     private void getListUserNamesFromServer() {
@@ -198,6 +325,7 @@ public class DashboardFragment extends Fragment {
 
         deleteBt.setOnClickListener(view -> {
             if(getFragmentManager() != null){
+                deleteDashboardFromServer(dashboardCard);
                 getFragmentManager().popBackStack();
             }
             dialog.dismiss();
@@ -206,6 +334,27 @@ public class DashboardFragment extends Fragment {
         cancelDeleteBt.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    private void deleteDashboardFromServer(DashboardCard dashboardCard) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(DashboardCard.class).toJson(dashboardCard);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.deleteDashboard(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellDeleteDashboard", "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellDeleteDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
     public static void makeTextViewResizable(final TextView tv, final int maxLine, final String expandText, final boolean viewMore) {
