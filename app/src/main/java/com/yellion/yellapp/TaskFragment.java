@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -33,7 +34,9 @@ import com.yellion.yellapp.databinding.FragmentTaskBinding;
 import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.viewmodels.YellTaskViewModel;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -90,27 +93,42 @@ public class TaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(YellTaskViewModel.class);
+        viewModel.init();
+        viewModel.getYellTaskLiveData().observe(this, new Observer<YellTask>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onChanged(YellTask yellTask) {
+                currentYellTask = yellTask;
+                if (yellTask.getName() != null)
+                    binding.taskName.setText(yellTask.getName());
+                if (currentYellTask.getEnd_time() != null)
+                    binding.deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
+            }
+        });
+        yellTaskAdapter = new TaskAdapter(getActivity());
         if (getArguments() != null) {
             taskName = getArguments().getString(ARG_PARAM1);
             dashBoardId = getArguments().getString(ARG_PARAM2);
             taskId = getArguments().getString(ARG_PARAM3);
             previousTaskName = getArguments().getString(ARG_PARAM4);
-            if (taskId == null) {
-
-            }
             currentYellTask = new YellTask(dashBoardId, taskName);
+            if (taskId == null) {
+                viewModel.addTask(currentYellTask);
+            }
+            else {
+                viewModel.getTask(taskId);
+            }
         }
         else {
             currentYellTask = new YellTask();
         }
-        viewModel = new ViewModelProvider(this).get(YellTaskViewModel.class);
-        viewModel.init();
-        yellTaskAdapter = new TaskAdapter(getActivity());
     }
 
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,6 +151,8 @@ public class TaskFragment extends Fragment {
         AppCompatImageButton editNameTask = binding.editNameTask;
         AppCompatImageButton deleteTask = binding.deleteTask;
         AppCompatEditText taskName = binding.taskName;
+        if (currentYellTask.getName() != null)
+            taskName.setText(currentYellTask.getName());
         AppCompatImageButton taskIcon = binding.taskIcon;
         if (this.taskName != null)
             taskName.setText(this.taskName);
@@ -176,8 +196,9 @@ public class TaskFragment extends Fragment {
 
                     deleteTask.setImageResource(R.drawable.ic_delete);
                     deleteTask.setColorFilter(null);
-
                     currentYellTask.setName(taskName.getText().toString());
+                    viewModel.editTask(currentYellTask);
+
                 }
             }
         });
@@ -254,8 +275,11 @@ public class TaskFragment extends Fragment {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setConfigTaskListener() {
         AppCompatTextView deadlineTask = binding.deadlineTask;
+        if (currentYellTask.getEnd_time() != null)
+            deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
         deadlineTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -278,18 +302,19 @@ public class TaskFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void afterTextChanged(Editable s) {
-                String temp = s.toString();
-                SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm  dd/MM/YYYY");
-                SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                try {
-                    Date date = currentFormat.parse(temp);
-                    currentYellTask.setEnd_time(isoFormat.format(date));
-                } catch (ParseException e) {
-                    Log.e("TimeParseError","Time Parse Error");
-                }
+                currentYellTask.setEnd_time(mobileTime2ServerTime(s.toString()));
+                viewModel.editTask(currentYellTask);
             }
         });
         AppCompatTextView priority = binding.priorityTextView;
+        if (currentYellTask.getPriority() != null) {
+            if (currentYellTask.getPriority() == 2)
+                priority.setText("Thấp");
+            else if (currentYellTask.getPriority() == 0)
+                priority.setText("Cao");
+            else
+                priority.setText("Thường");
+        }
         priority.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -300,76 +325,41 @@ public class TaskFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 priority.setText(priorities[which]);
+                                currentYellTask.setPriority(which);
+                                viewModel.editTask(currentYellTask);
                             }
                         });
                 priorityDialog.show();
             }
         });
-        priority.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String temp = s.toString();
-                Integer value;
-                if (temp == "Cao")
-                    value = 2;
-                else if (temp == "Thường")
-                    value = 1;
-                else
-                    value = 0;
-                currentYellTask.setPriority(value);
-            }
-        });
-
         AppCompatTextView status = binding.statusTextView;
+        if (currentYellTask.getStatus() != null) {
+            if (currentYellTask.getStatus() == 1)
+                status.setText("Đã hoàn thành");
+            else {
+                status.setText("Chưa hoàn thành");
+            }
+        }
         status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String [] statuses = new String[]{"Đã hoàn thành","Chưa hoàn thành"};
+                String [] statuses = new String[]{"Chưa hoàn thành","Đã hoàn thành"};
                 MaterialAlertDialogBuilder statusDialog = new MaterialAlertDialogBuilder(getContext())
                         .setTitle("Trạng thái")
                         .setItems(statuses, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 status.setText(statuses[which]);
+                                currentYellTask.setStatus(which);
+                                viewModel.editTask(currentYellTask);
                             }
                         });
                 statusDialog.show();
             }
         });
-        status.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String temp = s.toString();
-                Integer value;
-                if (temp == "Đã hoàn thành")
-                    value = 1;
-                else
-                    value = 0;
-                currentYellTask.setStatus(value);
-            }
-        });
-
         AppCompatEditText content = binding.contentEditText;
+        if (currentYellTask.getContent() != null)
+            content.setText(currentYellTask.getContent());
         AppCompatImageButton editContent = binding.editContent;
         AppCompatImageButton editContentDiscard = binding.editContentDiscard;
         StringBuffer currentContent = new StringBuffer();
@@ -400,6 +390,7 @@ public class TaskFragment extends Fragment {
                     editContentDiscard.setVisibility(View.GONE);
 
                     currentYellTask.setContent(content.getText().toString());
+                    viewModel.editTask(currentYellTask);
                 }
             }
         });
@@ -458,6 +449,32 @@ public class TaskFragment extends Fragment {
                 yellTaskAdapter.addYellTask(yell);
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private String serverTime2MobileTime(String time) {
+        SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm  dd/MM/YYYY");
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        try {
+            Date date = isoFormat.parse(time);
+            return currentFormat.format(date);
+        } catch (ParseException e) {
+            Log.e("TimeParseError", "Time Parse Error");
+            return null;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private String mobileTime2ServerTime(String time) {
+        SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm  dd/MM/YYYY");
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        try {
+            Date date = currentFormat.parse(time);
+            return isoFormat.format(date);
+        } catch (ParseException e) {
+            Log.e("TimeParseError", "Time Parse Error");
+            return null;
+        }
     }
 
 }
