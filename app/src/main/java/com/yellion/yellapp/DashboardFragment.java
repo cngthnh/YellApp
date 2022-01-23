@@ -85,6 +85,10 @@ public class DashboardFragment extends Fragment {
             binding.tvDescriptionDb.setText(dashboardCard.getDescription());
             binding.edtDescriptionDb.setText(dashboardCard.getDescription());
         }
+
+        if(dashboardCard.getUsers()!=null){
+            Log.e("Daet", dashboardCard.getUsers().toString());
+        }
         binding.backDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,7 +191,7 @@ public class DashboardFragment extends Fragment {
         usersAdapter = new UsersAdapter(getContext());
         usernames = new ArrayList<>();
         getListUserNamesFromServer();
-        usersAdapter.setData(usernames);
+        usersAdapter.setData(dashboardCard.getUsers());
         usersAdapter.notifyDataSetChanged();
         binding.listUsers.setVisibility(View.VISIBLE);
         binding.listUsers.setAdapter(usersAdapter);
@@ -234,13 +238,22 @@ public class DashboardFragment extends Fragment {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        String userId = email.getText().toString();
+                        String role = null;
                         switch (menuItem.getItemId()){
                             case R.id.menu_edit:
                                 Log.e("Datat", "Edit");
+                                role = "editor";
                                 break;
                             case R.id.menu_view:
                                 Log.e("Datat", "View");
+                                role = "viewer";
                                 break;
+                        }
+                        if(role != null && userId.length() > 0)
+                        {
+                            DashboardPermission dbPermission = new DashboardPermission(dashboardCard.getId(), userId, role);
+                            inviteSoToDashboard(dbPermission);
                         }
                         return false;
                     }
@@ -253,8 +266,7 @@ public class DashboardFragment extends Fragment {
         listUser.setLayoutManager(layoutManager1);
         usersDetailAdapter = new UsersDetailAdapter(getContext());
 
-        List<DashboardPermission> listUserDetail = new ArrayList<>();
-        listUserDetail.add(new DashboardPermission("15", "bacuong", "xem"));
+        List<DashboardPermission> listUserDetail = dashboardCard.getUsers();
 
         usersDetailAdapter.setData(listUserDetail);
         usersDetailAdapter.notifyDataSetChanged();
@@ -262,6 +274,31 @@ public class DashboardFragment extends Fragment {
         listUser.setAdapter(usersDetailAdapter);
 
         dialog.show();
+    }
+
+    private void inviteSoToDashboard(DashboardPermission dbPermission) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(DashboardPermission.class).toJson(dbPermission);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.inviteSoToDashboard(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellInviteSoToDashboard", "onResponse: " + response);
+                if(!response.isSuccessful())
+                {
+                    Toast.makeText(getContext(), "User id này không tồn tại", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellInviteSoToDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
     private void editDashboardOnServer() {
@@ -280,7 +317,7 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onFailure(Call<InfoMessage> call, Throwable t) {
-                Log.w("YellDeleteDashboard", "onFailure: " + t.getMessage() );
+                Log.w("YellEditDashboard", "onFailure: " + t.getMessage() );
             }
         });
     }

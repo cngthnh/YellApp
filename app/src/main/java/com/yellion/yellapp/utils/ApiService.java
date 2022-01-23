@@ -60,6 +60,11 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     Call<InfoMessage> deleteDashboard(@Body RequestBody body);
 
+    @POST("dashboards/permission")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> inviteSoToDashboard(@Body RequestBody body);
+
+
     @GET("tasks")
     Call<YellTask> getTask(@Query("task_id") String taskId);
 
