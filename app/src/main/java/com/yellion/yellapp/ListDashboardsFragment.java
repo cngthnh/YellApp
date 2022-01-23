@@ -106,7 +106,11 @@ public class ListDashboardsFragment extends Fragment {
 
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_dashboards,dashboardFragment).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                                android.R.anim.slide_in_left, android.R.anim.slide_in_left)
+                        .replace(R.id.list_dashboards,dashboardFragment)
+                        .addToBackStack(null).commit();
 
                 /*
                 dashboardViewModel.getListDashboardLiveData().observe(getActivity(), new Observer<List<DashboardCard>>() {

@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboard_fragment"
     android:background="@color/white"
     android:clickable="true"
     android:focusable="true"
@@ -273,6 +274,7 @@
             android:textSize="22dp"
             />
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_tasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >

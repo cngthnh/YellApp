@@ -33,16 +33,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.moshi.Moshi;
+import com.yellion.yellapp.adapters.TaskAdapter;
 import com.yellion.yellapp.adapters.UsersAdapter;
 import com.yellion.yellapp.adapters.UsersDetailAdapter;
 import com.yellion.yellapp.databinding.FragmentDashboardBinding;
 import com.yellion.yellapp.models.DashboardCard;
 import com.yellion.yellapp.models.DashboardPermission;
+import com.yellion.yellapp.models.ErrorMessage;
 import com.yellion.yellapp.models.InfoMessage;
+import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.utils.ApiService;
 import com.yellion.yellapp.utils.Client;
 import com.yellion.yellapp.utils.MySpannable;
 import com.yellion.yellapp.utils.SessionManager;
+import com.yellion.yellapp.viewmodels.YellTaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +66,9 @@ public class DashboardFragment extends Fragment {
     SessionManager sessionManager;
     ApiService service;
     Moshi moshi = new Moshi.Builder().build();
+    YellTaskViewModel viewModel;
+    TaskAdapter yellTaskAdapter;
+
 
     public DashboardFragment(DashboardCard dashboardCard, SessionManager sessionManager) {
         this.dashboardCard = dashboardCard;
@@ -86,14 +93,17 @@ public class DashboardFragment extends Fragment {
             binding.edtDescriptionDb.setText(dashboardCard.getDescription());
         }
 
-        if(dashboardCard.getUsers()!=null){
-            Log.e("Daet", dashboardCard.getUsers().toString());
-        }
+        if(dashboardCard.getTasks()!=null)
+            Log.e("dt", String.valueOf(dashboardCard.getTasks().size()));
+
         binding.backDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getFragmentManager() != null){
-                    getFragmentManager().popBackStack();
+                if(getActivity()!= null){
+                    Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("DASHBOARD");
+                    if(frag != null)
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
@@ -204,8 +214,74 @@ public class DashboardFragment extends Fragment {
         });
 
 
+        yellTaskAdapter = new TaskAdapter(getActivity());
+        getListTaskFromServer();
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity());
+        binding.listTasks.setLayoutManager(layoutManager2);
+        binding.listTasks.setAdapter(yellTaskAdapter);
+
+
+        binding.fabDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                YellTask yell = new YellTask(dashboardCard.getId(),"Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
+                addTaskToServer(yell);
+            }
+        });
+
         return view;
     }
+
+    private void getListTaskFromServer() {
+        if(dashboardCard.getTasks() == null)
+            return;
+        for(int i = 0; i < dashboardCard.getTasks().size(); i++){
+            yellTaskAdapter.addYellTask(dashboardCard.getTasks().get(i));
+        }
+    }
+
+    private void addTaskToServer(YellTask yellTask) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<YellTask> call;
+
+        RequestBody requestBody = taskToJson(yellTask);
+
+        call = service.addTask(null, requestBody);
+        call.enqueue(new Callback<YellTask>() {
+            @Override
+            public void onResponse(Call<YellTask> call, Response<YellTask> response) {
+
+                Log.w("YellTaskCreate", "onResponse: " + response);
+
+                if (response.isSuccessful()) {
+                    yellTask.setTask_id(response.body().getTask_id());
+                    yellTaskAdapter.addYellTask(yellTask);
+                    yellTaskAdapter.notifyDataSetChanged();
+                }
+                else {
+                    if (response.code() == 401) {
+                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                        Toast.makeText(getContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    // TODO
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<YellTask> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
+                // TODO:
+            }
+        });
+    }
+
+    private RequestBody taskToJson(YellTask currentYellTask) {
+        String jsonYellTask = moshi.adapter(YellTask.class).toJson(currentYellTask);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonYellTask);
+        return requestBody;
+    }
+
 
     private void openDialogListShareDashboard() {
         final Dialog dialog = new Dialog(getContext());
@@ -262,7 +338,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity(),  LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
         listUser.setLayoutManager(layoutManager1);
         usersDetailAdapter = new UsersDetailAdapter(getContext());
 
@@ -290,7 +366,9 @@ public class DashboardFragment extends Fragment {
                 Log.w("YellInviteSoToDashboard", "onResponse: " + response);
                 if(!response.isSuccessful())
                 {
-                    Toast.makeText(getContext(), "User id này không tồn tại", Toast.LENGTH_LONG).show();
+                    if (response.code() == 404) {
+                        Toast.makeText(getContext(), "User id này không tồn tại", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 

@@ -270,7 +270,9 @@ public class TaskFragment extends Fragment {
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
+                if(getActivity()!= null){
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
             }
         });
     }

@@ -77,15 +77,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.taskName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name;
+                if(((AppCompatEditText)activity.findViewById(R.id.taskName))!=null) {
+                    name = ((AppCompatEditText) activity.findViewById(R.id.taskName)).getText().toString();
+                }else
+                    name = null;
+
                 TaskFragment fragment = TaskFragment.newInstance(yellTask.getName(),
-                        yellTask.getDashboard_id(),null,
-                        ((AppCompatEditText)activity.findViewById(R.id.taskName)).getText().toString());
+                        yellTask.getDashboard_id(),null,name);
                 activity.getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
                                 android.R.anim.slide_in_left, android.R.anim.slide_in_left)
-                        .replace(R.id.fragmentContainer, fragment)
+                        .replace(R.id.dashboard_fragment, fragment)
                         .addToBackStack(null)
                         .commit();
+
+
             }
         });
     }
