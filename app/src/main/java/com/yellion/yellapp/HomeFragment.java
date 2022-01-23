@@ -31,10 +31,18 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,dashboardsFragment).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,dashboardsFragment, "LIST_DASHBOARD").addToBackStack(null).commit();
             }
         });
 
+        binding.notificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                NotificationFragment notificationFragment = new NotificationFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,notificationFragment, "NOTIFICATION").addToBackStack(null).commit();
+            }
+        });
 
         return view;
     }

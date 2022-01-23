@@ -8,6 +8,7 @@
         <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_back.xml" value="0.171875" />
         <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_cancel.xml" value="0.171875" />
         <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_check.xml" value="0.171875" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_close.xml" value="0.2703125" />
         <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_delete.xml" value="0.171875" />
         <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_delete_1.xml" value="0.171875" />
         <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_view_list.xml" value="0.17916666666666667" />
@@ -25,10 +26,12 @@
         <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_dashboards.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_list_dashboards.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_notification.xml" value="0.264" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_task.xml" value="0.176" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/icon_item.xml" value="0.18333333333333332" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_dashboard.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_file.xml" value="0.1609375" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/item_notification.xml" value="0.264" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_task.xml" value="0.1609375" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_user.xml" value="0.18333333333333332" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_user_detail.xml" value="0.264" />

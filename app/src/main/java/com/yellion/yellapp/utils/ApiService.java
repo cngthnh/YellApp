@@ -1,10 +1,12 @@
 package com.yellion.yellapp.utils;
-
 import com.yellion.yellapp.models.DashboardCard;
 import com.yellion.yellapp.models.InfoMessage;
+import com.yellion.yellapp.models.Notification;
 import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.models.TokenPair;
 import com.yellion.yellapp.models.UserAccount;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -67,6 +69,24 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     Call<InfoMessage> inviteSoToDashboard(@Body RequestBody body);
 
+    @GET("notifications")
+    Call<List<Notification>> getNotification(@Query("limit") String limit);
+
+    @POST("notifications/confirm")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> confirmInvited(@Body RequestBody body);
+
+    @HTTP(method = "DELETE", path = "notifications/confirm", hasBody = true)
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> rejectInvited(@Body RequestBody body);
+
+    @PATCH("notification/read")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> read(@Body RequestBody body);
+
+    @PATCH("notification/unread")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> unread(@Body RequestBody body);
 
     @GET("tasks")
     Call<YellTask> getTask(@Query("task_id") String taskId);
