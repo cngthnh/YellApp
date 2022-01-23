@@ -10,5 +10,4 @@
         android:topLeftRadius="0dp"
         android:topRightRadius="0dp"  />
     <solid android:color="@color/white" />
-    <stroke android:color="@color/icon_tint" android:width="0.8dp"></stroke>
 </shape>

@@ -22,30 +22,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Switch;
-import android.widget.Toast;
+
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.yellion.yellapp.adapters.TaskAdapter;
 import com.yellion.yellapp.databinding.FragmentTaskBinding;
-import com.yellion.yellapp.models.ErrorMessage;
-import com.yellion.yellapp.models.InfoMessage;
-import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.models.YellTask;
-import com.yellion.yellapp.utils.ApiService;
-import com.yellion.yellapp.utils.Client;
-import com.yellion.yellapp.utils.SessionManager;
 import com.yellion.yellapp.viewmodels.YellTaskViewModel;
 
 import java.text.ParseException;
 import java.util.Date;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,17 +45,22 @@ public class TaskFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "taskId";
+    private static final String ARG_PARAM1 = "taskName";
     private static final String ARG_PARAM2 = "dashboardId";
+    private static final String ARG_PARAM3 = "taskId";
+    private static final String ARG_PARAM4 = "previousTaskName";
 
     YellTask currentYellTask;
     FragmentTaskBinding binding;
     YellTaskViewModel viewModel;
+    TaskAdapter yellTaskAdapter;
 
 
     // TODO: Rename and change types of parameters
-    private String taskId;
+    private String taskName;
     private String dashBoardId;
+    private String taskId;
+    private String previousTaskName;
 
     public TaskFragment() {
         // Required empty public constructor
@@ -81,11 +75,14 @@ public class TaskFragment extends Fragment {
      * @return A new instance of fragment TaskFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TaskFragment newInstance(String taskId, String dashBoardId) {
+    public static TaskFragment newInstance(String taskName, String dashBoardId, String taskId,
+                                           String previousTaskName) {
         TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, taskId);
+        args.putString(ARG_PARAM1, taskName);
         args.putString(ARG_PARAM2, dashBoardId);
+        args.putString(ARG_PARAM3, taskId);
+        args.putString(ARG_PARAM4, previousTaskName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -94,15 +91,21 @@ public class TaskFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            taskId = getArguments().getString(ARG_PARAM1);
+            taskName = getArguments().getString(ARG_PARAM1);
             dashBoardId = getArguments().getString(ARG_PARAM2);
-            currentYellTask = new YellTask(dashBoardId,taskId);
+            taskId = getArguments().getString(ARG_PARAM3);
+            previousTaskName = getArguments().getString(ARG_PARAM4);
+            if (taskId == null) {
+
+            }
+            currentYellTask = new YellTask(dashBoardId, taskName);
         }
         else {
             currentYellTask = new YellTask();
         }
         viewModel = new ViewModelProvider(this).get(YellTaskViewModel.class);
         viewModel.init();
+        yellTaskAdapter = new TaskAdapter(getActivity());
     }
 
 
@@ -123,7 +126,7 @@ public class TaskFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         BottomAppBar navBar = getActivity().findViewById(R.id.mainAppBar);
-        navBar.setVisibility(View.GONE);
+        //navBar.setVisibility(View.GONE);
     }
 
     private void setToolbarTaskListener() {
@@ -131,6 +134,10 @@ public class TaskFragment extends Fragment {
         AppCompatImageButton deleteTask = binding.deleteTask;
         AppCompatEditText taskName = binding.taskName;
         AppCompatImageButton taskIcon = binding.taskIcon;
+        if (this.taskName != null)
+            taskName.setText(this.taskName);
+        if (this.previousTaskName != null)
+            binding.previousTask.setText(previousTaskName);
         taskIcon.setClickable(false);
         taskIcon.setTag("false");
         StringBuffer currentName = new StringBuffer();
@@ -174,12 +181,30 @@ public class TaskFragment extends Fragment {
                 }
             }
         });
+        taskName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length()>40)
+                    taskName.setError("Nhập quá 40 ký tự");
+            }
+        });
         deleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ((String)taskIcon.getTag() == "true") {
                     taskName.setEnabled(false);
                     taskName.setText(currentName);
+                    taskName.setError(null);
 
                     taskIcon.setClickable(false);
                     taskIcon.setTag("false");
@@ -218,6 +243,13 @@ public class TaskFragment extends Fragment {
             public void onClick(View v) {
                 BottomSheetIconPicker bottomSheetIconPicker = new BottomSheetIconPicker();
                 bottomSheetIconPicker.show(getActivity().getSupportFragmentManager(),"Icon Picker");
+            }
+        });
+
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
@@ -376,6 +408,7 @@ public class TaskFragment extends Fragment {
             public void onClick(View v) {
                 content.setEnabled(false);
                 content.setText(currentContent.toString());
+                content.setError(null);
                 currentContent.delete(0,currentContent.length());
 
 
@@ -395,7 +428,36 @@ public class TaskFragment extends Fragment {
             }
         });
 
+        content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length()>200)
+                    content.setError("Nhập quá 200 ký tự");
+            }
+        });
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        binding.listTask.setAdapter(yellTaskAdapter);
+        binding.listTask.setLayoutManager(linearLayoutManager);
+
+        binding.addSubTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                YellTask yell = new YellTask("None","Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
+                yellTaskAdapter.addYellTask(yell);
+            }
+        });
     }
 
 }

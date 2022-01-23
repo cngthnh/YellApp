@@ -17,11 +17,14 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.DialogFragment;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.yellion.yellapp.databinding.DialogDeadlineTimeBinding;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,6 +33,7 @@ import java.text.SimpleDateFormat;
 public class DeadlineTimeDialog extends DialogFragment {
     public String date;
     public String time;
+    DialogDeadlineTimeBinding binding;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -55,16 +59,13 @@ public class DeadlineTimeDialog extends DialogFragment {
     }
 
     private View configView() {
-        View view = getLayoutInflater().inflate(R.layout.dialog_deadline_time,null);
-        AppCompatSpinner reminderMode = view.findViewById(R.id.reminder_mode);
+        binding = DialogDeadlineTimeBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
         String [] modes = new String[]{"Không","Trước 1 giờ","Trước 1 ngày"};
         ArrayAdapter<String> modeList = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,modes);
         modeList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        reminderMode.setAdapter(modeList);
-
-        AppCompatImageButton dateButton = view.findViewById(R.id.dateButton);
-        AppCompatEditText dateEditText = view.findViewById(R.id.dateEditText);
-        dateButton.setOnClickListener(new View.OnClickListener() {
+        binding.reminderMode.setAdapter(modeList);
+        binding.dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker()
@@ -76,15 +77,15 @@ public class DeadlineTimeDialog extends DialogFragment {
                     public void onPositiveButtonClick(Object selection) {
                         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                         date = formatter.format(selection);
-                        dateEditText.setText(date);
-                        dateEditText.setError(null);
+                        binding.dateEditText.setText(date);
+                        binding.dateEditText.setError(null);
                     }
                 });
                 datePicker.show(getActivity().getSupportFragmentManager(),"Date Picker");
             }
         });
 
-        dateEditText.addTextChangedListener(new TextWatcher() {
+        binding.dateEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -92,8 +93,8 @@ public class DeadlineTimeDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!isValidDate(dateEditText.getText().toString()))
-                    dateEditText.setError("Ngày không hợp lệ");
+                if (!isValidDate(binding.dateEditText.getText().toString()))
+                    binding.dateEditText.setError("Ngày không hợp lệ");
             }
 
             @Override
@@ -102,9 +103,7 @@ public class DeadlineTimeDialog extends DialogFragment {
             }
         });
 
-        AppCompatImageButton timeButton = view.findViewById(R.id.timeButton);
-        AppCompatEditText timeEditText = view.findViewById(R.id.timeEditText);
-        timeButton.setOnClickListener(new View.OnClickListener() {
+        binding.timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
@@ -118,15 +117,15 @@ public class DeadlineTimeDialog extends DialogFragment {
                         String hour = String.format("%02d",timePicker.getHour());
                         String minute = String.format("%02d",timePicker.getMinute());
                         time = hour+":"+minute;
-                        timeEditText.setText(time);
-                        timeEditText.setError(null);
+                        binding.timeEditText.setText(time);
+                        binding.timeEditText.setError(null);
                     }
                 });
                 timePicker.show(getActivity().getSupportFragmentManager(),"Time Picker");
             }
         });
 
-        timeEditText.addTextChangedListener(new TextWatcher() {
+        binding.timeEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -134,8 +133,8 @@ public class DeadlineTimeDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!isValidTime(timeEditText.getText().toString()))
-                    timeEditText.setError("Thời gian không hợp lệ");
+                if (!isValidTime(binding.timeEditText.getText().toString()))
+                    binding.timeEditText.setError("Thời gian không hợp lệ");
             }
 
             @Override
@@ -145,6 +144,7 @@ public class DeadlineTimeDialog extends DialogFragment {
         });
         return view;
     }
+
     public boolean isValidDate(String dateStr) {
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         formatter.setLenient(false);
