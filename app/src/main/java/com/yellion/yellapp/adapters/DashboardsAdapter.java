@@ -88,8 +88,6 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
-                                android.R.anim.slide_in_left, android.R.anim.slide_in_left)
                         .replace(R.id.list_dashboards,dashboardFragment, "DASHBOARD").addToBackStack(null).commit();
             }
         });

@@ -98,9 +98,20 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(getActivity()!= null){
-                    Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("DASHBOARD");
-                    if(frag != null)
-                        getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+                    //Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("DASHBOARD");
+                    //if(frag != null)
+                    //    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    /*
+                    Fragment frg = null;
+                    frg = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_DASHBOARD");
+                    final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    ft.detach(frg);
+                    ft.attach(frg);
+                    ft.commit();
+                    */
                 }
             }
         });
@@ -437,10 +448,9 @@ public class DashboardFragment extends Fragment {
         title.setText(spannable);
 
         deleteBt.setOnClickListener(view -> {
-            if(getActivity()!= null){
-                Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("DASHBOARD");
-                if(frag != null)
-                    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+            if(getActivity() != null){
+                deleteDashboardFromServer(dashboardCard);
+                getActivity().getSupportFragmentManager().popBackStack();
             }
             dialog.dismiss();
         });
