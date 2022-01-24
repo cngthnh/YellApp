@@ -128,6 +128,13 @@ public class TaskFragment extends Fragment {
                             binding.priorityTextView.setText("Thường");
                     }
 
+                    if (currentYellTask.getStatus() != null) {
+                        if (currentYellTask.getStatus() == 1)
+                            binding.statusTextView.setText("Đã hoàn thành");
+                        else {
+                            binding.statusTextView.setText("Chưa hoàn thành");
+                        }
+                    }
                     if (yellTask.getName() != null)
                         binding.taskName.setText(yellTask.getName());
 
@@ -350,13 +357,6 @@ public class TaskFragment extends Fragment {
             }
         });
         AppCompatTextView status = binding.statusTextView;
-        if (currentYellTask.getStatus() != null) {
-            if (currentYellTask.getStatus() == 1)
-                status.setText("Đã hoàn thành");
-            else {
-                status.setText("Chưa hoàn thành");
-            }
-        }
         status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
