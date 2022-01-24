@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.MutableLiveData;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
@@ -34,6 +35,12 @@ public class DeadlineTimeDialog extends DialogFragment {
     public String date;
     public String time;
     DialogDeadlineTimeBinding binding;
+    MutableLiveData<String> dateTime;
+
+    public DeadlineTimeDialog() {
+        dateTime = new MutableLiveData<>();
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -46,6 +53,7 @@ public class DeadlineTimeDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         TextView deadlineTask = getActivity().findViewById(R.id.deadlineTask);
                         deadlineTask.setText(time+"  "+date);
+                        dateTime.postValue(time+"  "+date);
                     }
                 })
                 .setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
@@ -56,6 +64,10 @@ public class DeadlineTimeDialog extends DialogFragment {
                 })
                 .setView(view)
                 .create();
+    }
+
+    public MutableLiveData<String> getDateTimeLiveData (){
+        return dateTime;
     }
 
     private View configView() {

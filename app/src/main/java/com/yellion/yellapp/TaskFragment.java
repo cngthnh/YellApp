@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -302,30 +303,20 @@ public class TaskFragment extends Fragment {
         AppCompatTextView deadlineTask = binding.deadlineTask;
         if (currentYellTask.getEnd_time() != null)
             deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
+        DeadlineTimeDialog deadlineTimeDialog = new DeadlineTimeDialog();
+        deadlineTimeDialog.getDateTimeLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                deadlineTask.setText(s);
+                currentYellTask.setEnd_time(mobileTime2ServerTime(s));
+                viewModel.editTask(currentYellTask);
+            }
+        });
         deadlineTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DeadlineTimeDialog deadlineTimeDialog = new DeadlineTimeDialog();
                 deadlineTimeDialog.show(getActivity().getSupportFragmentManager(),
                         "DeadlineTimeDialog");
-            }
-        });
-        deadlineTask.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void afterTextChanged(Editable s) {
-                currentYellTask.setEnd_time(mobileTime2ServerTime(s.toString()));
-                viewModel.editTask(currentYellTask);
             }
         });
         AppCompatTextView priority = binding.priorityTextView;
@@ -468,7 +459,7 @@ public class TaskFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private String serverTime2MobileTime(String time) {
         SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm  dd/MM/YYYY");
-        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         try {
             Date date = isoFormat.parse(time);
             return currentFormat.format(date);
@@ -481,7 +472,7 @@ public class TaskFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private String mobileTime2ServerTime(String time) {
         SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm  dd/MM/YYYY");
-        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         try {
             Date date = currentFormat.parse(time);
             return isoFormat.format(date);
