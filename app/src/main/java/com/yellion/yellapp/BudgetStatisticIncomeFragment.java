@@ -13,8 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.yellion.yellapp.adapters.TransactionsAdapter;
-import com.yellion.yellapp.databinding.FragmentBudgetStatisticOutcomeBinding;
-import com.yellion.yellapp.databinding.FragmentBudgetsBinding;
+import com.yellion.yellapp.databinding.FragmentBudgetStatisticIncomeBinding;
 import com.yellion.yellapp.models.BudgetCard;
 import com.yellion.yellapp.models.ErrorMessage;
 import com.yellion.yellapp.models.TransactionCard;
@@ -29,17 +28,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BudgetStatisticOutcomeFragment extends Fragment {
-
-    FragmentBudgetStatisticOutcomeBinding binding;
-    BudgetCard budgetCard;
+public class BudgetStatisticIncomeFragment extends Fragment {
+    FragmentBudgetStatisticIncomeBinding binding;
     TransactionsAdapter transactionsAdapter = null;
-
+    BudgetCard budgetCard;
     List<TransactionCard> list;
     ApiService service;
     SessionManager sessionManager;
-
-    public BudgetStatisticOutcomeFragment(BudgetCard budgetCard) {
+    public BudgetStatisticIncomeFragment(BudgetCard budgetCard) {
         this.budgetCard=budgetCard;
     }
 
@@ -51,15 +47,18 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentBudgetStatisticOutcomeBinding.inflate(inflater,container,false);
+        binding = FragmentBudgetStatisticIncomeBinding.inflate(inflater, container, false );
         View view = binding.getRoot();
 
-     /*   binding.budgetName.setText(budgetCard.getName());
+    /*    binding.budgetName.setText(budgetCard.getName());
         binding.idBalance.setText(budgetCard.getBalance().toString());
         binding.idCreateDate.setText(budgetCard.getCreated_at());
+        binding.threshold.setText(budgetCard.getThreshold().toString());
+        binding.balance2.setText(budgetCard.getBalance().toString());
         int progress = budgetCard.getBalance()/budgetCard.getThreshold()*100;
         binding.circularProgressbar.setProgress(progress);
         binding.tv.setText(progress+'%');*/
+
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,25 +67,27 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
                 }
             }
         });
-        binding.tn.setOnClickListener(new View.OnClickListener() {
+        binding.tnn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.budgetOutCome, new BudgetStatisticIncomeFragment(budgetCard)).addToBackStack(null);
+                transaction.replace(R.id.budgetIncome, new BudgetStatisticOutcomeFragment(budgetCard)).addToBackStack(null);
                 transaction.commit();
             }
         });
 
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        binding.recycleViewOutcome.setLayoutManager(layoutManager);
+        binding.recycleViewIncome.setLayoutManager(layoutManager);
 
         transactionsAdapter = new TransactionsAdapter(getContext());
         list = new ArrayList<>();
         getListTransactionsFromServer();
         transactionsAdapter.setData(list);
         transactionsAdapter.notifyDataSetChanged();
-        binding.recycleViewOutcome.setVisibility(View.VISIBLE);
-        binding.recycleViewOutcome.setAdapter(transactionsAdapter);
+        binding.recycleViewIncome.setVisibility(View.VISIBLE);
+        binding.recycleViewIncome.setAdapter(transactionsAdapter);
+
 
         return view;
     }
@@ -104,8 +105,8 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
                 public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
                     Log.w("GetTransaction", "onResponse: " + response);
                     if (response.isSuccessful()) {
-                        if (response.body().getAmount() < 0)
-                            list.add(response.body());
+                        if (response.body().getAmount() >= 0)
+                           list.add(response.body());
                         transactionsAdapter.notifyDataSetChanged();
                     } else {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
@@ -119,4 +120,5 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
             });
         }
     }
+
 }

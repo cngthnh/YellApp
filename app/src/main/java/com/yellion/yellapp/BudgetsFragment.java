@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yellion.yellapp.adapters.TransactionsAdapter;
@@ -74,8 +75,16 @@ public class BudgetsFragment extends Fragment {
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets,createTransactionFragment).addToBackStack(null).commit();
             }
         });
+        binding.idBtnStatistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.budgets_fragment, new BudgetStatisticIncomeFragment(budgetCard)).addToBackStack(null);
+                transaction.commit();
 
 
+            }
+        });
         return view;
     }
 

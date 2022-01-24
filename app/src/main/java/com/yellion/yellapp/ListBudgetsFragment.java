@@ -1,25 +1,43 @@
 package com.yellion.yellapp;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.adapters.BudgetsAdapter;
 import com.yellion.yellapp.databinding.FragmentListBudgetsBinding;
 import com.yellion.yellapp.models.BudgetCard;
+import com.yellion.yellapp.models.ErrorMessage;
+import com.yellion.yellapp.models.UserAccount;
+import com.yellion.yellapp.utils.ApiService;
+import com.yellion.yellapp.utils.Client;
+import com.yellion.yellapp.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListBudgetsFragment extends Fragment {
     FragmentListBudgetsBinding binding;
     BudgetsAdapter budgetsAdapter = null;
     List<BudgetCard> list;
+    ApiService service;
+    SessionManager sessionManager;
+    List<String> listIdBudget;
+    Moshi moshi = new Moshi.Builder().build();
     public ListBudgetsFragment() {
     }
 
@@ -31,6 +49,8 @@ public class ListBudgetsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        sessionManager = SessionManager.getInstance(getActivity().
+                getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
         // Inflate the layout for this fragment
         binding = FragmentListBudgetsBinding.inflate(inflater, container, false );
         View view = binding.getRoot();
@@ -57,11 +77,13 @@ public class ListBudgetsFragment extends Fragment {
         binding.fabListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list.add(new BudgetCard("Sổ tay chi tiêu",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd"));
                 budgetsAdapter.notifyDataSetChanged();
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                BudgetsFragment budgetsFragment = new BudgetsFragment((new BudgetCard()));
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets,budgetsFragment).addToBackStack(null).commit();
+
+                CreateBudget createBudget = new CreateBudget();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                //transaction.remove(ListBudgetsFragment.this);
+                transaction.replace(R.id.list_budgets,createBudget).addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -69,12 +91,80 @@ public class ListBudgetsFragment extends Fragment {
     }
 
 
-    private void getListBudgetsFromServer() {
-        list.add(new BudgetCard("1",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-        list.add(new BudgetCard("2",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-        list.add(new BudgetCard("3",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-        list.add(new BudgetCard("4",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-        list.add(new BudgetCard("5",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
+//
+//    private void getListBudgetsFromServer() {
+//        list.add(new BudgetCard("1",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
+//        list.add(new BudgetCard("2",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
+//        list.add(new BudgetCard("3",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
+//        list.add(new BudgetCard("4",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
+//        list.add(new BudgetCard("5",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
+//
+//    }
+private void getListIdBudget() {
+    listIdBudget = new ArrayList<>();
+    for (int i = 0; i < list.size(); ++i)
+        listIdBudget.add(list.get(i).getId());
+}
 
+
+    private void getListBudgetsFromServer() {
+        if (sessionManager.getToken()!=null) {
+            service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+            Call<UserAccount> call;
+            call = service.getUserProfile("compact");
+            call.enqueue(new Callback<UserAccount>() {
+                @Override
+                public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
+                    Log.w("YellBudgetGet", "onResponse: " + response);
+                    if (response.isSuccessful()) {
+                        List<String> budgets = response.body().getBudgets();
+                        getListBudget(budgets);
+                    } else {
+                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                        Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserAccount> call, Throwable t) {
+                    Log.w("YellBudgetFragment", "onFailure: " + t.getMessage() );
+                }
+            });
+        }
+        //test
+        list.add(new BudgetCard("1",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
     }
+    private void getListBudget(List<String> budget){
+        for (int i = 0; i < budget.size(); ++i) {
+            if (!listIdBudget.contains(budget.get(i)))
+                getBudgetFromServer(budget.get(i));
+        }
+    }
+
+    private void getBudgetFromServer(String id) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<BudgetCard> call;
+
+        call = service.getBudget(id, "full");
+        call.enqueue(new Callback<BudgetCard>() {
+            @Override
+            public void onResponse(Call<BudgetCard> call, Response<BudgetCard> response) {
+                Log.w("GetBudget", "onResponse: " + response);
+                if (response.isSuccessful()) {
+
+                    list.add(response.body());
+                    budgetsAdapter.notifyDataSetChanged();
+                } else {
+                    ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                    Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BudgetCard> call, Throwable t) {
+                Log.w("YellBudgetFragment", "onFailure: " + t.getMessage() );
+            }
+        });
+    }
+
 }

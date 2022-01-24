@@ -71,10 +71,23 @@
         <entry key="..\:/Users/Duc Minh/Desktop/YellFrontEnd-main/app/src/main/res/layout/fragment_budgets.xml" value="0.3625" />
         <entry key="..\:/Users/Duc Minh/Desktop/YellFrontEnd-main/app/src/main/res/layout/fragment_dashboard.xml" value="0.3625" />
         <entry key="..\:/Users/Duc Minh/Desktop/YellFrontEnd-main/app/src/main/res/layout/fragment_list_budgets.xml" value="0.1762917933130699" />
+        <entry key="..\:/YellApp/app/src/main/res/drawable/circular2.xml" value="0.1" />
+        <entry key="..\:/YellApp/app/src/main/res/drawable/ic_baseline_bar_chart_24.xml" value="0.17222222222222222" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_account.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_budget_statistic_income.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_budget_statistic_outcome.xml" value="0.184375" />
         <entry key="..\:/YellApp/app/src/main/res/layout/fragment_budgets.xml" value="0.12681159420289856" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_create_budget.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_create_transaction.xml" value="0.184375" />
         <entry key="..\:/YellApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_home.xml" value="0.184375" />
         <entry key="..\:/YellApp/app/src/main/res/layout/fragment_list_budgets.xml" value="0.1" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_statistic.xml" value="0.184375" />
         <entry key="..\:/YellApp/app/src/main/res/layout/item_budget.xml" value="0.16666666666666666" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/item_transition.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/item_user.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/test.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/transaction_category.xml" value="0.184375" />
         <entry key="..\:/YellFrontEnd/app/src/main/res/drawable/ic_add_1.xml" value="0.20052083333333334" />
         <entry key="..\:/YellFrontEnd/app/src/main/res/drawable/ic_line.xml" value="0.16203703703703703" />
         <entry key="..\:/YellFrontEnd/app/src/main/res/drawable/ic_pizza.xml" value="0.16203703703703703" />

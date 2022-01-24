@@ -1094,6 +1094,7 @@ color background_grey
 color background_material_dark
 color background_material_light
 color black
+color blue
 color blue_secondary
 color blue_secondary_var
 color bright_foreground_disabled_material_dark
@@ -1810,6 +1811,7 @@ drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
 drawable circular
+drawable circular2
 drawable cover
 drawable cover1
 drawable design_fab_background
@@ -1824,6 +1826,7 @@ drawable ic_account
 drawable ic_add
 drawable ic_add_1
 drawable ic_back
+drawable ic_baseline_bar_chart_24
 drawable ic_budget
 drawable ic_calendar
 drawable ic_cancel
@@ -1926,6 +1929,8 @@ id SYM
 id TK
 id TOP_END
 id TOP_START
+id Type0
+id Type1
 id accelerate
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
@@ -2008,8 +2013,9 @@ id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
 id avatarImg
-id back_dashboard
+id back
 id back_list_budgets
+id balance2
 id balanceInput
 id barrier
 id baseline
@@ -2024,8 +2030,10 @@ id bounceEnd
 id bounceStart
 id btn_category_ts
 id btn_save_ts
+id budgetIncome
 id budgetName
 id budgetNameInput
+id budgetOutCome
 id budgets_fragment
 id buttonPanel
 id cache_measures
@@ -2078,6 +2086,7 @@ id cos
 id counterclockwise
 id cover_image
 id cover_top
+id create_budget_fragment
 id currentState
 id custom
 id customPanel
@@ -2172,7 +2181,6 @@ id icon
 id icon_group
 id idCalendar
 id idCreateDate
-id idThreshold
 id id_balance
 id id_btn_expand_history
 id id_btn_filter
@@ -2330,6 +2338,7 @@ id radio_travel
 id ratio
 id rectangles
 id recycleView
+id recycleViewIncome
 id recycleViewOutcome
 id recycler_view_transaction
 id registerBtn
@@ -2424,7 +2433,6 @@ id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
-id targetInput
 id test_checkbox_android_button_tint
 id test_checkbox_app_button_tint
 id test_radiobutton_android_button_tint
@@ -2584,13 +2592,13 @@ layout design_text_input_start_icon
 layout dialog_delete_budget
 layout dialog_delete_transaction
 layout fragment_account
+layout fragment_budget_statistic_income
 layout fragment_budget_statistic_outcome
 layout fragment_budgets
 layout fragment_create_budget
 layout fragment_create_transaction
 layout fragment_home
 layout fragment_list_budgets
-layout fragment_statistic
 layout item_budget
 layout item_transition
 layout item_user
