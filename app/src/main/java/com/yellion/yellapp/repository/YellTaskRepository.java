@@ -138,4 +138,33 @@ public class YellTaskRepository {
             }
         });
     }
+
+    public void deleteTaskToServer(YellTask yellTask) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+        RequestBody requestBody = taskToJson(yellTask);
+        call = service.deleteTask(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellTaskDeleted", "onResponse: " + response.body());
+                if (response.isSuccessful()) {
+                }
+                else {
+                    if (response.code() == 401) {
+                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                        Toast.makeText(application.getApplicationContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    // TODO
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Toast.makeText(application.getApplicationContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
+                // TODO:
+            }
+        });
+    }
 }

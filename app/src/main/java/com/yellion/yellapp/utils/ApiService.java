@@ -99,7 +99,7 @@ public interface ApiService {
     @PATCH("tasks")
     Call<InfoMessage> editTask(@Part MultipartBody.Part file, @Part("data") RequestBody body);
 
-    @DELETE("tasks")
+    @HTTP(method = "DELETE", path = "tasks", hasBody = true)
     @Headers("Content-Type: application/json")
     Call<InfoMessage> deleteTask(@Body RequestBody body);
 }

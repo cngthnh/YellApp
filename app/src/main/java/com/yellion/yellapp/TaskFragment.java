@@ -53,6 +53,7 @@ public class TaskFragment extends Fragment {
     private static final String ARG_PARAM2 = "dashboardId";
     private static final String ARG_PARAM3 = "taskId";
     private static final String ARG_PARAM4 = "previousTaskName";
+    private static final String ARG_PARAM5 = "parentId";
 
     YellTask currentYellTask;
     FragmentTaskBinding binding;
@@ -62,9 +63,6 @@ public class TaskFragment extends Fragment {
 
 
     // TODO: Rename and change types of parameters
-    private String taskName;
-    private String dashBoardId;
-    private String taskId;
     private String previousTaskName;
 
     public TaskFragment() {
@@ -91,12 +89,24 @@ public class TaskFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    public static TaskFragment newInstance(String taskName, String dashBoardId, String taskId,
+                                           String previousTaskName, String parentId) {
+        TaskFragment fragment = new TaskFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, taskName);
+        args.putString(ARG_PARAM2, dashBoardId);
+        args.putString(ARG_PARAM3, taskId);
+        args.putString(ARG_PARAM4, previousTaskName);
+        args.putString(ARG_PARAM5, parentId);
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadingDialog = new LoadingDialog(getActivity());
         viewModel = new ViewModelProvider(this).get(YellTaskViewModel.class);
+        currentYellTask = new YellTask();
         viewModel.init();
         viewModel.getYellTaskLiveData().observe(this, new Observer<YellTask>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -105,19 +115,27 @@ public class TaskFragment extends Fragment {
                 if (loadingDialog != null)
                     loadingDialog.dismissDialog();
                 currentYellTask = yellTask;
-                if (yellTask != null)
+                if (yellTask != null) {
+                     if (currentYellTask.getEnd_time() != null)
+                        binding.deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
+
+                     if (currentYellTask.getPriority() != null) {
+                        if (currentYellTask.getPriority() == 2)
+                            binding.priorityTextView.setText("Thấp");
+                        else if (currentYellTask.getPriority() == 0)
+                            binding.priorityTextView.setText("Cao");
+                        else
+                            binding.priorityTextView.setText("Thường");
+                    }
+
                     if (yellTask.getName() != null)
                         binding.taskName.setText(yellTask.getName());
-                if (currentYellTask.getEnd_time() != null)
-                    binding.deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
-                if (currentYellTask.getPriority() != null) {
-                    if (currentYellTask.getPriority() == 2)
-                        binding.priorityTextView.setText("Thấp");
-                    else if (currentYellTask.getPriority() == 0)
-                        binding.priorityTextView.setText("Cao");
-                    else
-                        binding.priorityTextView.setText("Thường");
+
+                    if (yellTask.getContent() !=null )
+                        binding.contentEditText.setText(yellTask.getContent());
                 }
+
+
             }
         });
         viewModel.getTaskIdLiveData().observe(this, new Observer<String>() {
@@ -128,21 +146,18 @@ public class TaskFragment extends Fragment {
         });
         yellTaskAdapter = new TaskAdapter(getActivity());
         if (getArguments() != null) {
-            taskName = getArguments().getString(ARG_PARAM1);
-            dashBoardId = getArguments().getString(ARG_PARAM2);
-            taskId = getArguments().getString(ARG_PARAM3);
+            currentYellTask.setName(getArguments().getString(ARG_PARAM1));
+            currentYellTask.setDashboard_id(getArguments().getString(ARG_PARAM2));
+            currentYellTask.setTask_id(getArguments().getString(ARG_PARAM3));
             previousTaskName = getArguments().getString(ARG_PARAM4);
-            currentYellTask = new YellTask(dashBoardId, taskName);
-            if (taskId == null) {
+            currentYellTask.setParent_id(getArguments().getString(ARG_PARAM5));
+            if (currentYellTask.getTask_id() == null) {
                 viewModel.addTask(currentYellTask);
             }
             else {
-                viewModel.getTask(taskId);
+                viewModel.getTask(currentYellTask.getTask_id());
                 loadingDialog.startLoadingDialog();
             }
-        }
-        else {
-            currentYellTask = new YellTask();
         }
     }
 
@@ -164,19 +179,15 @@ public class TaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        BottomAppBar navBar = getActivity().findViewById(R.id.mainAppBar);
-        //navBar.setVisibility(View.GONE);
     }
 
     private void setToolbarTaskListener() {
         AppCompatImageButton editNameTask = binding.editNameTask;
         AppCompatImageButton deleteTask = binding.deleteTask;
         AppCompatEditText taskName = binding.taskName;
+        AppCompatImageButton taskIcon = binding.taskIcon;
         if (currentYellTask.getName() != null)
             taskName.setText(currentYellTask.getName());
-        AppCompatImageButton taskIcon = binding.taskIcon;
-        if (this.taskName != null)
-            taskName.setText(this.taskName);
         if (this.previousTaskName != null)
             binding.previousTask.setText(previousTaskName);
         taskIcon.setClickable(false);

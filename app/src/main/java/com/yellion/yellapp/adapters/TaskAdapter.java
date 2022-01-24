@@ -21,18 +21,21 @@ import com.yellion.yellapp.LoadingDialog;
 import com.yellion.yellapp.R;
 import com.yellion.yellapp.TaskFragment;
 import com.yellion.yellapp.models.YellTask;
+import com.yellion.yellapp.repository.YellTaskRepository;
 
 import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     ArrayList<YellTask> yellTaskArrayList;
+    YellTaskRepository repository;
     FragmentActivity activity;
     String parentName;
 
     public TaskAdapter(FragmentActivity activity) {
         this.activity = activity;
         yellTaskArrayList = new ArrayList<>();
+        repository = new YellTaskRepository(activity.getApplication());
     }
 
     public void setParentName(String parentName) {
@@ -77,6 +80,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.deleteTaskItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                YellTask yell = new YellTask(yellTask.getTask_id());
+                repository.deleteTaskToServer(yell);
                 removeYellTask(holder.getLayoutPosition());
             }
         });
@@ -84,7 +89,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             @Override
             public void onClick(View v) {
                 TaskFragment fragment = TaskFragment.newInstance(yellTask.getName(),
-                        yellTask.getDashboard_id(), yellTask.getTask_id(), parentName);
+                        yellTask.getDashboard_id(), yellTask.getTask_id(), parentName, yellTask.getParent_id());
                 activity.getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
                                 android.R.anim.slide_in_left, android.R.anim.fade_out)

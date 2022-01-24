@@ -62,6 +62,20 @@ public class YellTask {
         this.content = null;
     }
 
+    public YellTask(String task_id) {
+        this.dashboard_id = null;
+        this.name = null;
+        this.status = 0;
+        this.task_id = task_id;
+        this.noti_level = null;
+        this.priority = null;
+        this.parent_id = null;
+        this.start_time = null;
+        this.end_time = null;
+        this.labels = null;
+        this.content = null;
+    }
+
     public String getDashboard_id() {
         return dashboard_id;
     }
