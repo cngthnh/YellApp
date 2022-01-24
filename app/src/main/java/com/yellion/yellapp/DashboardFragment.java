@@ -197,7 +197,7 @@ public class DashboardFragment extends Fragment {
         binding.editUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialogListShareDashboard();
+                checkEditPermission(3);
             }
         });
 
@@ -252,7 +252,7 @@ public class DashboardFragment extends Fragment {
         });
     }
 
-    private void checkEditPermission(int i) {
+    private void checkEditPermission(int code) {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
         Call<UserAccount> call;
         call = service.getUserProfile("compact");
@@ -264,16 +264,22 @@ public class DashboardFragment extends Fragment {
                     String uid = response.body().getId();
                     for(int i = 0; i < dashboardCard.getUsers().size(); i++){
                         if(uid.equals(dashboardCard.getUsers().get(i).getUid())){
-
                             if(dashboardCard.getUsers().get(i).getRole().equals("viewer"))
                             {
-                                Toast.makeText(getContext(), "Bạn không có quyền thực hiện chức năng này", Toast.LENGTH_LONG).show();
+                                if(code == 3)
+                                    openDialogListShareDashboard(2);
+                                else
+                                    Toast.makeText(getContext(), "Bạn không có quyền thực hiện chức năng này", Toast.LENGTH_LONG).show();
                             }
                             else {
-                                if(i == 1)
+                                if(code == 1)
                                     editDashboard();
-                                else if(i == 2)
+                                else if(code == 2)
                                     addTask();
+                                else if(code == 3)
+                                {
+                                    openDialogListShareDashboard(1);
+                                }
                                 return;
                             }
                         }
@@ -355,8 +361,7 @@ public class DashboardFragment extends Fragment {
         return requestBody;
     }
 
-
-    private void openDialogListShareDashboard() {
+    private void openDialogListShareDashboard(int i) {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_share);
@@ -381,33 +386,35 @@ public class DashboardFragment extends Fragment {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(getContext(), invite);
-                popupMenu.getMenuInflater().inflate(R.menu.permission_menu, popupMenu.getMenu());
-                Log.e("Datat", "Popup");
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        String userId = email.getText().toString();
-                        String role = null;
-                        switch (menuItem.getItemId()){
-                            case R.id.menu_edit:
-                                Log.e("Datat", "Edit");
-                                role = "editor";
-                                break;
-                            case R.id.menu_view:
-                                Log.e("Datat", "View");
-                                role = "viewer";
-                                break;
+                if(i == 1){
+                    PopupMenu popupMenu = new PopupMenu(getContext(), invite);
+                    popupMenu.getMenuInflater().inflate(R.menu.permission_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            String userId = email.getText().toString();
+                            String role = null;
+                            switch (menuItem.getItemId()){
+                                case R.id.menu_edit:
+                                    role = "editor";
+                                    break;
+                                case R.id.menu_view:
+                                    role = "viewer";
+                                    break;
+                            }
+                            if(role != null && userId.length() > 0)
+                            {
+                                DashboardPermission dbPermission = new DashboardPermission(dashboardCard.getId(), userId, role);
+                                inviteSoToDashboard(dbPermission);
+                            }
+                            return false;
                         }
-                        if(role != null && userId.length() > 0)
-                        {
-                            DashboardPermission dbPermission = new DashboardPermission(dashboardCard.getId(), userId, role);
-                            inviteSoToDashboard(dbPermission);
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
+                    });
+                    popupMenu.show();
+                }
+                else {
+                    Toast.makeText(getContext(), "Bạn không có quyền thực hiện chức năng này", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
