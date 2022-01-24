@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.adapters.DashboardsAdapter;
+import com.yellion.yellapp.adapters.DashboardsHomeAdapter;
 import com.yellion.yellapp.databinding.FragmentListDashboardsBinding;
 import com.yellion.yellapp.models.DashboardCard;
 import com.yellion.yellapp.models.ErrorMessage;
@@ -68,9 +69,12 @@ public class ListDashboardsFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recycleView.setLayoutManager(layoutManager);
 
+        dashboardsAdapter = new DashboardsAdapter(getContext(), sessionManager);
+
         list = new ArrayList<>();
         getListDashboardFromServer();
 
+        /*
         dashboardViewModel = new ViewModelProvider(this.getActivity(), new DashboardViewModelFactory(list)).get(DashboardViewModel.class);
         dashboardViewModel.getListDashboardLiveData().observe(this.getActivity(), new Observer<List<DashboardCard>>() {
             @Override
@@ -81,7 +85,13 @@ public class ListDashboardsFragment extends Fragment {
             }
         });
 
-        Log.e("load", "LOAD");
+         */
+
+        dashboardsAdapter.setData(list);
+        dashboardsAdapter.notifyDataSetChanged();
+        binding.recycleView.setVisibility(View.VISIBLE);
+        binding.recycleView.setAdapter(dashboardsAdapter);
+
         binding.backListDashboards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,15 +125,7 @@ public class ListDashboardsFragment extends Fragment {
                 Log.w("YellCreateDashboard", "onResponse: " + response);
                 if (response.isSuccessful()) {
                     String id = response.body().getId();
-                    dashboardCard.setId(id);
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard, sessionManager);
-                    activity.getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
-                                    android.R.anim.slide_in_left, android.R.anim.slide_in_left)
-                            .replace(R.id.fragmentContainer,dashboardFragment)
-                            .addToBackStack(null).commit();
-                    addList(dashboardCard);
+                    getDb(id, view);
                 } else {
                     if (response.code() == 401) {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
@@ -140,7 +142,7 @@ public class ListDashboardsFragment extends Fragment {
     }
 
     private void addList(DashboardCard dashboardCard) {
-        dashboardViewModel.addDashboard(dashboardCard);
+        //dashboardViewModel.addDashboard(dashboardCard);
     }
 
 
@@ -156,12 +158,6 @@ public class ListDashboardsFragment extends Fragment {
                     if (response.isSuccessful()) {
                         List<String> dashboards = response.body().getDashboards();
                         getListDashboard(dashboards);
-                    } else {
-                        /*ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                        Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
-                        sessionManager.deleteToken();
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                        startActivity(intent);*/
                     }
                 }
 
@@ -195,5 +191,30 @@ public class ListDashboardsFragment extends Fragment {
             });
 
         }
+    }
+
+    private void getDb(String id, View view) {
+        Call<DashboardCard> call;
+        call = service.getDashboard(id, "full");
+        call.enqueue(new Callback<DashboardCard>() {
+            @Override
+            public void onResponse(Call<DashboardCard> call, Response<DashboardCard> response) {
+                Log.w("YellGetDashboard", "onResponse: " + response);
+                if (response.isSuccessful()) {
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    DashboardFragment dashboardFragment = new DashboardFragment(response.body(), sessionManager);
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainer,dashboardFragment)
+                            .addToBackStack(null).commit();
+                    list.add(response.body());
+                    dashboardsAdapter.notifyDataSetChanged();
+
+                }
+            }
+            @Override
+            public void onFailure(Call<DashboardCard> call, Throwable t) {
+                Log.w("YellGetDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 }
