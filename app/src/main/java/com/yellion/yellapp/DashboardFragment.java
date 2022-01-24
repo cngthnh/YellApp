@@ -15,34 +15,65 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.moshi.Moshi;
+import com.yellion.yellapp.adapters.TaskAdapter;
 import com.yellion.yellapp.adapters.UsersAdapter;
+import com.yellion.yellapp.adapters.UsersDetailAdapter;
 import com.yellion.yellapp.databinding.FragmentDashboardBinding;
 import com.yellion.yellapp.models.DashboardCard;
+import com.yellion.yellapp.models.DashboardPermission;
+import com.yellion.yellapp.models.ErrorMessage;
+import com.yellion.yellapp.models.InfoMessage;
+import com.yellion.yellapp.models.YellTask;
+import com.yellion.yellapp.utils.ApiService;
+import com.yellion.yellapp.utils.Client;
 import com.yellion.yellapp.utils.MySpannable;
+import com.yellion.yellapp.utils.SessionManager;
+import com.yellion.yellapp.viewmodels.YellTaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardFragment extends Fragment {
     FragmentDashboardBinding binding;
     DashboardCard dashboardCard;
     UsersAdapter usersAdapter = null;
+    UsersDetailAdapter usersDetailAdapter = null;
     List<String> usernames;
+    SessionManager sessionManager;
+    ApiService service;
+    Moshi moshi = new Moshi.Builder().build();
+    YellTaskViewModel viewModel;
+    TaskAdapter yellTaskAdapter;
 
 
-    public DashboardFragment(DashboardCard dashboardCard) {
+    public DashboardFragment(DashboardCard dashboardCard, SessionManager sessionManager) {
         this.dashboardCard = dashboardCard;
+        this.sessionManager = sessionManager;
     }
 
     @Override
@@ -58,11 +89,31 @@ public class DashboardFragment extends Fragment {
         View view = binding.getRoot();
         binding.edtNameDb.setText(dashboardCard.getName());
 
+        if(dashboardCard.getDescription()!=null){
+            binding.tvDescriptionDb.setText(dashboardCard.getDescription());
+            binding.edtDescriptionDb.setText(dashboardCard.getDescription());
+        }
+
         binding.backDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getFragmentManager() != null){
-                    getFragmentManager().popBackStack();
+                if(getActivity()!= null){
+                    //Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("DASHBOARD");
+                    //if(frag != null)
+                    //    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    /*
+                    Fragment frg = null;
+                    frg = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_DASHBOARD");
+                    final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    ft.detach(frg);
+                    ft.attach(frg);
+                    ft.commit();
+                    */
+
+
                 }
             }
         });
@@ -127,6 +178,18 @@ public class DashboardFragment extends Fragment {
                 binding.backDashboard.setVisibility(View.VISIBLE);
                 binding.tvDescriptionDb.setVisibility(View.VISIBLE);
                 String dsc = binding.edtDescriptionDb.getText().toString();
+                String name = binding.edtNameDb.getText().toString();
+                if(name.length() == 0)
+                {
+                    binding.edtNameDb.setText(dashboardCard.getName());
+                    Toast.makeText(getActivity(), "Tên bảng công việc phải có ít nhất 1 kí tự", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    dashboardCard.setName(name);
+                }
+                dashboardCard.setDescription(dsc);
+                editDashboardOnServer();
+
                 binding.tvDescriptionDb.setText(dsc);
                 binding.tvDescriptionDb.setTag(null);
                 makeTextViewResizable(binding.tvDescriptionDb, 3, "...Xem thêm", true);
@@ -139,6 +202,7 @@ public class DashboardFragment extends Fragment {
                 }
                 binding.edtNameDb.setFocusable(false);
 
+
             }
         });
         makeTextViewResizable(binding.tvDescriptionDb, 3, "...Xem thêm", true);
@@ -148,14 +212,203 @@ public class DashboardFragment extends Fragment {
         usersAdapter = new UsersAdapter(getContext());
         usernames = new ArrayList<>();
         getListUserNamesFromServer();
-        usersAdapter.setData(usernames);
+        usersAdapter.setData(dashboardCard.getUsers());
         usersAdapter.notifyDataSetChanged();
         binding.listUsers.setVisibility(View.VISIBLE);
         binding.listUsers.setAdapter(usersAdapter);
 
+        binding.editUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialogListShareDashboard();
+            }
+        });
 
+
+        yellTaskAdapter = new TaskAdapter(getActivity());
+        getListTaskFromServer();
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity());
+        binding.listTasks.setLayoutManager(layoutManager2);
+        binding.listTasks.setAdapter(yellTaskAdapter);
+
+
+        binding.fabDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                YellTask yell = new YellTask(dashboardCard.getId(),"Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
+                addTaskToServer(yell);
+            }
+        });
 
         return view;
+    }
+
+    private void getListTaskFromServer() {
+        if(dashboardCard.getTasks() == null)
+            return;
+        for(int i = 0; i < dashboardCard.getTasks().size(); i++){
+            yellTaskAdapter.addYellTask(dashboardCard.getTasks().get(i));
+        }
+    }
+
+    private void addTaskToServer(YellTask yellTask) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<YellTask> call;
+
+        RequestBody requestBody = taskToJson(yellTask);
+
+        call = service.addTask(null, requestBody);
+        call.enqueue(new Callback<YellTask>() {
+            @Override
+            public void onResponse(Call<YellTask> call, Response<YellTask> response) {
+
+                Log.w("YellTaskCreate", "onResponse: " + response);
+
+                if (response.isSuccessful()) {
+                    yellTask.setTask_id(response.body().getTask_id());
+                    yellTaskAdapter.addYellTask(yellTask);
+                    yellTaskAdapter.notifyDataSetChanged();
+                }
+                else {
+                    if (response.code() == 401) {
+                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                        Toast.makeText(getContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    // TODO
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<YellTask> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
+                // TODO:
+            }
+        });
+    }
+
+    private RequestBody taskToJson(YellTask currentYellTask) {
+        String jsonYellTask = moshi.adapter(YellTask.class).toJson(currentYellTask);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), jsonYellTask);
+        return requestBody;
+    }
+
+
+    private void openDialogListShareDashboard() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_share);
+
+        Window window = dialog.getWindow();
+        if(window == null){
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.BOTTOM;
+        window.setAttributes(windowAttributes);
+
+        dialog.setCancelable(true);
+        AppCompatButton invite = dialog.findViewById(R.id.invite);
+        TextView email = dialog.findViewById(R.id.uid);
+        RecyclerView listUser = dialog.findViewById(R.id.userList);
+
+        invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), invite);
+                popupMenu.getMenuInflater().inflate(R.menu.permission_menu, popupMenu.getMenu());
+                Log.e("Datat", "Popup");
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String userId = email.getText().toString();
+                        String role = null;
+                        switch (menuItem.getItemId()){
+                            case R.id.menu_edit:
+                                Log.e("Datat", "Edit");
+                                role = "editor";
+                                break;
+                            case R.id.menu_view:
+                                Log.e("Datat", "View");
+                                role = "viewer";
+                                break;
+                        }
+                        if(role != null && userId.length() > 0)
+                        {
+                            DashboardPermission dbPermission = new DashboardPermission(dashboardCard.getId(), userId, role);
+                            inviteSoToDashboard(dbPermission);
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
+        listUser.setLayoutManager(layoutManager1);
+        usersDetailAdapter = new UsersDetailAdapter(getContext());
+
+        List<DashboardPermission> listUserDetail = dashboardCard.getUsers();
+
+        usersDetailAdapter.setData(listUserDetail);
+        usersDetailAdapter.notifyDataSetChanged();
+        listUser.setVisibility(View.VISIBLE);
+        listUser.setAdapter(usersDetailAdapter);
+
+        dialog.show();
+    }
+
+    private void inviteSoToDashboard(DashboardPermission dbPermission) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(DashboardPermission.class).toJson(dbPermission);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.inviteSoToDashboard(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellInviteSoToDashboard", "onResponse: " + response);
+                if(!response.isSuccessful())
+                {
+                    if (response.code() == 404) {
+                        Toast.makeText(getContext(), "User id này không tồn tại", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellInviteSoToDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
+    }
+
+    private void editDashboardOnServer() {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(DashboardCard.class).toJson(dashboardCard);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.editDashboard(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellEditDashboard", "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellEditDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
     private void getListUserNamesFromServer() {
@@ -197,8 +450,9 @@ public class DashboardFragment extends Fragment {
         title.setText(spannable);
 
         deleteBt.setOnClickListener(view -> {
-            if(getFragmentManager() != null){
-                getFragmentManager().popBackStack();
+            if(getActivity() != null){
+                deleteDashboardFromServer(dashboardCard);
+                getActivity().getSupportFragmentManager().popBackStack();
             }
             dialog.dismiss();
         });
@@ -206,6 +460,27 @@ public class DashboardFragment extends Fragment {
         cancelDeleteBt.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    private void deleteDashboardFromServer(DashboardCard dashboardCard) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(DashboardCard.class).toJson(dashboardCard);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.deleteDashboard(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellDeleteDashboard", "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellDeleteDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
     public static void makeTextViewResizable(final TextView tv, final int maxLine, final String expandText, final boolean viewMore) {

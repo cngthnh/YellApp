@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboard_fragment"
     android:background="@color/white"
     android:clickable="true"
     android:focusable="true"
@@ -12,7 +13,7 @@
     <FrameLayout
         android:id="@+id/cover_top"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             android:weightSum="6">
             <LinearLayout
                 android:layout_width="0dp"
@@ -129,12 +130,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="20dp"
-        android:weightSum="5"
+        android:weightSum="6"
         >
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
@@ -143,12 +144,32 @@
                 android:text="Thành viên"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="18dp"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_users"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-            </androidx.recyclerview.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_users"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/edit_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:background="@drawable/bg_item_user"
+                    android:fontFamily="@font/roboto_light"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical"
+                    android:textSize="25dp"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="8dp"
+                    tools:ignore="RtlCompat" />
+            </LinearLayout>
+
 
         </LinearLayout>
         <LinearLayout
@@ -214,7 +235,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Thêm mô tả"
-                android:text="@string/expand"
+                android:text=""
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/black"
                 android:padding="0dp"
@@ -229,7 +250,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Thêm mô tả"
-                android:text="@string/expand"
+                android:text=""
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/black"
                 android:padding="0dp"
@@ -253,10 +274,10 @@
             android:textSize="22dp"
             />
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_tasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton

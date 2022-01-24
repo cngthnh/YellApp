@@ -21,7 +21,6 @@ public class DashboardViewModel extends ViewModel {
     }
 
     private void initData() {
-        mListDashboard.add(new DashboardCard("Đồ án"));
         mListDashboardLiveData.setValue(mListDashboard);
     }
 
