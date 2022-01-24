@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 nextPosition = 1;
                 break;
             case R.id.navBudgets:
-                selected = new TaskFragment();
+                selected = new ListBudgetsFragment();
+//                        new BudgetsFragment(new BudgetCard("Sổ tay chi tiêu",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd"));
                 nextPosition = 2;
                 break;
             case R.id.navAccount:
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             nextPosition = 1;
         }
         else if (viewId == R.id.navBudgets) {
-            selected = TaskFragment.newInstance(null,null,"cecb1675-ec0e-463c-9518-9be8a06df729",null);
+            selected = new ListBudgetsFragment();
             nextPosition = 2;
         }
         else if (viewId == R.id.navAccount) {

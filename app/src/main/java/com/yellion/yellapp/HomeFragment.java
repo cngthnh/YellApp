@@ -49,9 +49,13 @@ public class HomeFragment extends Fragment {
                 getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
 
         binding.viewAllDashboardsBtn.setOnClickListener(new View.OnClickListener() {
+        binding.viewAllBudgetsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,listBudgetsFragment).addToBackStack(null).commit();
+                binding.highlightCard.setVisibility(View.GONE);
                 ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,dashboardsFragment, "LIST_DASHBOARD").addToBackStack(null).commit();
             }

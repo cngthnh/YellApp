@@ -32,25 +32,6 @@
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_dashboard.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_dashboard_home.xml" value="0.264" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_user.xml" value="0.2" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/fram_topbar.xml" value="0.3546875" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/frame_cover_item_dashboard.xml" value="0.3546875" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/frame_cover_item_task_green.xml" value="0.3546875" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/frame_cover_item_task_yellow.xml" value="0.3546875" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/ic_delete.xml" value="0.23697916666666666" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/toolbar_shape.xml" value="0.20052083333333334" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/activity_main.xml" value="0.2125" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/dialog_attach.xml" value="0.17864583333333334" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_account.xml" value="0.18206521739130435" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_budgets.xml" value="0.18020833333333333" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.20833333333333334" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_list_dashboards.xml" value="0.20833333333333334" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_task.xml" value="0.18206521739130435" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/icon_item.xml" value="0.17864583333333334" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/item_dashboard.xml" value="0.20833333333333334" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/item_file.xml" value="0.17864583333333334" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/item_task.xml" value="0.171875" />
-        <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/sub_task.xml" value="0.22192028985507245" />
         <entry key="app/src/main/res/drawable-v24/ic_google.xml" value="0.3619791666666667" />
         <entry key="app/src/main/res/drawable/ic_account.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/drawable/ic_budget.xml" value="0.2078125" />

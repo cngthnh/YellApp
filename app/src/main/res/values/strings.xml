@@ -29,4 +29,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="expand">Most of these features work out of the box, while some may require basic configuration to get the best experience. This page summarizes the Julia features included in the Julia VS Code extension. For a more in-depth guide on how these features work and can be configured, see the Julia in VS Code documentation.</string>
+
+    <string name="create_budget">Tạo sổ tay chi tiêu</string>
+    <string name="create_new_budget">Tạo sổ tay chi tiêu</string>
+
 </resources>

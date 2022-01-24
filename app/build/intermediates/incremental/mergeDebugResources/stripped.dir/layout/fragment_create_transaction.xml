@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".BudgetsFragment$"
+    android:id="@+id/add_transaction_fragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/add_ts_blank_space"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_line" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Thêm giao dịch"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:paddingBottom="20dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nội dung giao dịch"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                />
+            <EditText
+                android:id="@+id/add_content_ts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:paddingBottom="15dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Số tiền"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                android:paddingBottom="15dp">
+                <EditText
+                    android:id="@+id/add_amount_ts"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:inputType="number"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="VND"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black"
+                    />
+            </LinearLayout>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/radio_category_ts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <RadioButton android:id="@+id/radio_income"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Thu nhập"/>
+                <RadioButton android:id="@+id/radio_outcome"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Chi tiêu"/>
+            </RadioGroup>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btn_category_ts"
+                android:padding="30dp"
+                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/category_ts_layout">
+                    <ImageView
+                        android:id="@+id/category_icon_ts"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_category"
+                        android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:id="@+id/category_ts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center"
+                        android:text="Danh mục"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textSize="20sp"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_ts"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_height="50dp"
+                android:text="Lưu"
+                android:textSize="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/black"
+                app:cornerRadius="10dp"
+                android:backgroundTint="@color/yellow"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>
