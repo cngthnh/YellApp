@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +21,7 @@ import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.adapters.TransactionsAdapter;
 import com.yellion.yellapp.databinding.FragmentBudgetsBinding;
 import com.yellion.yellapp.databinding.FragmentCreateTransactionBinding;
+import com.yellion.yellapp.databinding.FragmentTransactionCategoryBinding;
 import com.yellion.yellapp.models.BudgetCard;
 import com.yellion.yellapp.models.ErrorMessage;
 import com.yellion.yellapp.models.TransactionCard;
@@ -85,12 +89,12 @@ public class BudgetsFragment extends Fragment {
         binding.addTransactionBg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle=new Bundle();
-                bundle.putBundle("budgetCard",savedInstanceState);
+                Bundle bundle = new Bundle();
+                bundle.putBundle("budgetCard", savedInstanceState);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 CreateTransactionFragment createTransactionFragment = new CreateTransactionFragment();
                 createTransactionFragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets,createTransactionFragment).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets, createTransactionFragment).addToBackStack(null).commit();
             }
         });
         binding.idBtnStatistic.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +145,7 @@ public class BudgetsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TransactionCard> call, Throwable t) {
-                Log.w("YellTransactionFragment", "onFailure: " + t.getMessage() );
+                Log.w("YellTransactionFragment", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -153,6 +157,8 @@ public class BudgetsFragment extends Fragment {
         SessionManager sessionManager;
         ApiService service;
         Moshi moshi = new Moshi.Builder().build();
+        static String category="other";
+
         public CreateTransactionFragment() {
         }
 
@@ -160,11 +166,13 @@ public class BudgetsFragment extends Fragment {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
         }
+
         TransactionCard transactionCard;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            binding_ts = FragmentCreateTransactionBinding.inflate(inflater, container, false );
+            binding_ts = FragmentCreateTransactionBinding.inflate(inflater, container, false);
             View view = binding_ts.getRoot();
             sessionManager = SessionManager.getInstance(getActivity().
                     getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
@@ -174,7 +182,15 @@ public class BudgetsFragment extends Fragment {
                 public void onClick(View v) {
 //                    binding.budgetsFragment.setVisibility(View.INVISIBLE);
                     //Lấy data từ View nữa-cả Radio Button
-                    TransactionCard transactionCard=new TransactionCard("a","b",1,"f");
+                    String InOutCome;
+                    RadioGroup radioGroup;
+                    RadioButton radioButton;
+                    radioGroup = (RadioGroup) view.findViewById(R.id.radio_category_ts);
+                    int selectedId = radioGroup.getCheckedRadioButtonId();
+                    radioButton = (RadioButton) view.findViewById(selectedId);
+                    InOutCome=radioButton.getText().toString();
+                    //
+                    TransactionCard transactionCard = new TransactionCard("a", InOutCome, 1, category);
 //                    "category",java.util.Calendar.getInstance().getTime().toString(),Integer.parseInt(binding_ts.addAmountTs.getText().toString()),binding_ts.categoryTs.getText().toString()
                     list.add(transactionCard);
                     createTransactionFromServer(transactionCard);
@@ -184,11 +200,19 @@ public class BudgetsFragment extends Fragment {
                     binding_ts.addTransactionFragment.setVisibility(View.GONE);
 //                    binding.budgetsFragment.setVisibility(View.VISIBLE);
                 }
-
-
+            });
+            binding_ts.categoryTsLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TransactionCategoryFragment transactionCategoryFragment = new TransactionCategoryFragment();
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.add_transaction_fragment,transactionCategoryFragment).addToBackStack(null);
+                    transaction.commit();
+                }
             });
             return view;
         }
+
         private void createTransactionFromServer(TransactionCard transactionCard) {
             service = Client.createServiceWithAuth(ApiService.class, sessionManager);
             Call<TransactionCard> call;
@@ -201,16 +225,17 @@ public class BudgetsFragment extends Fragment {
                 public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
                     Log.w("YellCreateTransaction", "onResponse: " + response);
                     if (response.isSuccessful()) {
-                        Toast.makeText(getContext(),"Tạo thành công!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Tạo thành công!", Toast.LENGTH_LONG).show();
 
                     } else {
                         {
                             ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                            Toast.makeText(getContext(),"Tạo thất bại! " + apiError.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Tạo thất bại! " + apiError.getMessage(), Toast.LENGTH_LONG).show();
                         }
 
                     }
                 }
+
                 @Override
                 public void onFailure(Call<TransactionCard> call, Throwable t) {
                     Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
@@ -218,6 +243,44 @@ public class BudgetsFragment extends Fragment {
             });
         }
 
+        public static class TransactionCategoryFragment extends Fragment {
 
+            FragmentTransactionCategoryBinding binding_ct;
+            private RadioGroup radioGroup;
+            private RadioButton radioButton;
+            private Button btnSave;
+            int idBtnSelected;
+
+            @Override
+            public void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                addListenerOnButton();
+            }
+
+            private void addListenerOnButton() {
+                radioGroup = binding_ct.radioGroupCategory;
+                btnSave = binding_ct.btnSaveCategory;
+
+                btnSave.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // get selected radio button from radioGroup
+                        idBtnSelected = radioGroup.getCheckedRadioButtonId();
+                        View view=binding_ct.getRoot();
+                        radioButton = (RadioButton) view.findViewById(idBtnSelected);
+                        category=radioButton.getText().toString();
+                    }
+                });
+            }
+
+            @Override
+            public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                     Bundle savedInstanceState) {
+                binding_ct = FragmentTransactionCategoryBinding.inflate(inflater, container,false);
+                View view = binding.getRoot();
+                return view;
+            }
+        }
     }
 }

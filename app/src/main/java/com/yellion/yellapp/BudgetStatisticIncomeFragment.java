@@ -88,8 +88,16 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         transactionsAdapter.notifyDataSetChanged();
         binding.recycleViewIncome.setVisibility(View.VISIBLE);
         binding.recycleViewIncome.setAdapter(transactionsAdapter);
+        binding.btnLS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.budgets_fragment, new BudgetsFragment(budgetCard,sessionManager)).addToBackStack(null);
+                transaction.commit();
 
 
+            }
+        });
         return view;
     }
 

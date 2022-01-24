@@ -1918,7 +1918,6 @@ id BOTTOM_END
 id BOTTOM_START
 id CTRL
 id FUNCTION
-id LS
 id META
 id NO_DEBUG
 id SHIFT
@@ -1926,7 +1925,6 @@ id SHOW_ALL
 id SHOW_PATH
 id SHOW_PROGRESS
 id SYM
-id TK
 id TOP_END
 id TOP_START
 id Type0
@@ -2028,7 +2026,10 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id btn_LS
+id btn_TK
 id btn_category_ts
+id btn_save_category
 id btn_save_ts
 id budgetIncome
 id budgetName
@@ -2182,8 +2183,6 @@ id icon_group
 id idCalendar
 id idCreateDate
 id id_balance
-id id_btn_expand_history
-id id_btn_filter
 id id_btn_history
 id id_btn_statistic
 id id_budget_item
@@ -2330,6 +2329,7 @@ id radio_category_ts
 id radio_coffee
 id radio_daily_use
 id radio_food
+id radio_group_category
 id radio_income
 id radio_outcome
 id radio_shopping
@@ -2601,6 +2601,7 @@ layout fragment_create_budget
 layout fragment_create_transaction
 layout fragment_home
 layout fragment_list_budgets
+layout fragment_transaction_category
 layout item_budget
 layout item_transition
 layout item_user
@@ -2682,7 +2683,6 @@ layout text_view_with_line_height_from_layout
 layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
-layout transaction_category
 mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
