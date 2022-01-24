@@ -69,10 +69,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         if(transactionCard == null){
             return;
         }
-        holder.nameTransaction.setText(transactionCard.budget_id);
-        holder.amount.setText(String.format("%d",transactionCard.amount));
-        holder.purpose.setText(transactionCard.purpose);
-        holder.time.setText(transactionCard.time);
+        holder.nameTransaction.setText(transactionCard.content);
+        holder.amount.setText(String.format("%d",transactionCard.type));
+        holder.purpose.setText(transactionCard.category);
+        holder.time.setText(transactionCard.money);
 
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(1));
         holder.deleteLayout.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +109,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
 
         String elementS = "Bạn có chắc là muốn xoá giao dịch";
-        String s = elementS + transactionCard.getBudget_id() + " không?";
+        String s = elementS + transactionCard.getContent() + " không?";
 
         Spannable spannable = new SpannableString(s);
-        spannable.setSpan(new ForegroundColorSpan(Color.rgb(255,152,0)), elementS.length(), elementS.length() + transactionCard.getBudget_id().length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.rgb(255,152,0)), elementS.length(), elementS.length() + transactionCard.getContent().length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         title.setText(spannable);
 

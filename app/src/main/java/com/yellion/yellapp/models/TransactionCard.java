@@ -3,46 +3,46 @@ package com.yellion.yellapp.models;
 import com.squareup.moshi.Json;
 
 public class TransactionCard {
-    @Json(name = "budget_id")
-    public String budget_id;
-    @Json(name = "time")
-    public String time;
-    @Json(name = "amount")
-    public Integer amount;
-    @Json(name = "purpose")
-    public String purpose;
+    @Json(name = "content")
+    public String content;
+    @Json(name = "money")
+    public String money;
+    @Json(name = "type")
+    public Integer type;
+    @Json(name = "category")
+    public String category;
 
     public TransactionCard() {
     }
 
-    public String getBudget_id() {
-        return budget_id;
+    public String getContent() {
+        return content;
     }
-    public void setBudget_id(String budget_id) {
-        this.budget_id = budget_id;
+    public void setContent(String content) {
+        this.content = content;
     }
-    public String getTime() {
-        return time;
+    public String getMoney() {
+        return money;
     }
-    public void setTime(String name) {
-        this.time = time;
+    public void setMoney(String name) {
+        this.money = money;
     }
-    public Integer getAmount() {
-        return amount;
+    public Integer getType() {
+        return type;
     }
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setType(Integer type) {
+        this.type = type;
     }
-    public String getPurpose() {
-        return purpose;
+    public String getCategory() {
+        return category;
     }
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
+    public void setCategory(String category) {
+        this.category = category;
     }
-    public TransactionCard(String name,String time, Integer amount,String purpose){
-     this.budget_id =name;
-     this.time=time;
-     this.amount=amount;
-     this.purpose=purpose;
+    public TransactionCard(String content,String money, Integer type,String category){
+     this.content =content;
+     this.money =money;
+     this.type =type;
+     this.category =category;
     }
 }

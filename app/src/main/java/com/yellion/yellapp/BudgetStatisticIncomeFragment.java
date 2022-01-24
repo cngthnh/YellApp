@@ -125,7 +125,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
                     public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
                         Log.w("GetTransaction", "onResponse: " + response);
                         if (response.isSuccessful()) {
-                            if (response.body().getAmount() >= 0)
+                            if (response.body().getType() >= 0)
                                 list.add(response.body());
                             transactionsAdapter.notifyDataSetChanged();
                         } else {

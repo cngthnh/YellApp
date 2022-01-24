@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.yellion.yellapp.adapters.TransactionsAdapter;
 import com.yellion.yellapp.databinding.FragmentBudgetStatisticOutcomeBinding;
-import com.yellion.yellapp.databinding.FragmentBudgetsBinding;
 import com.yellion.yellapp.models.BudgetCard;
 import com.yellion.yellapp.models.ErrorMessage;
 import com.yellion.yellapp.models.TransactionCard;
@@ -132,7 +131,7 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
                             public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
                                 Log.w("GetTransaction", "onResponse: " + response);
                                 if (response.isSuccessful()) {
-                                    if (response.body().getAmount() < 0)
+                                    if (response.body().getType() < 0)
                                         list.add(response.body());
                                     transactionsAdapter.notifyDataSetChanged();
                                 } else {
