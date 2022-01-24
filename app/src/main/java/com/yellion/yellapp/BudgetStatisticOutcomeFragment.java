@@ -2,6 +2,7 @@ package com.yellion.yellapp;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,8 +39,9 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
     ApiService service;
     SessionManager sessionManager;
 
-    public BudgetStatisticOutcomeFragment(BudgetCard budgetCard) {
+    public BudgetStatisticOutcomeFragment(BudgetCard budgetCard, SessionManager sessionManager) {
         this.budgetCard=budgetCard;
+        this.sessionManager = sessionManager;
     }
 
     @Override
@@ -66,29 +68,25 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getFragmentManager() != null){
-                    getFragmentManager().popBackStack();
-                }
+                if (getActivity() != null)
+                    getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         binding.tn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.remove(BudgetStatisticOutcomeFragment.this);
-                transaction.replace(R.id.budgets_fragment, new BudgetStatisticIncomeFragment(budgetCard)).addToBackStack(null);
-
-                transaction.commit();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                BudgetStatisticIncomeFragment budgetStatisticIncomeFragment = new BudgetStatisticIncomeFragment(budgetCard, sessionManager);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticIncomeFragment).addToBackStack(null).commit();
             }
         });
 
         binding.btnLS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.remove(BudgetStatisticOutcomeFragment.this);
-                transaction.commit();
-
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard, sessionManager);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).addToBackStack(null).commit();
             }
         });
 
@@ -102,16 +100,6 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         transactionsAdapter.notifyDataSetChanged();
         binding.recycleViewOutcome.setVisibility(View.VISIBLE);
         binding.recycleViewOutcome.setAdapter(transactionsAdapter);
-        binding.btnLS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.budgets_fragment, new BudgetsFragment(budgetCard,sessionManager)).addToBackStack(null);
-                transaction.commit();
-
-
-            }
-        });
 
         return view;
     }

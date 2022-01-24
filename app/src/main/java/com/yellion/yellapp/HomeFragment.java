@@ -11,8 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.yellion.yellapp.adapters.BudgetsHomeAdapter;
 import com.yellion.yellapp.adapters.DashboardsHomeAdapter;
 import com.yellion.yellapp.databinding.FragmentHomeBinding;
+import com.yellion.yellapp.models.BudgetCard;
 import com.yellion.yellapp.models.DashboardCard;
 import com.yellion.yellapp.models.UserAccount;
 import com.yellion.yellapp.utils.ApiService;
@@ -31,6 +33,10 @@ public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     DashboardsHomeAdapter dashboardsHomeAdapter = null;
     List<DashboardCard> list;
+
+    BudgetsHomeAdapter budgetsHomeAdapter = null;
+    List<BudgetCard> list2;
+
     SessionManager sessionManager;
     ApiService service;
 
@@ -54,10 +60,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,listBudgetsFragment).addToBackStack(null).commit();
-                binding.highlightCard.setVisibility(View.GONE);
-                ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,dashboardsFragment, "LIST_DASHBOARD").addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,listBudgetsFragment).addToBackStack(null).commit();
             }
         });
 
@@ -89,9 +92,21 @@ public class HomeFragment extends Fragment {
         binding.dashboardPreviewList.setVisibility(View.VISIBLE);
         binding.dashboardPreviewList.setAdapter(dashboardsHomeAdapter);
 
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity(),  LinearLayoutManager.HORIZONTAL, false);
+        binding.budgetPreView.setLayoutManager(layoutManager2);
+        budgetsHomeAdapter = new BudgetsHomeAdapter(getContext(), sessionManager);
+        list2 = new ArrayList<>();
+        getListBudgetFromServer();
+        budgetsHomeAdapter.setData(list2);
+        budgetsHomeAdapter.notifyDataSetChanged();
+        binding.budgetPreView.setVisibility(View.VISIBLE);
+        binding.budgetPreView.setAdapter(budgetsHomeAdapter);
 
 
         return view;
+    }
+
+    private void getListBudgetFromServer() {
     }
 
     private void getListDashboardFromServer() {
@@ -105,7 +120,9 @@ public class HomeFragment extends Fragment {
                     Log.w("YellGetListDashboard", "onResponse: " + response);
                     if (response.isSuccessful()) {
                         List<String> dashboards = response.body().getDashboards();
+                        List<String> budgets = response.body().getBudgets();
                         getListDashboard(dashboards);
+                        getListBudget(budgets);
                     }
                 }
                 @Override
@@ -113,6 +130,31 @@ public class HomeFragment extends Fragment {
                     Log.w("YellGetListDashboard", "onFailure: " + t.getMessage() );
                 }
             });
+        }
+    }
+
+    private void getListBudget(List<String> budgets) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<BudgetCard> call;
+
+        for (int i = 0; i < budgets.size(); i++)
+        {
+            call = service.getBudget(budgets.get(i), "full");
+            call.enqueue(new Callback<BudgetCard>() {
+                @Override
+                public void onResponse(Call<BudgetCard> call, Response<BudgetCard> response) {
+                    Log.w("YellGetDashboard", "onResponse: " + response);
+                    if (response.isSuccessful()) {
+                        list2.add(response.body());
+                        budgetsHomeAdapter.notifyDataSetChanged();
+                    }
+                }
+                @Override
+                public void onFailure(Call<BudgetCard> call, Throwable t) {
+                    Log.w("YellGetDashboard", "onFailure: " + t.getMessage() );
+                }
+            });
+
         }
     }
 

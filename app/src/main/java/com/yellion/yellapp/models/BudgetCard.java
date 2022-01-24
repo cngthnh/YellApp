@@ -16,6 +16,7 @@ public class BudgetCard {
     public Integer type;
     @Json(name = "budget_id")
     public String id;
+    @Json(name = "transactions")
     public List<String> transactions;
     public String updated_at;
 

@@ -49,8 +49,9 @@ public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsV
     ApiService service;
     Moshi moshi = new Moshi.Builder().build();
 
-    public BudgetsAdapter(Context mContext) {
+    public BudgetsAdapter(Context mContext, SessionManager sessionManager) {
         this.mContext = mContext;
+        this.sessionManager = sessionManager;
     }
 
     public void setData(List<BudgetCard> mListBudget) {
@@ -85,8 +86,7 @@ public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsV
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets,budgetsFragment).addToBackStack(null).commit();
-            }
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).addToBackStack(null).commit();            }
         });
 
 

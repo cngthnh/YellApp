@@ -20,6 +20,32 @@
         <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_dashboard.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/Yell/app/src/main/res/layout/item_user.xml" value="0.2" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/bg_item_user.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/bnv_item_foreground_color.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/frame_cover_item_dashboard.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/frame_cover_item_task_green.xml" value="0.21875" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/ic_delete.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/ic_delete_1.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/ic_dollar.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/ic_done.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/ic_question.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/ic_settings.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/drawable/ic_shopping.xml" value="0.3728205128205128" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_budget_statistic_income.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_budget_statistic_outcome.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_budgets.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_create_transaction.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_home.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_list_dashboards.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_task.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/fragment_transaction_category.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/item_budget.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/item_budget_home.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/item_dashboard.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/item_dashboard_home.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/item_transition.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/FinalYell/YellApp/app/src/main/res/layout/transaction_category.xml" value="0.3625" />
         <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/fram_topbar.xml" value="0.3546875" />
         <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/frame_cover_item_budget.xml" value="0.1921875" />
         <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/drawable/frame_cover_item_dashboard.xml" value="0.3546875" />
@@ -62,6 +88,7 @@
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

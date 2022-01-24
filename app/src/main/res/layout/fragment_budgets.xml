@@ -46,12 +46,13 @@
                     <TextView
                         android:focusable="false"
                         android:id="@+id/name_bg"
+                        android:gravity="center"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Tên sổ tay"
                         android:fontFamily="@font/roboto_bold"
                         android:textSize="26dp"
-                        android:textColor="@color/black"
                         android:inputType="textMultiLine|textNoSuggestions"/>
                 </LinearLayout>
                 <ImageView
@@ -82,12 +83,14 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Số dư hiện tại"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                     <TextView
                         android:id="@+id/id_balance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
                         android:text="20000000"
                         android:textSize="33sp" />
                     <TextView

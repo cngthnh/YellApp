@@ -42,6 +42,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:layout_weight="4">
                     <TextView
                         android:id="@+id/budgetName"
@@ -73,11 +74,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:layout_marginLeft="10dp"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
                         android:text="Số dư hiện tại"
                         android:textSize="16sp" />
                     <TextView
@@ -85,6 +88,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/black"
                         android:text="20000000"
                         android:textSize="33sp" />
                     <TextView

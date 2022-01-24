@@ -43,6 +43,9 @@ public class CreateBudget extends Fragment {
     SessionManager sessionManager;
     Moshi moshi = new Moshi.Builder().build();
     BudgetCard budgetCard;
+
+    public CreateBudget(){}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,17 +70,16 @@ public class CreateBudget extends Fragment {
                         || binding.thresholdInput.getText().toString().equals(""))
                     Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin",Toast.LENGTH_LONG).show();
 
-                else{
+                else {
                     budgetCard.setName(binding.budgetNameInput.getText().toString());
                     budgetCard.setBalance(Integer.parseInt(binding.balanceInput.getText().toString()));
                     budgetCard.setThreshold(Integer.parseInt(binding.thresholdInput.getText().toString()));
 
                     addBudgetToServer(budgetCard);
 
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.remove(CreateBudget.this);
-                    transaction.replace(R.id.create_budget_fragment, new ListBudgetsFragment()).addToBackStack(null);
-                    transaction.commit();}
+                    if (getActivity() != null)
+                        getActivity().getSupportFragmentManager().popBackStack();
+                }
             }
         });
 
@@ -126,12 +128,17 @@ public class CreateBudget extends Fragment {
 
                 Log.w("BudgetCreate", "onResponse: " + response);
                 if (response.isSuccessful()) {
-                    Toast.makeText(getContext(),"Tạo thành công!", Toast.LENGTH_LONG).show();
+                  /*  try {
+                        Toast.makeText(getContext(), "Tạo thành công", Toast.LENGTH_LONG).show();
+                    }
+                    catch (Exception e){
+                        Log.e("sus", e.toString());
+                    }*/
 
                 } else {
                     {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                        Toast.makeText(getContext(), "Tạo thất bại: " + apiError.getMessage(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getContext(), "Tạo thất bại: " + apiError.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             }

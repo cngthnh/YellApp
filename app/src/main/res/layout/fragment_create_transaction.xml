@@ -82,7 +82,7 @@
                     android:textColor="@color/black"
                     />
             </LinearLayout>
-            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            <RadioGroup
                 android:id="@+id/radio_category_ts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

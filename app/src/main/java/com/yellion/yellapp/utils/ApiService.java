@@ -129,6 +129,7 @@ public interface ApiService {
     Call<TransactionCard> getTransaction(@Query("transaction_id") String transactionID);
 
     @POST("transactions")
+    @Headers("Content-Type: application/json")
     Call<TransactionCard> addTransaction(@Body RequestBody body);
 
     @PATCH("transactions")

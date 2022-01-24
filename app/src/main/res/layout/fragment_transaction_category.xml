@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="30dp"
+    android:id="@+id/category"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
@@ -13,17 +15,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/radio_group_category">
+            android:id="@+id/radio_group_category"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+
+                >
                 <RadioButton android:id="@+id/radio_food"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ăn uống"
                     android:paddingBottom="15dp"
-                    android:layout_weight="0.9"/>
+                    android:layout_weight="0.9"
+
+                    />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -34,7 +42,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                >
                 <RadioButton android:id="@+id/radio_travel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -51,7 +61,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                >
                 <RadioButton android:id="@+id/radio_shopping"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,7 +80,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                >
                 <RadioButton android:id="@+id/radio_daily_use"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,7 +107,9 @@
                     android:layout_height="wrap_content"
                     android:text="Cà phê"
                     android:paddingBottom="15dp"
-                    android:layout_weight="0.9"/>
+                    android:layout_weight="0.9"
+                    android:layout_margin="10dp"
+                    />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,7 +119,9 @@
             </LinearLayout><LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            >
 
             <RadioButton android:id="@+id/radio_transport"
                 android:layout_width="wrap_content"

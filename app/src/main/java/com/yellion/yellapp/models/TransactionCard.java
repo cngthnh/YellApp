@@ -23,6 +23,10 @@ public class TransactionCard {
     public String getBudget_id() {
         return budget_id;
     }
+    public void setBudget_id(String budget_id) {
+        this.budget_id = budget_id;
+    }
+
     public String getCreated_at() {
         return created_at;
     }
@@ -38,7 +42,7 @@ public class TransactionCard {
     public int getAmount() {
         return amount;
     }
-    public void setAmount(String name) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
     public Integer getType() {

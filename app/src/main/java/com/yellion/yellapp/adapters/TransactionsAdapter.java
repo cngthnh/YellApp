@@ -72,7 +72,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         holder.nameTransaction.setText(transactionCard.content);
         holder.amount.setText(String.format("%d",transactionCard.type));
         holder.purpose.setText(transactionCard.purpose);
-        holder.time.setText(transactionCard.amount);
+        //holder.time.setText(transactionCard.amount);
 
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(1));
         holder.deleteLayout.setOnClickListener(new View.OnClickListener() {

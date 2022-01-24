@@ -1894,6 +1894,7 @@ drawable material_ic_keyboard_arrow_previous_black_24dp
 drawable material_ic_keyboard_arrow_right_black_24dp
 drawable material_ic_menu_arrow_down_black_24dp
 drawable material_ic_menu_arrow_up_black_24dp
+drawable money
 drawable mtrl_dialog_background
 drawable mtrl_dropdown_arrow
 drawable mtrl_ic_arrow_drop_down
@@ -2063,6 +2064,7 @@ id budgetIncome
 id budgetName
 id budgetNameInput
 id budgetOutCome
+id budgetPreView
 id budgets_fragment
 id buttonPanel
 id cache_measures
@@ -2076,6 +2078,7 @@ id cancel_delete_db
 id cancel_delete_ts
 id cancel_edit_db
 id carryVelocity
+id category
 id category_icon_ts
 id category_ts
 id category_ts_layout
@@ -2267,12 +2270,14 @@ id invite
 id inward
 id italic
 id item
+id item_budget_home
 id item_layout
 id item_layout_home
 id item_touch_helper_previous_elevation
 id jumpToEnd
 id jumpToStart
 id label
+id label_bg_home
 id label_db
 id label_db_home
 id labeled
@@ -2354,6 +2359,7 @@ id mtrl_view_tag_bottom_padding
 id multiply
 id nameInput
 id name_bg
+id name_bg_home_item
 id name_bg_item
 id name_db_home_item
 id name_db_item
@@ -2715,6 +2721,7 @@ layout fragment_task
 layout fragment_transaction_category
 layout icon_item
 layout item_budget
+layout item_budget_home
 layout item_dashboard
 layout item_dashboard_home
 layout item_file

@@ -1,7 +1,6 @@
 package com.yellion.yellapp;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,7 +64,7 @@ public class BudgetsFragment extends Fragment {
         binding = FragmentBudgetsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         binding.nameBg.setText(budgetCard.name);
-        binding.idBalance.setText(String.format("%d", budgetCard.balance));
+        binding.idBalance.setText(String.valueOf(budgetCard.getBalance()));
         binding.idCreateDate.setText(budgetCard.created_at);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recyclerViewTransaction.setLayoutManager(layoutManager);
@@ -80,8 +79,9 @@ public class BudgetsFragment extends Fragment {
         binding.backListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getFragmentManager() != null) {
-                    getFragmentManager().popBackStack();
+                if (getActivity() != null)
+                {
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
@@ -89,21 +89,19 @@ public class BudgetsFragment extends Fragment {
         binding.addTransactionBg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putBundle("budgetCard", savedInstanceState);
+
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                CreateTransactionFragment createTransactionFragment = new CreateTransactionFragment();
-                createTransactionFragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets, createTransactionFragment).addToBackStack(null).commit();
+                CreateTransactionFragment createTransactionFragment = new CreateTransactionFragment(budgetCard, sessionManager);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,createTransactionFragment).addToBackStack(null).commit();
             }
         });
         binding.idBtnStatistic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.budgets_fragment, new BudgetStatisticIncomeFragment(budgetCard)).addToBackStack(null);
-                transaction.commit();
 
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                BudgetStatisticIncomeFragment budgetStatisticIncomeFragment = new BudgetStatisticIncomeFragment(budgetCard, sessionManager);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticIncomeFragment).addToBackStack(null).commit();
 
             }
         });
@@ -112,12 +110,6 @@ public class BudgetsFragment extends Fragment {
 
 
     private void getListTransactionsFromServer() {
-        list.add(new TransactionCard("thuy", 1, 1000000000, "Salary"));
-        list.add(new TransactionCard("thien", 1, 1000000000, "Salary"));
-        list.add(new TransactionCard("thu", 1, 1000000000, "Salary"));
-        list.add(new TransactionCard("du", 1, 1000000000, "Salary"));
-        list.add(new TransactionCard("h", 1, 1000000000, "Salary"));
-
 
         if (budgetCard.getTransactionsList() != null) {
             List<String> listId = budgetCard.getTransactionsList();
@@ -137,6 +129,7 @@ public class BudgetsFragment extends Fragment {
                 Log.w("YellGetTransaction", "onResponse: " + response);
                 if (response.isSuccessful()) {
                     list.add((response.body()));
+                    transactionsAdapter.notifyDataSetChanged();
                 } else {
                     ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
                     Toast.makeText(getContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
@@ -157,9 +150,14 @@ public class BudgetsFragment extends Fragment {
         SessionManager sessionManager;
         ApiService service;
         Moshi moshi = new Moshi.Builder().build();
+        BudgetCard budgetCard;
+        TransactionCard transactionCard;
+
         static String category="other";
 
-        public CreateTransactionFragment() {
+        public CreateTransactionFragment(BudgetCard budgetCard, SessionManager sessionManager) {
+            this.budgetCard = budgetCard;
+            this.sessionManager = sessionManager;
         }
 
         @Override
@@ -167,21 +165,18 @@ public class BudgetsFragment extends Fragment {
             super.onCreate(savedInstanceState);
         }
 
-        TransactionCard transactionCard;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             binding_ts = FragmentCreateTransactionBinding.inflate(inflater, container, false);
             View view = binding_ts.getRoot();
-            sessionManager = SessionManager.getInstance(getActivity().
-                    getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
             binding_ts.btnSaveTs.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View v) {
-//                    binding.budgetsFragment.setVisibility(View.INVISIBLE);
-                    //Lấy data từ View nữa-cả Radio Button
+                    transactionCard = new TransactionCard();
+
                     String InOutCome;
                     RadioGroup radioGroup;
                     RadioButton radioButton;
@@ -189,33 +184,39 @@ public class BudgetsFragment extends Fragment {
                     int selectedId = radioGroup.getCheckedRadioButtonId();
                     radioButton = (RadioButton) view.findViewById(selectedId);
                     InOutCome=radioButton.getText().toString();
-                    //
-                    TransactionCard transactionCard = new TransactionCard(InOutCome, 1, 1, category);
-//                    "category",java.util.Calendar.getInstance().getTime().toString(),Integer.parseInt(binding_ts.addAmountTs.getText().toString()),binding_ts.categoryTs.getText().toString()
-                    list.add(transactionCard);
-                    createTransactionFromServer(transactionCard);
-                    transactionsAdapter.setData(list);
-                    transactionsAdapter.notifyDataSetChanged();
-                    binding.recyclerViewTransaction.setAdapter(transactionsAdapter);
+                    switch (InOutCome){
+                        case "Thu nhập": transactionCard.setType(1);
+                        case "Chi tiêu": transactionCard.setType(0);
+
+                    }
+                    transactionCard.setContent(binding_ts.addContentTs.getText().toString());
+                    transactionCard.setBudget_id(budgetCard.getId());
+                    transactionCard.setAmount(Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
+                    transactionCard.setPurpose("Ăn uống");
+
+                    addTransactionToServer(transactionCard);
+
                     binding_ts.addTransactionFragment.setVisibility(View.GONE);
-//                    binding.budgetsFragment.setVisibility(View.VISIBLE);
+                    transactionsAdapter.notifyDataSetChanged();
+                    if (getActivity() != null)
+                        getActivity().getSupportFragmentManager().popBackStack();
                 }
             });
             binding_ts.categoryTsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TransactionCategoryFragment transactionCategoryFragment = new TransactionCategoryFragment();
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.add_transaction_fragment,transactionCategoryFragment).addToBackStack(null);
-                    transaction.commit();
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,transactionCategoryFragment).addToBackStack(null).commit();
                 }
             });
             return view;
         }
 
-        private void createTransactionFromServer(TransactionCard transactionCard) {
+        private void addTransactionToServer(TransactionCard transactionCard) {
             service = Client.createServiceWithAuth(ApiService.class, sessionManager);
             Call<TransactionCard> call;
+            String transID;
 
             String json = moshi.adapter(TransactionCard.class).toJson(transactionCard);
             RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
@@ -225,12 +226,11 @@ public class BudgetsFragment extends Fragment {
                 public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
                     Log.w("YellCreateTransaction", "onResponse: " + response);
                     if (response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Tạo thành công!", Toast.LENGTH_LONG).show();
-
+                        //Toast.makeText(getActivity(), "Tạo thành công!", Toast.LENGTH_LONG).show();
                     } else {
                         {
                             ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                            Toast.makeText(getContext(), "Tạo thất bại! " + apiError.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Tạo thất bại! " + apiError.getMessage(), Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -254,15 +254,13 @@ public class BudgetsFragment extends Fragment {
             @Override
             public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                addListenerOnButton();
+
             }
 
             private void addListenerOnButton() {
                 radioGroup = binding_ct.radioGroupCategory;
                 btnSave = binding_ct.btnSaveCategory;
-
                 btnSave.setOnClickListener(new View.OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
                         // get selected radio button from radioGroup
@@ -278,7 +276,11 @@ public class BudgetsFragment extends Fragment {
             public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState) {
                 binding_ct = FragmentTransactionCategoryBinding.inflate(inflater, container,false);
-                View view = binding.getRoot();
+                View view = binding_ct.getRoot();
+
+                addListenerOnButton();
+
+
                 return view;
             }
         }
