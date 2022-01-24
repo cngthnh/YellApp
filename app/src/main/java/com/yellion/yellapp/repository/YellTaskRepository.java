@@ -40,6 +40,7 @@ public class YellTaskRepository {
         sessionManager = SessionManager.getInstance(sharedPreferences);
         service = Client.createService(ApiService.class);
         YellTaskResponseLiveData = new MutableLiveData<>();
+        taskId = new MutableLiveData<>();
     }
 
     public void getTaskFromServer(String taskId) {

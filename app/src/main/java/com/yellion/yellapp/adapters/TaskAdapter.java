@@ -87,7 +87,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         yellTask.getDashboard_id(), yellTask.getTask_id(), parentName);
                 activity.getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
-                                android.R.anim.slide_in_left, android.R.anim.cycle_interpolator)
+                                android.R.anim.slide_in_left, android.R.anim.fade_out)
                         .replace(R.id.fragmentContainer, fragment)
                         .addToBackStack(null)
                         .commit();
