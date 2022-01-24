@@ -59,7 +59,10 @@ public class ListBudgetsFragment extends Fragment {
 
         budgetsAdapter = new BudgetsAdapter(getContext());
         list = new ArrayList<>();
+
+        getListIdBudget();
         getListBudgetsFromServer();
+
         budgetsAdapter.setData(list);
         budgetsAdapter.notifyDataSetChanged();
         binding.recycleView.setVisibility(View.VISIBLE);
@@ -90,16 +93,6 @@ public class ListBudgetsFragment extends Fragment {
         return view;
     }
 
-
-    //
-//    private void getListBudgetsFromServer() {
-//        list.add(new BudgetCard("1",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-//        list.add(new BudgetCard("2",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-//        list.add(new BudgetCard("3",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-//        list.add(new BudgetCard("4",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-//        list.add(new BudgetCard("5",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
-//
-//    }
     private void getListIdBudget() {
         listIdBudget = new ArrayList<>();
         for (int i = 0; i < list.size(); ++i)
@@ -117,8 +110,9 @@ public class ListBudgetsFragment extends Fragment {
                 public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
                     Log.w("YellBudgetGet", "onResponse: " + response);
                     if (response.isSuccessful()) {
-                        List<String> budgets = response.body().getBudgets();
-                        getListBudget(budgets);
+
+                        getListBudget(response.body().getBudgets());
+
                     } else {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
                         Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
@@ -131,14 +125,14 @@ public class ListBudgetsFragment extends Fragment {
                 }
             });
         }
-        //test
-        list.add(new BudgetCard("1",20000,20000,1 ));
     }
     private void getListBudget(List<String> budget){
-        for (int i = 0; i < budget.size(); ++i) {
-            if (!listIdBudget.contains(budget.get(i)))
-                getBudgetFromServer(budget.get(i));
-        }
+        if (budget.size() != 0){
+            for (int i = 0; i < budget.size(); ++i) {
+                if (!listIdBudget.contains(budget.get(i)))
+                    getBudgetFromServer(budget.get(i));
+            }}
+
     }
 
     private void getBudgetFromServer(String id) {

@@ -76,8 +76,20 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.budgetOutCome, new BudgetStatisticIncomeFragment(budgetCard)).addToBackStack(null);
+                transaction.remove(BudgetStatisticOutcomeFragment.this);
+                transaction.replace(R.id.budgets_fragment, new BudgetStatisticIncomeFragment(budgetCard)).addToBackStack(null);
+
                 transaction.commit();
+            }
+        });
+
+        binding.LS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.remove(BudgetStatisticOutcomeFragment.this);
+                transaction.commit();
+
             }
         });
 

@@ -43,16 +43,19 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="4">
+
                     <TextView
-                        android:focusable="false"
                         android:id="@+id/name_bg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tên sổ tay"
+                        android:focusable="false"
                         android:fontFamily="@font/roboto_bold"
-                        android:textSize="26dp"
+                        android:inputType="textMultiLine|textNoSuggestions"
+                        android:text="Tên sổ tay"
+                        android:layout_gravity="left|center_vertical"
+
                         android:textColor="@color/black"
-                        android:inputType="textMultiLine|textNoSuggestions"/>
+                        android:textSize="26dp" />
                 </LinearLayout>
                 <ImageView
                     android:id="@+id/add_transaction_bg"
@@ -77,12 +80,14 @@
                     android:layout_weight="2"
                     android:orientation="vertical"
                     android:layout_marginLeft="10dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Số dư hiện tại"
                         android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/id_balance"
                         android:layout_width="match_parent"
@@ -132,8 +137,12 @@
                 android:id="@+id/formContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
                 app:cardCornerRadius="30dp"
-                app:contentPaddingBottom="10dp"
+                app:contentPaddingBottom="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:layout_editor_absoluteX="16dp"
                 android:layout_margin="10dp">

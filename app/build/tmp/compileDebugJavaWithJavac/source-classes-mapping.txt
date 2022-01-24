@@ -1,11 +1,7 @@
 com/yellion/yellapp/databinding/ActivityLoginBinding.java
  com.yellion.yellapp.databinding.ActivityLoginBinding
-com/yellion/yellapp/CreateBudget.java
- com.yellion.yellapp.CreateBudget
- com.yellion.yellapp.CreateBudget$1
- com.yellion.yellapp.CreateBudget$2
- com.yellion.yellapp.CreateBudget$3
- com.yellion.yellapp.CreateBudget$4
+com/yellion/yellapp/databinding/FragmentHomeBinding.java
+ com.yellion.yellapp.databinding.FragmentHomeBinding
 com/yellion/yellapp/utils/ApiService.java
  com.yellion.yellapp.utils.ApiService
 com/yellion/yellapp/models/EmailConfirmation.java
@@ -15,28 +11,32 @@ com/yellion/yellapp/BudgetStatisticOutcomeFragment.java
  com.yellion.yellapp.BudgetStatisticOutcomeFragment$1
  com.yellion.yellapp.BudgetStatisticOutcomeFragment$2
  com.yellion.yellapp.BudgetStatisticOutcomeFragment$3
+ com.yellion.yellapp.BudgetStatisticOutcomeFragment$4
 com/yellion/yellapp/databinding/TransactionCategoryBinding.java
  com.yellion.yellapp.databinding.TransactionCategoryBinding
-com/yellion/yellapp/ListBudgetsFragment.java
- com.yellion.yellapp.ListBudgetsFragment
- com.yellion.yellapp.ListBudgetsFragment$1
- com.yellion.yellapp.ListBudgetsFragment$2
- com.yellion.yellapp.ListBudgetsFragment$3
- com.yellion.yellapp.ListBudgetsFragment$4
+com/yellion/yellapp/BudgetsFragment.java
+ com.yellion.yellapp.BudgetsFragment
+ com.yellion.yellapp.BudgetsFragment$1
+ com.yellion.yellapp.BudgetsFragment$2
+ com.yellion.yellapp.BudgetsFragment$3
+ com.yellion.yellapp.BudgetsFragment$4
+ com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment
+ com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$1
+ com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$2
 com/yellion/yellapp/databinding/DialogDeleteTransactionBinding.java
  com.yellion.yellapp.databinding.DialogDeleteTransactionBinding
 com/yellion/yellapp/databinding/FragmentBudgetsBinding.java
  com.yellion.yellapp.databinding.FragmentBudgetsBinding
 com/yellion/yellapp/databinding/DialogDeleteBudgetBinding.java
  com.yellion.yellapp.databinding.DialogDeleteBudgetBinding
-com/yellion/yellapp/HomeFragment.java
- com.yellion.yellapp.HomeFragment
- com.yellion.yellapp.HomeFragment$1
+com/yellion/yellapp/databinding/FragmentCreateBudgetBinding.java
+ com.yellion.yellapp.databinding.FragmentCreateBudgetBinding
 com/yellion/yellapp/BudgetStatisticIncomeFragment.java
  com.yellion.yellapp.BudgetStatisticIncomeFragment
  com.yellion.yellapp.BudgetStatisticIncomeFragment$1
  com.yellion.yellapp.BudgetStatisticIncomeFragment$2
  com.yellion.yellapp.BudgetStatisticIncomeFragment$3
+ com.yellion.yellapp.BudgetStatisticIncomeFragment$4
 com/yellion/yellapp/models/UserAccount.java
  com.yellion.yellapp.models.UserAccount
 com/yellion/yellapp/utils/Client.java
@@ -59,8 +59,8 @@ com/yellion/yellapp/AccountFragment.java
  com.yellion.yellapp.AccountFragment$1
  com.yellion.yellapp.AccountFragment$1$1
  com.yellion.yellapp.AccountFragment$2
-com/yellion/yellapp/MainActivity.java
- com.yellion.yellapp.MainActivity
+com/yellion/yellapp/models/TokenPair.java
+ com.yellion.yellapp.models.TokenPair
 com/yellion/yellapp/databinding/FragmentBudgetStatisticIncomeBinding.java
  com.yellion.yellapp.databinding.FragmentBudgetStatisticIncomeBinding
 com/yellion/yellapp/databinding/FragmentCreateTransactionBinding.java
@@ -125,18 +125,20 @@ com/yellion/yellapp/models/ErrorMessage.java
  com.yellion.yellapp.models.ErrorMessage
 com/yellion/yellapp/databinding/TestBinding.java
  com.yellion.yellapp.databinding.TestBinding
-com/yellion/yellapp/databinding/FragmentCreateBudgetBinding.java
- com.yellion.yellapp.databinding.FragmentCreateBudgetBinding
-com/yellion/yellapp/BudgetsFragment.java
- com.yellion.yellapp.BudgetsFragment
- com.yellion.yellapp.BudgetsFragment$1
- com.yellion.yellapp.BudgetsFragment$2
- com.yellion.yellapp.BudgetsFragment$3
- com.yellion.yellapp.BudgetsFragment$4
- com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment
- com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$1
- com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$2
-com/yellion/yellapp/models/TokenPair.java
- com.yellion.yellapp.models.TokenPair
-com/yellion/yellapp/databinding/FragmentHomeBinding.java
- com.yellion.yellapp.databinding.FragmentHomeBinding
+com/yellion/yellapp/CreateBudget.java
+ com.yellion.yellapp.CreateBudget
+ com.yellion.yellapp.CreateBudget$1
+ com.yellion.yellapp.CreateBudget$2
+ com.yellion.yellapp.CreateBudget$3
+ com.yellion.yellapp.CreateBudget$4
+com/yellion/yellapp/MainActivity.java
+ com.yellion.yellapp.MainActivity
+com/yellion/yellapp/ListBudgetsFragment.java
+ com.yellion.yellapp.ListBudgetsFragment
+ com.yellion.yellapp.ListBudgetsFragment$1
+ com.yellion.yellapp.ListBudgetsFragment$2
+ com.yellion.yellapp.ListBudgetsFragment$3
+ com.yellion.yellapp.ListBudgetsFragment$4
+com/yellion/yellapp/HomeFragment.java
+ com.yellion.yellapp.HomeFragment
+ com.yellion.yellapp.HomeFragment$1
