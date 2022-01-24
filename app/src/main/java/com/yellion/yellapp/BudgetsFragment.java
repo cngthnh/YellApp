@@ -112,11 +112,11 @@ public class BudgetsFragment extends Fragment {
 
 
     private void getListTransactionsFromServer() {
-        list.add(new TransactionCard("thuy", "21/01/2021", 1000000000, "Salary"));
-        list.add(new TransactionCard("thien", "21/01/2021", 1000000000, "Salary"));
-        list.add(new TransactionCard("thu", "21/01/2021", 1000000000, "Salary"));
-        list.add(new TransactionCard("du", "21/01/2021", 1000000000, "Salary"));
-        list.add(new TransactionCard("h", "21/01/2021", 1000000000, "Salary"));
+        list.add(new TransactionCard("thuy", 1, 1000000000, "Salary"));
+        list.add(new TransactionCard("thien", 1, 1000000000, "Salary"));
+        list.add(new TransactionCard("thu", 1, 1000000000, "Salary"));
+        list.add(new TransactionCard("du", 1, 1000000000, "Salary"));
+        list.add(new TransactionCard("h", 1, 1000000000, "Salary"));
 
 
         if (budgetCard.getTransactionsList() != null) {
@@ -190,7 +190,7 @@ public class BudgetsFragment extends Fragment {
                     radioButton = (RadioButton) view.findViewById(selectedId);
                     InOutCome=radioButton.getText().toString();
                     //
-                    TransactionCard transactionCard = new TransactionCard("a", InOutCome, 1, category);
+                    TransactionCard transactionCard = new TransactionCard(InOutCome, 1, 1, category);
 //                    "category",java.util.Calendar.getInstance().getTime().toString(),Integer.parseInt(binding_ts.addAmountTs.getText().toString()),binding_ts.categoryTs.getText().toString()
                     list.add(transactionCard);
                     createTransactionFromServer(transactionCard);

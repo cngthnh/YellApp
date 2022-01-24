@@ -3,29 +3,43 @@ package com.yellion.yellapp.models;
 import com.squareup.moshi.Json;
 
 public class TransactionCard {
+    @Json(name = "budget_id")
+    public String budget_id;
+    @Json(name = "tran_id")
+    public String tran_id;
     @Json(name = "content")
     public String content;
-    @Json(name = "money")
-    public String money;
+    @Json(name = "amount")
+    public int amount;
     @Json(name = "type")
     public Integer type;
-    @Json(name = "category")
-    public String category;
+    @Json(name = "purpose")
+    public String purpose;
+    @Json(name = "created_at")
+    public String created_at;
 
     public TransactionCard() {
     }
-
+    public String getBudget_id() {
+        return budget_id;
+    }
+    public String getCreated_at() {
+        return created_at;
+    }
+    public String getTran_id() {
+        return tran_id;
+    }
     public String getContent() {
         return content;
     }
     public void setContent(String content) {
         this.content = content;
     }
-    public String getMoney() {
-        return money;
+    public int getAmount() {
+        return amount;
     }
-    public void setMoney(String name) {
-        this.money = money;
+    public void setAmount(String name) {
+        this.amount = amount;
     }
     public Integer getType() {
         return type;
@@ -33,16 +47,26 @@ public class TransactionCard {
     public void setType(Integer type) {
         this.type = type;
     }
-    public String getCategory() {
-        return category;
+    public String getPurpose() {
+        return purpose;
     }
-    public void setCategory(String category) {
-        this.category = category;
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
-    public TransactionCard(String content,String money, Integer type,String category){
+
+    public TransactionCard(String content,int amount, Integer type,String purpose){
      this.content =content;
-     this.money =money;
+     this.amount =amount;
      this.type =type;
-     this.category =category;
+     this.purpose =purpose;
+    }
+    public TransactionCard(String budget_id,String tran_id,String content,int amount,int type,String purpose,String created_at){
+        this.budget_id=budget_id;
+        this.tran_id=tran_id;
+        this.content=content;
+        this.amount=amount;
+        this.type=type;
+        this.purpose=purpose;
+        this.created_at=created_at;
     }
 }
