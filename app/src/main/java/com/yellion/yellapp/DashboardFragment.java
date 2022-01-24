@@ -201,13 +201,12 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-
         yellTaskAdapter = new TaskAdapter(getActivity());
+
         getListTaskFromServer();
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity());
         binding.listTasks.setLayoutManager(layoutManager2);
         binding.listTasks.setAdapter(yellTaskAdapter);
-
 
         binding.fabDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,11 +311,33 @@ public class DashboardFragment extends Fragment {
     }
 
     private void getListTaskFromServer() {
-        if(dashboardCard.getTasks() == null)
-            return;
-        for(int i = 0; i < dashboardCard.getTasks().size(); i++){
-            yellTaskAdapter.addYellTask(dashboardCard.getTasks().get(i));
-        }
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<DashboardCard> call;
+
+        call = service.getDashboard(dashboardCard.getId(), "full");
+        call.enqueue(new Callback<DashboardCard>() {
+            @Override
+            public void onResponse(Call<DashboardCard> call, Response<DashboardCard> response) {
+                Log.w("YellGetDashboard", "onResponse: " + response);
+                if (response.isSuccessful()) {
+                    dashboardCard = response.body();
+                    if(dashboardCard.getTasks() == null)
+                        return;
+                    for(int i = 0; i < dashboardCard.getTasks().size(); i++){
+                        yellTaskAdapter.addYellTask(dashboardCard.getTasks().get(i));
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<DashboardCard> call, Throwable t) {
+                Log.w("YellGetDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
+    }
+
+    private void setDashboard(int i, YellTask body) {
+        dashboardCard.getTasks().set(i ,body);
+        yellTaskAdapter.notifyDataSetChanged();
     }
 
     private void addTaskToServer(YellTask yellTask) {
