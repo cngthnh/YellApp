@@ -17,10 +17,13 @@
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="@color/orange"
         >
-        <TextView
+        <ImageView
             android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:text="Xoá"
+            android:src="@drawable/ic_delete"
+            android:scaleY="0.6"
+            android:scaleX="0.6"
+            app:tint="@color/white"
             android:gravity="center"
             android:layout_gravity="center_vertical"
             />

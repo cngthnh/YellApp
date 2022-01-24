@@ -14,6 +14,8 @@ public class DashboardCard {
     public String description;
     @Json(name = "tasks")
     public List<YellTask> tasks;
+    @Json(name = "users")
+    public List<DashboardPermission> users;
 
 
 
@@ -21,11 +23,12 @@ public class DashboardCard {
         this.name = name;
     }
 
-    public DashboardCard(String id, String name, String description, List<YellTask> tasks) {
+    public DashboardCard(String id, String name, String description, List<YellTask> tasks, List<DashboardPermission> users) {
         this.id = id;
         this.name = name;
         //this.description = description;
         this.tasks = tasks;
+        this.users = users;
     }
 
     public String getId() {
@@ -58,5 +61,13 @@ public class DashboardCard {
 
     public void setTasks(List<YellTask> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<DashboardPermission> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<DashboardPermission> users) {
+        this.users = users;
     }
 }

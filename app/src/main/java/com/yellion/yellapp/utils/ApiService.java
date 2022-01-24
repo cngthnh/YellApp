@@ -1,10 +1,12 @@
 package com.yellion.yellapp.utils;
-
 import com.yellion.yellapp.models.DashboardCard;
 import com.yellion.yellapp.models.InfoMessage;
+import com.yellion.yellapp.models.Notification;
 import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.models.TokenPair;
 import com.yellion.yellapp.models.UserAccount;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -12,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
@@ -57,6 +60,33 @@ public interface ApiService {
     @PATCH("dashboards")
     @Headers("Content-Type: application/json")
     Call<InfoMessage> editDashboard(@Body RequestBody body);
+
+    @HTTP(method = "DELETE", path = "dashboards", hasBody = true)
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> deleteDashboard(@Body RequestBody body);
+
+    @POST("dashboards/permission")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> inviteSoToDashboard(@Body RequestBody body);
+
+    @GET("notifications")
+    Call<List<Notification>> getNotification(@Query("limit") String limit);
+
+    @POST("notifications/confirm")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> confirmInvited(@Body RequestBody body);
+
+    @HTTP(method = "DELETE", path = "notifications/confirm", hasBody = true)
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> rejectInvited(@Body RequestBody body);
+
+    @PATCH("notification/read")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> read(@Body RequestBody body);
+
+    @PATCH("notification/unread")
+    @Headers("Content-Type: application/json")
+    Call<InfoMessage> unread(@Body RequestBody body);
 
     @GET("tasks")
     Call<YellTask> getTask(@Query("task_id") String taskId);
