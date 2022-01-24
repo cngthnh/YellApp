@@ -35,6 +35,8 @@ public class YellTaskViewModel extends AndroidViewModel {
         yellTaskRepository.patchTaskToServer(yellTask);
     }
 
+    public void deleteTask(YellTask yellTask) {yellTaskRepository.deleteTaskToServer(yellTask);}
+
     public LiveData<YellTask> getYellTaskLiveData() {
         return yellTaskLiveData;
     }

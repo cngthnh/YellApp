@@ -278,7 +278,8 @@ public class TaskFragment extends Fragment {
                             .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    viewModel.deleteTask(currentYellTask);
+                                    getActivity().getSupportFragmentManager().popBackStack();
                                 }
                             })
                             .setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
