@@ -6,64 +6,70 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->D:\YellApp\app\src\main\AndroidManifest.xml
+8-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="31" />
-9-->D:\YellApp\app\src\main\AndroidManifest.xml
+9-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-11-->D:\YellApp\app\src\main\AndroidManifest.xml:5:5-79
-11-->D:\YellApp\app\src\main\AndroidManifest.xml:5:22-76
+11-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:5:5-79
+11-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:5:22-76
 12    <uses-permission android:name="android.permission.INTERNET" />
-12-->D:\YellApp\app\src\main\AndroidManifest.xml:6:5-67
-12-->D:\YellApp\app\src\main\AndroidManifest.xml:6:22-64
-13
-14    <application
-14-->D:\YellApp\app\src\main\AndroidManifest.xml:8:5-31:19
-15        android:allowBackup="true"
-15-->D:\YellApp\app\src\main\AndroidManifest.xml:9:9-35
-16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-16-->[androidx.core:core:1.5.0] D:\Android-pic\Icon\caches\transforms-3\255d63c0f9f8f5d12ab3191ffb377750\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
-17        android:debuggable="true"
-18        android:icon="@mipmap/ic_launcher"
-18-->D:\YellApp\app\src\main\AndroidManifest.xml:10:9-43
-19        android:label="@string/app_name"
-19-->D:\YellApp\app\src\main\AndroidManifest.xml:11:9-41
-20        android:roundIcon="@mipmap/ic_launcher_round"
-20-->D:\YellApp\app\src\main\AndroidManifest.xml:12:9-54
-21        android:supportsRtl="true"
-21-->D:\YellApp\app\src\main\AndroidManifest.xml:13:9-35
-22        android:theme="@style/Theme.YellApp" >
-22-->D:\YellApp\app\src\main\AndroidManifest.xml:14:9-45
-23        <activity
-23-->D:\YellApp\app\src\main\AndroidManifest.xml:15:9-17:39
-24            android:name="com.yellion.yellapp.RegisterActivity"
-24-->D:\YellApp\app\src\main\AndroidManifest.xml:16:13-45
-25            android:exported="true" />
-25-->D:\YellApp\app\src\main\AndroidManifest.xml:17:13-36
-26        <activity
-26-->D:\YellApp\app\src\main\AndroidManifest.xml:18:9-26:20
-27            android:name="com.yellion.yellapp.LoginActivity"
-27-->D:\YellApp\app\src\main\AndroidManifest.xml:19:13-42
-28            android:exported="true" >
-28-->D:\YellApp\app\src\main\AndroidManifest.xml:20:13-36
-29            <intent-filter>
-29-->D:\YellApp\app\src\main\AndroidManifest.xml:21:13-25:29
-30                <action android:name="android.intent.action.MAIN" />
-30-->D:\YellApp\app\src\main\AndroidManifest.xml:22:17-69
-30-->D:\YellApp\app\src\main\AndroidManifest.xml:22:25-66
-31
-32                <category android:name="android.intent.category.LAUNCHER" />
-32-->D:\YellApp\app\src\main\AndroidManifest.xml:24:17-77
-32-->D:\YellApp\app\src\main\AndroidManifest.xml:24:27-74
-33            </intent-filter>
-34        </activity>
-35        <activity
-35-->D:\YellApp\app\src\main\AndroidManifest.xml:27:9-30:20
-36            android:name="com.yellion.yellapp.MainActivity"
-36-->D:\YellApp\app\src\main\AndroidManifest.xml:28:13-41
-37            android:exported="true" >
-37-->D:\YellApp\app\src\main\AndroidManifest.xml:29:13-36
-38        </activity>
-39    </application>
-40
-41</manifest>
+12-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:6:5-67
+12-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:6:22-64
+13    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+13-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:7:5-79
+13-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:7:22-77
+14
+15    <application
+15-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:9:5-34:19
+16        android:allowBackup="true"
+16-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:10:9-35
+17        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+17-->[androidx.core:core:1.5.0] C:\Users\Huy\.gradle\caches\transforms-3\255d63c0f9f8f5d12ab3191ffb377750\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
+18        android:debuggable="true"
+19        android:icon="@mipmap/ic_launcher"
+19-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:11:9-43
+20        android:label="@string/app_name"
+20-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:12:9-41
+21        android:roundIcon="@mipmap/ic_launcher_round"
+21-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:13:9-54
+22        android:supportsRtl="true"
+22-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:14:9-35
+23        android:testOnly="true"
+24        android:theme="@style/Theme.YellApp" >
+24-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:15:9-45
+25        <activity
+25-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:16:9-18:39
+26            android:name="com.yellion.yellapp.RegisterActivity"
+26-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:17:13-45
+27            android:exported="true" />
+27-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:18:13-36
+28        <activity
+28-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:19:9-27:20
+29            android:name="com.yellion.yellapp.LoginActivity"
+29-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:20:13-42
+30            android:exported="true" >
+30-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:21:13-36
+31            <intent-filter>
+31-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:22:13-26:29
+32                <action android:name="android.intent.action.MAIN" />
+32-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:23:17-69
+32-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:23:25-66
+33
+34                <category android:name="android.intent.category.LAUNCHER" />
+34-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:25:17-77
+34-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:25:27-74
+35            </intent-filter>
+36        </activity>
+37        <activity
+37-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:28:9-33:20
+38            android:name="com.yellion.yellapp.MainActivity"
+38-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:29:13-41
+39            android:exported="true"
+39-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:30:13-36
+40            android:windowSoftInputMode="adjustPan" >
+40-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:31:13-52
+41        </activity>
+42    </application>
+43
+44</manifest>

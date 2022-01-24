@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         sessionManager = SessionManager.getInstance(getActivity().
                 getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
 
-        binding.viewAllDashboardsBtn.setOnClickListener(new View.OnClickListener() {
+
         binding.viewAllBudgetsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +67,14 @@ public class HomeFragment extends Fragment {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 NotificationFragment notificationFragment = new NotificationFragment();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,notificationFragment, "NOTIFICATION").addToBackStack(null).commit();
+            }
+        });
+        binding.viewAllDashboardsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,dashboardsFragment, "LIST_DASHBOARD").addToBackStack(null).commit();
             }
         });
 
