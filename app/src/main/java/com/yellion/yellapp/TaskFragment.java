@@ -101,13 +101,28 @@ public class TaskFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChanged(YellTask yellTask) {
-                if(loadingDialog!=null)
+                if (loadingDialog != null)
                     loadingDialog.dismissDialog();
                 currentYellTask = yellTask;
-                if (yellTask.getName() != null)
-                    binding.taskName.setText(yellTask.getName());
+                if (yellTask != null)
+                    if (yellTask.getName() != null)
+                        binding.taskName.setText(yellTask.getName());
                 if (currentYellTask.getEnd_time() != null)
                     binding.deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
+                if (currentYellTask.getPriority() != null) {
+                    if (currentYellTask.getPriority() == 2)
+                        binding.priorityTextView.setText("Thấp");
+                    else if (currentYellTask.getPriority() == 0)
+                        binding.priorityTextView.setText("Cao");
+                    else
+                        binding.priorityTextView.setText("Thường");
+                }
+            }
+        });
+        viewModel.getTaskIdLiveData().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                currentYellTask.setTask_id(s);
             }
         });
         yellTaskAdapter = new TaskAdapter(getActivity());
@@ -314,14 +329,6 @@ public class TaskFragment extends Fragment {
             }
         });
         AppCompatTextView priority = binding.priorityTextView;
-        if (currentYellTask.getPriority() != null) {
-            if (currentYellTask.getPriority() == 2)
-                priority.setText("Thấp");
-            else if (currentYellTask.getPriority() == 0)
-                priority.setText("Cao");
-            else
-                priority.setText("Thường");
-        }
         priority.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

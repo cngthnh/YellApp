@@ -32,6 +32,7 @@ public class YellTaskRepository {
     Application application;
     Moshi moshi = new Moshi.Builder().build();
     private MutableLiveData<YellTask> YellTaskResponseLiveData;
+    private MutableLiveData<String> taskId;
 
     public YellTaskRepository(Application application) {
         this.application = application;
@@ -68,6 +69,10 @@ public class YellTaskRepository {
         return YellTaskResponseLiveData;
     }
 
+    public MutableLiveData<String> getTaskIdLiveData() {
+        return taskId;
+    }
+
     public void addTaskToServer(YellTask yellTask) {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
         Call<YellTask> call;
@@ -79,7 +84,7 @@ public class YellTaskRepository {
                 Log.w("YellTaskCreate", "onResponse: " + response.body());
                 if (response.isSuccessful()) {
                     yellTask.setTask_id(response.body().getTask_id());
-                    YellTaskResponseLiveData.postValue(yellTask);
+                    taskId.postValue(yellTask.getTask_id());
                 }
                 else {
                     if (response.code() == 401) {

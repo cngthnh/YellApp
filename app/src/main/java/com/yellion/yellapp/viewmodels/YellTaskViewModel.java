@@ -12,7 +12,7 @@ import com.yellion.yellapp.repository.YellTaskRepository;
 public class YellTaskViewModel extends AndroidViewModel {
     private YellTaskRepository yellTaskRepository;
     private LiveData<YellTask> yellTaskLiveData;
-
+    private  LiveData<String> taskId;
     public YellTaskViewModel(@NonNull Application application) {
         super(application);
     }
@@ -20,6 +20,7 @@ public class YellTaskViewModel extends AndroidViewModel {
     public void init() {
         yellTaskRepository = new YellTaskRepository(getApplication());
         yellTaskLiveData = yellTaskRepository.getYellTaskResponseLiveData();
+        taskId = yellTaskRepository.getTaskIdLiveData();
     }
 
     public void getTask(String taskId) {
@@ -37,4 +38,6 @@ public class YellTaskViewModel extends AndroidViewModel {
     public LiveData<YellTask> getYellTaskLiveData() {
         return yellTaskLiveData;
     }
+
+    public  LiveData<String> getTaskIdLiveData() {return taskId;}
 }
