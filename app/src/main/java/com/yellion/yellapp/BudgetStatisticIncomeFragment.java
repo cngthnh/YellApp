@@ -80,7 +80,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
             }
         });
 
-        binding.LS.setOnClickListener(new View.OnClickListener() {
+        binding.btnLS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
