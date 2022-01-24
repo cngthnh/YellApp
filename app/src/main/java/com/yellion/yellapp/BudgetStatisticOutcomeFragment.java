@@ -54,12 +54,16 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         binding = FragmentBudgetStatisticOutcomeBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
-     /*   binding.budgetName.setText(budgetCard.getName());
-        binding.idBalance.setText(budgetCard.getBalance().toString());
+        binding.budgetName.setText(budgetCard.getName());
+        binding.idBalance.setText(String.valueOf(budgetCard.getBalance()));
         binding.idCreateDate.setText(budgetCard.getCreated_at());
+        binding.threshold.setText(String.valueOf(budgetCard.getThreshold()));
+        binding.balance2.setText(String.valueOf(budgetCard.getBalance()));
         int progress = budgetCard.getBalance()/budgetCard.getThreshold()*100;
+
         binding.circularProgressbar.setProgress(progress);
-        binding.tv.setText(progress+'%');*/
+        binding.tv.setText(String.valueOf(progress)+'%');
+
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,31 +96,36 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
     }
 
     private void getListTransactionsFromServer() {
-        List<String> listID = budgetCard.getTransactionsList();
-        for (int i = 0; i < listID.size(); ++i)
-        {
-            service = Client.createServiceWithAuth(ApiService.class, sessionManager);
-            Call<TransactionCard> call;
+        if (budgetCard.getTransactionsList() != null) {
+            {
+                List<String> listID = budgetCard.getTransactionsList();
+                if (listID.size() != 0)
+                    for (int i = 0; i < listID.size(); ++i) {
+                        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+                        Call<TransactionCard> call;
 
-            call = service.getTransaction(listID.get(i));
-            call.enqueue(new Callback<TransactionCard>() {
-                @Override
-                public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
-                    Log.w("GetTransaction", "onResponse: " + response);
-                    if (response.isSuccessful()) {
-                        if (response.body().getAmount() < 0)
-                            list.add(response.body());
-                        transactionsAdapter.notifyDataSetChanged();
-                    } else {
-                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                        Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                        call = service.getTransaction(listID.get(i));
+                        call.enqueue(new Callback<TransactionCard>() {
+                            @Override
+                            public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
+                                Log.w("GetTransaction", "onResponse: " + response);
+                                if (response.isSuccessful()) {
+                                    if (response.body().getAmount() < 0)
+                                        list.add(response.body());
+                                    transactionsAdapter.notifyDataSetChanged();
+                                } else {
+                                    ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                                    Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<TransactionCard> call, Throwable t) {
+                                Log.w("YellInComeFragment", "onFailure: " + t.getMessage());
+                            }
+                        });
                     }
-                }
-                @Override
-                public void onFailure(Call<TransactionCard> call, Throwable t) {
-                    Log.w("YellInComeFragment", "onFailure: " + t.getMessage() );
-                }
-            });
+            }
         }
     }
 }

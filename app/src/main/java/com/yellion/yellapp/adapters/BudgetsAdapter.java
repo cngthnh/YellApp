@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,17 +23,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.BudgetsFragment;
 import com.yellion.yellapp.R;
 import com.yellion.yellapp.models.BudgetCard;
+import com.yellion.yellapp.models.InfoMessage;
+import com.yellion.yellapp.utils.ApiService;
+import com.yellion.yellapp.utils.Client;
+import com.yellion.yellapp.utils.SessionManager;
 
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsViewHolder>{
 
     private Context mContext = null;
     private List<BudgetCard> mListBudget;
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
+    SessionManager sessionManager;
+    ApiService service;
+    Moshi moshi = new Moshi.Builder().build();
 
     public BudgetsAdapter(Context mContext) {
         this.mContext = mContext;
@@ -69,7 +84,7 @@ public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsV
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard);
+                BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets,budgetsFragment).addToBackStack(null).commit();
             }
         });
@@ -113,6 +128,7 @@ public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsV
         deleteBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                deleteBudgetFromServer(budgetCard);
                 mListBudget.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
                 dialog.dismiss();
@@ -127,6 +143,28 @@ public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsV
         });
 
         dialog.show();
+    }
+
+    private void deleteBudgetFromServer(BudgetCard budgetCard) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(BudgetCard.class).toJson(budgetCard);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.deleteBudgets(requestBody);
+
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellDeleteBudget", "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellDeleteBudget", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
     @Override

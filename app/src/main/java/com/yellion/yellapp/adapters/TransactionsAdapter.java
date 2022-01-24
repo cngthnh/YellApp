@@ -5,10 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,24 +19,34 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.R;
-import com.yellion.yellapp.databinding.FragmentCreateTransactionBinding;
+import com.yellion.yellapp.models.InfoMessage;
 import com.yellion.yellapp.models.TransactionCard;
+import com.yellion.yellapp.utils.ApiService;
+import com.yellion.yellapp.utils.Client;
+import com.yellion.yellapp.utils.SessionManager;
 
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionsViewHolder>{
 
     private Context mContext = null;
     private List<TransactionCard> mListTransaction;
     private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
-
+    SessionManager sessionManager;
+    ApiService service;
+    Moshi moshi = new Moshi.Builder().build();
     public TransactionsAdapter(Context mContext) {
         this.mContext = mContext;
     }
@@ -109,6 +119,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         deleteTs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                deleteTransactionFromServer(transactionCard);
                 mListTransaction.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
                 dialog.dismiss();
@@ -123,6 +134,27 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         });
 
         dialog.show();
+    }
+
+    private void deleteTransactionFromServer(TransactionCard transactionCard) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<InfoMessage> call;
+
+        String json = moshi.adapter(TransactionCard.class).toJson(transactionCard);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        call = service.deleteTransaction(requestBody);
+        call.enqueue(new Callback<InfoMessage>() {
+            @Override
+            public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                Log.w("YellDeleteTransaction", "onResponse: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<InfoMessage> call, Throwable t) {
+                Log.w("YellDeleteTransaction", "onFailure: " + t.getMessage() );
+            }
+        });
     }
 
     @Override

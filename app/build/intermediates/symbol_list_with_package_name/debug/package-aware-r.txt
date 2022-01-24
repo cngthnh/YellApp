@@ -2443,6 +2443,7 @@ id textEnd
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
+id textThreshold
 id textTop
 id text_input_end_icon
 id text_input_error_icon
@@ -2454,6 +2455,7 @@ id textinput_placeholder
 id textinput_prefix_text
 id textinput_suffix_text
 id threshold
+id thresholdCard
 id thresholdInput
 id time
 id time_ts

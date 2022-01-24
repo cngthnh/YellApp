@@ -91,7 +91,7 @@ public class ListBudgetsFragment extends Fragment {
     }
 
 
-//
+    //
 //    private void getListBudgetsFromServer() {
 //        list.add(new BudgetCard("1",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
 //        list.add(new BudgetCard("2",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
@@ -100,11 +100,11 @@ public class ListBudgetsFragment extends Fragment {
 //        list.add(new BudgetCard("5",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
 //
 //    }
-private void getListIdBudget() {
-    listIdBudget = new ArrayList<>();
-    for (int i = 0; i < list.size(); ++i)
-        listIdBudget.add(list.get(i).getId());
-}
+    private void getListIdBudget() {
+        listIdBudget = new ArrayList<>();
+        for (int i = 0; i < list.size(); ++i)
+            listIdBudget.add(list.get(i).getId());
+    }
 
 
     private void getListBudgetsFromServer() {
@@ -132,7 +132,7 @@ private void getListIdBudget() {
             });
         }
         //test
-        list.add(new BudgetCard("1",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
+        list.add(new BudgetCard("1",20000,20000,1 ));
     }
     private void getListBudget(List<String> budget){
         for (int i = 0; i < budget.size(); ++i) {

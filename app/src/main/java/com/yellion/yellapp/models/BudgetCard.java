@@ -10,12 +10,9 @@ public class BudgetCard {
     public Integer balance;
     @Json(name = "threshold")
     public Integer threshold;
-    @Json(name = "start_time")
-    public String start_time;
-    @Json(name = "end_time")
-    public String end_time;
     @Json(name = "created_at")
     public String created_at;
+    @Json(name = "type")
     public Integer type;
     @Json(name = "budget_id")
     public String id;
@@ -23,12 +20,10 @@ public class BudgetCard {
     public String updated_at;
 
     public BudgetCard(){}
-    public BudgetCard(String name, Integer balance, Integer threshold, String start_time, String end_time, String created_at) {
+    public BudgetCard(String name, Integer balance, Integer threshold,  String created_at) {
         this.name = name;
         this.balance =balance;
         this.threshold=threshold;
-        this.start_time =start_time;
-        this.end_time=end_time;
         this.created_at=created_at;
     }
     public BudgetCard(String name, Integer balance){
@@ -85,16 +80,6 @@ public class BudgetCard {
     }
     public void setThreshold(Integer threshold) {
         this.threshold = threshold;
-    }
-
-    public String getStart_time() { return start_time;}
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
-    }
-
-    public String getEnd_time_time() {return end_time; }
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
     }
 
     public String getCreated_at() { return created_at;}

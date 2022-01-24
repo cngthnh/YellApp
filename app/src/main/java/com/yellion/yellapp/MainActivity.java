@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             nextPosition = 1;
         }
         else if (viewId == R.id.navBudgets) {
-            selected = new BudgetsFragment(new BudgetCard("Sổ tay chi tiêu",20000,20000,"yyyy/mm/dd","yyyy/mm/dd","yyyy/mm/dd" ));
+            selected = new ListBudgetsFragment();
             nextPosition = 2;
         }
         else if (viewId == R.id.navAccount) {

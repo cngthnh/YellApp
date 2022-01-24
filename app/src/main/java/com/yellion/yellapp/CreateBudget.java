@@ -21,7 +21,6 @@ import com.squareup.moshi.Moshi;
 import com.yellion.yellapp.databinding.FragmentAccountBinding;
 import com.yellion.yellapp.databinding.FragmentCreateBudgetBinding;
 import com.yellion.yellapp.models.BudgetCard;
-import com.yellion.yellapp.models.BudgetId;
 import com.yellion.yellapp.models.ErrorMessage;
 import com.yellion.yellapp.models.InfoMessage;
 import com.yellion.yellapp.models.TokenPair;
@@ -62,25 +61,36 @@ public class CreateBudget extends Fragment {
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // cảnh báo điền đầy đủ
-                budgetCard.setName(binding.budgetNameInput.getText().toString());
-                budgetCard.setBalance(Integer.parseInt(binding.balanceInput.getText().toString()));
-                budgetCard.setThreshold(Integer.parseInt(binding.thresholdInput.getText().toString()));
 
-                addBudgetToServer();
+                if (binding.budgetNameInput.getText().toString().equals("")
+                        || binding.balanceInput.getText().toString().equals("")
+                        || binding.thresholdInput.getText().toString().equals(""))
+                    Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin",Toast.LENGTH_LONG).show();
 
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.remove(CreateBudget.this);
-                transaction.replace(R.id.create_budget_fragment, new ListBudgetsFragment()).addToBackStack(null);
-                transaction.commit();
+                else{
+                    budgetCard.setName(binding.budgetNameInput.getText().toString());
+                    budgetCard.setBalance(Integer.parseInt(binding.balanceInput.getText().toString()));
+                    budgetCard.setThreshold(Integer.parseInt(binding.thresholdInput.getText().toString()));
+
+                    addBudgetToServer(budgetCard);
+
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.remove(CreateBudget.this);
+                    transaction.replace(R.id.create_budget_fragment, new ListBudgetsFragment()).addToBackStack(null);
+                    transaction.commit();}
             }
         });
 
         binding.Type0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.Type0.setBackgroundColor(Color.LTGRAY);
+                binding.Type0.setBackgroundColor(Color.DKGRAY);
+                binding.Type0.setTextColor(Color.WHITE);
                 binding.Type1.setBackgroundColor(Color.WHITE);
+                binding.Type1.setTextColor(Color.BLACK);
+
+                binding.thresholdCard.setVisibility(View.VISIBLE);
+                binding.textThreshold.setText("Giới hạn chi tiêu");
                 budgetCard.setType(0);
             }
         });
@@ -88,8 +98,12 @@ public class CreateBudget extends Fragment {
         binding.Type1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.Type1.setBackgroundColor(Color.LTGRAY);
+                binding.Type1.setBackgroundColor(Color.DKGRAY);
+                binding.Type1.setTextColor(Color.WHITE);
                 binding.Type0.setBackgroundColor(Color.WHITE);
+                binding.Type0.setTextColor(Color.BLACK);
+                binding.thresholdCard.setVisibility(View.VISIBLE);
+                binding.textThreshold.setText("Mục tiêu tiết kiệm");
                 budgetCard.setType(1);
 
             }
@@ -97,14 +111,13 @@ public class CreateBudget extends Fragment {
         return view;
     }
 
-    private void addBudgetToServer()
+    private void addBudgetToServer(BudgetCard budgetCard)
     {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
         Call<BudgetCard> call;
 
         String json = moshi.adapter(BudgetCard.class).toJson(budgetCard);
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
-        Log.w("BudgetCreate", budgetCard.getName() + budgetCard.getBalance());
 
         call = service.createBudget(requestBody);
         call.enqueue(new Callback<BudgetCard>() {
@@ -116,9 +129,9 @@ public class CreateBudget extends Fragment {
                     Toast.makeText(getContext(),"Tạo thành công!", Toast.LENGTH_LONG).show();
 
                 } else {
-                    if (response.code() == 401) {
+                    {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                        Toast.makeText(getContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Tạo thất bại: " + apiError.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
