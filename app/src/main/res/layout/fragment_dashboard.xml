@@ -32,7 +32,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:paddingStart="12dp"
+                android:gravity="start"
                 >
                 <ImageView
                     android:id="@+id/back_dashboard"

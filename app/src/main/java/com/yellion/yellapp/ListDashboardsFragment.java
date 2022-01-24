@@ -80,27 +80,8 @@ public class ListDashboardsFragment extends Fragment {
                 binding.recycleView.setAdapter(dashboardsAdapter);
             }
         });
-        Log.e("change", "new");
 
-        /*
-        getActivity().getSupportFragmentManager().addOnBackStackChangedListener(
-                new FragmentManager.OnBackStackChangedListener() {
-                    public void onBackStackChanged() {
-                        //getListDashboardFromServer();
-                        Log.e("change", "list");
-                    }
-                });
-
-        dashboardsAdapter = new DashboardsAdapter(getContext());
-        list = new ArrayList<>();
-        getListDashboardFromServer();
-        dashboardsAdapter.setData(list);
-        dashboardsAdapter.notifyDataSetChanged();
-        binding.recycleView.setVisibility(View.VISIBLE);
-        binding.recycleView.setAdapter(dashboardsAdapter);
-        */
-
-
+        Log.e("load", "LOAD");
         binding.backListDashboards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,30 +95,14 @@ public class ListDashboardsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 DashboardCard dashboardCard = new DashboardCard("Untitled");
-                addDashboardToServer(dashboardCard);
-
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
-                                android.R.anim.slide_in_left, android.R.anim.slide_in_left)
-                        .replace(R.id.fragmentContainer,dashboardFragment)
-                        .addToBackStack(null).commit();
-
-                /*
-                dashboardViewModel.getListDashboardLiveData().observe(getActivity(), new Observer<List<DashboardCard>>() {
-                    @Override
-                    public void onChanged(List<DashboardCard> dashboardCards) {
-                        }
-                });*/
-
+                addDashboardToServer(dashboardCard, view);
             }
         });
 
         return view;
     }
 
-    private void addDashboardToServer(DashboardCard dashboardCard) {
+    private void addDashboardToServer(DashboardCard dashboardCard, View view) {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
         Call<DashboardCard> call;
 
@@ -151,6 +116,13 @@ public class ListDashboardsFragment extends Fragment {
                 if (response.isSuccessful()) {
                     String id = response.body().getId();
                     dashboardCard.setId(id);
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard, sessionManager);
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                                    android.R.anim.slide_in_left, android.R.anim.slide_in_left)
+                            .replace(R.id.fragmentContainer,dashboardFragment)
+                            .addToBackStack(null).commit();
                     addList(dashboardCard);
                 } else {
                     if (response.code() == 401) {
@@ -204,7 +176,6 @@ public class ListDashboardsFragment extends Fragment {
     private void getListDashboard(List<String> dashboards) {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
         Call<DashboardCard> call;
-        list.clear();
         for (int i = 0; i < dashboards.size(); i++)
         {
             call = service.getDashboard(dashboards.get(i), "full");
@@ -215,15 +186,8 @@ public class ListDashboardsFragment extends Fragment {
                     if (response.isSuccessful()) {
                         list.add(response.body());
                         dashboardsAdapter.notifyDataSetChanged();
-                    } else {
-                        /*ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                        Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
-                        sessionManager.deleteToken();
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                        startActivity(intent);*/
                     }
                 }
-
                 @Override
                 public void onFailure(Call<DashboardCard> call, Throwable t) {
                     Log.w("YellGetDashboard", "onFailure: " + t.getMessage() );
