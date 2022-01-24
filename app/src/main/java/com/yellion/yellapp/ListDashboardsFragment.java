@@ -69,7 +69,7 @@ public class ListDashboardsFragment extends Fragment {
         binding.recycleView.setLayoutManager(layoutManager);
 
         list = new ArrayList<>();
-        //getListDashboardFromServer();
+        getListDashboardFromServer();
 
         dashboardViewModel = new ViewModelProvider(this.getActivity(), new DashboardViewModelFactory(list)).get(DashboardViewModel.class);
         dashboardViewModel.getListDashboardLiveData().observe(this.getActivity(), new Observer<List<DashboardCard>>() {
@@ -80,15 +80,17 @@ public class ListDashboardsFragment extends Fragment {
                 binding.recycleView.setAdapter(dashboardsAdapter);
             }
         });
+        Log.e("change", "new");
 
+        /*
         getActivity().getSupportFragmentManager().addOnBackStackChangedListener(
                 new FragmentManager.OnBackStackChangedListener() {
                     public void onBackStackChanged() {
-                        getListDashboardFromServer();
+                        //getListDashboardFromServer();
                         Log.e("change", "list");
                     }
                 });
-        /*
+
         dashboardsAdapter = new DashboardsAdapter(getContext());
         list = new ArrayList<>();
         getListDashboardFromServer();

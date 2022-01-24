@@ -101,7 +101,8 @@ public class TaskFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChanged(YellTask yellTask) {
-                loadingDialog.dismissDialog();
+                if(loadingDialog!=null)
+                    loadingDialog.dismissDialog();
                 currentYellTask = yellTask;
                 if (yellTask.getName() != null)
                     binding.taskName.setText(yellTask.getName());

@@ -2,7 +2,6 @@ package com.yellion.yellapp;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.yellion.yellapp.adapters.DashboardsAdapter;
 import com.yellion.yellapp.adapters.DashboardsHomeAdapter;
 import com.yellion.yellapp.databinding.FragmentHomeBinding;
 import com.yellion.yellapp.models.DashboardCard;
