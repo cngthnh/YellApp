@@ -35,8 +35,6 @@ public class HomeFragment extends Fragment {
                 binding.highlightCard.setVisibility(View.GONE);
             }
         });
-
-
         return view;
     }
 }

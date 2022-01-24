@@ -88,6 +88,8 @@ public class BudgetsFragment extends Fragment {
         list.add(new TransactionCard("h", "21/01/2021", 1000000000, "Salary"));
     }
 
+
+    //Create New Transaction in this Budget
     public static class CreateTransactionFragment extends Fragment {
         FragmentCreateTransactionBinding binding_ts;
         public CreateTransactionFragment() {
@@ -107,7 +109,8 @@ public class BudgetsFragment extends Fragment {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View v) {
-                    binding.budgetsFragment.setVisibility(View.GONE);
+//                    binding.budgetsFragment.setVisibility(View.INVISIBLE);
+                    //Lấy data từ View nữa-cả Radio Button
                     TransactionCard transactionCard=new TransactionCard("a","b",1,"f");
 //                    "category",java.util.Calendar.getInstance().getTime().toString(),Integer.parseInt(binding_ts.addAmountTs.getText().toString()),binding_ts.categoryTs.getText().toString()
                     list.add(transactionCard);
@@ -115,10 +118,11 @@ public class BudgetsFragment extends Fragment {
                     transactionsAdapter.notifyDataSetChanged();
                     binding.recyclerViewTransaction.setAdapter(transactionsAdapter);
                     binding_ts.addTransactionFragment.setVisibility(View.GONE);
-                    binding.budgetsFragment.setVisibility(View.VISIBLE);
+//                    binding.budgetsFragment.setVisibility(View.VISIBLE);
                 }
             });
             return view;
         }
+
     }
 }
