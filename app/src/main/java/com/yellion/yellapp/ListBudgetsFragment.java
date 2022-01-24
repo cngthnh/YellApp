@@ -80,13 +80,13 @@ public class ListBudgetsFragment extends Fragment {
         binding.fabListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                budgetsAdapter.notifyDataSetChanged();
                 CreateBudget createBudget = new CreateBudget();
 
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer,createBudget)
                         .addToBackStack(null).commit();
+                budgetsAdapter.notifyDataSetChanged();
 
             }
         });

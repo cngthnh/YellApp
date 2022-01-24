@@ -86,7 +86,7 @@ public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsV
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.list_budgets,budgetsFragment).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).addToBackStack(null).commit();
             }
         });
 

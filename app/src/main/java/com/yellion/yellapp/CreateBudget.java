@@ -43,6 +43,10 @@ public class CreateBudget extends Fragment {
     SessionManager sessionManager;
     Moshi moshi = new Moshi.Builder().build();
     BudgetCard budgetCard;
+
+    public CreateBudget() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,19 +134,26 @@ public class CreateBudget extends Fragment {
 
                 Log.w("BudgetCreate", "onResponse: " + response);
                 if (response.isSuccessful()) {
-                    Toast.makeText(getContext(),"Tạo thành công!", Toast.LENGTH_LONG).show();
+                    try {
+                        Toast.makeText(getContext(), "Tạo thành công", Toast.LENGTH_LONG).show();
+                    }
+                    catch (Exception e){
+                        Log.e("sus", e.toString());
+                    }
+
 
                 } else {
-                    {
-                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                        Toast.makeText(getContext(), "Tạo thất bại: " + apiError.getMessage(), Toast.LENGTH_LONG).show();
-                    }
+
+                    ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                    //Toast.makeText(getActivity(), "Tạo thất bại: " + apiError.getMessage(), Toast.LENGTH_LONG).show();
+
                 }
             }
 
             @Override
             public void onFailure(Call<BudgetCard> call, Throwable t) {
-                Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
+                Log.w("YellCreateBudget", "onFailure: " + t.getMessage());
             }
         });
 

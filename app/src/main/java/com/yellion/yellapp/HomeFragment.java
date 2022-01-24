@@ -31,8 +31,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,listBudgetsFragment).addToBackStack(null).commit();
-                binding.highlightCard.setVisibility(View.GONE);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,listBudgetsFragment, "List_budget").addToBackStack(null).commit();
             }
         });
         return view;
