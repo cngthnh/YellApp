@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,6 +54,7 @@ public class ListDashboardsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +62,6 @@ public class ListDashboardsFragment extends Fragment {
         binding = FragmentListDashboardsBinding.inflate(inflater, container, false );
         View view = binding.getRoot();
 
-        Log.e("hel", "hol");
         sessionManager = SessionManager.getInstance(getActivity().
                 getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
 
@@ -78,8 +80,17 @@ public class ListDashboardsFragment extends Fragment {
                 binding.recycleView.setAdapter(dashboardsAdapter);
             }
         });
+        Log.e("change", "new");
 
         /*
+        getActivity().getSupportFragmentManager().addOnBackStackChangedListener(
+                new FragmentManager.OnBackStackChangedListener() {
+                    public void onBackStackChanged() {
+                        //getListDashboardFromServer();
+                        Log.e("change", "list");
+                    }
+                });
+
         dashboardsAdapter = new DashboardsAdapter(getContext());
         list = new ArrayList<>();
         getListDashboardFromServer();
@@ -93,8 +104,8 @@ public class ListDashboardsFragment extends Fragment {
         binding.backListDashboards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getFragmentManager() != null){
-                    getFragmentManager().popBackStack();
+                if(getActivity() != null){
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
@@ -110,7 +121,7 @@ public class ListDashboardsFragment extends Fragment {
                 activity.getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
                                 android.R.anim.slide_in_left, android.R.anim.slide_in_left)
-                        .replace(R.id.list_dashboards,dashboardFragment)
+                        .replace(R.id.fragmentContainer,dashboardFragment)
                         .addToBackStack(null).commit();
 
                 /*
@@ -193,7 +204,7 @@ public class ListDashboardsFragment extends Fragment {
     private void getListDashboard(List<String> dashboards) {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
         Call<DashboardCard> call;
-
+        list.clear();
         for (int i = 0; i < dashboards.size(); i++)
         {
             call = service.getDashboard(dashboards.get(i), "full");

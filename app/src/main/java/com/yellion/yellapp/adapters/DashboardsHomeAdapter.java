@@ -78,7 +78,7 @@ public class DashboardsHomeAdapter extends RecyclerView.Adapter<DashboardsHomeAd
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 DashboardFragment dashboardFragment = new DashboardFragment(dashboardCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.home_fragment,dashboardFragment, "DASHBOARD").addToBackStack(null).commit();
+                        .replace(R.id.fragmentContainer,dashboardFragment, "DASHBOARD").addToBackStack(null).commit();
             }
         });
     }

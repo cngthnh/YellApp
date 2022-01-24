@@ -2,7 +2,6 @@ package com.yellion.yellapp;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.yellion.yellapp.adapters.DashboardsAdapter;
 import com.yellion.yellapp.adapters.DashboardsHomeAdapter;
 import com.yellion.yellapp.databinding.FragmentHomeBinding;
 import com.yellion.yellapp.models.DashboardCard;
@@ -55,7 +53,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,dashboardsFragment, "LIST_DASHBOARD").addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,dashboardsFragment, "LIST_DASHBOARD").addToBackStack(null).commit();
             }
         });
 
@@ -64,7 +62,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 NotificationFragment notificationFragment = new NotificationFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment,notificationFragment, "NOTIFICATION").addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,notificationFragment, "NOTIFICATION").addToBackStack(null).commit();
             }
         });
 
