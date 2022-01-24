@@ -64,12 +64,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.message.setText(notification.getMessage());
 
-
         try {
             Date date = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss").parse(notification.getCreatedAt());
-            Log.e("Dht", date.toString());
+            Log.e("Date", date.toString());
         } catch (ParseException e) {
-            Log.e("lo", e.getMessage());
+            Log.e("Date", e.getMessage());
         }
 
         if(notification.getRole() == null){
@@ -105,7 +104,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         call.enqueue(new Callback<InfoMessage>() {
             @Override
             public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
-                Log.w("YellConfirm", "onResponse: " + response);
+                Log.w("YellReject", "onResponse: " + response);
+                if(response.isSuccessful()){
+                    notification.setRole(null);
+                    notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -127,6 +130,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
                 Log.w("YellConfirm", "onResponse: " + response);
+                if(response.isSuccessful()){
+                    notification.setRole(null);
+                    notifyDataSetChanged();
+                }
             }
 
             @Override

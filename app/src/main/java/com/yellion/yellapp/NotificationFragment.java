@@ -88,7 +88,6 @@ public class NotificationFragment extends Fragment {
                     notificationAdapter.notifyDataSetChanged();
                     binding.recycleView.setVisibility(View.VISIBLE);
                     binding.recycleView.setAdapter(notificationAdapter);
-                    //confirm(listNotification.get(0));
 
                 }
             }
@@ -98,28 +97,6 @@ public class NotificationFragment extends Fragment {
             }
         });
 
-        if(listNotification != null){
-            Call<InfoMessage> call1;
-
-            String json = moshi.adapter(Notification.class).toJson(listNotification.get(0));
-            RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), json);
-
-            call1 = service.confirmInvited(requestBody);
-            call1.enqueue(new Callback<InfoMessage>() {
-                @Override
-                public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
-                    Log.w("YellConfirm", "onResponse: " + response);
-                }
-
-                @Override
-                public void onFailure(Call<InfoMessage> call, Throwable t) {
-                    Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-
         return view;
     }
-
-
 }

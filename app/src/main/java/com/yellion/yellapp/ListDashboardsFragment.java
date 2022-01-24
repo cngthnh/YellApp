@@ -59,6 +59,7 @@ public class ListDashboardsFragment extends Fragment {
         binding = FragmentListDashboardsBinding.inflate(inflater, container, false );
         View view = binding.getRoot();
 
+        Log.e("hel", "hol");
         sessionManager = SessionManager.getInstance(getActivity().
                 getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
 
@@ -135,7 +136,7 @@ public class ListDashboardsFragment extends Fragment {
         call.enqueue(new Callback<DashboardCard>() {
             @Override
             public void onResponse(Call<DashboardCard> call, Response<DashboardCard> response) {
-                Log.w("YellDashboardCreate", "onResponse: " + response);
+                Log.w("YellCreateDashboard", "onResponse: " + response);
                 if (response.isSuccessful()) {
                     String id = response.body().getId();
                     dashboardCard.setId(id);
@@ -168,7 +169,7 @@ public class ListDashboardsFragment extends Fragment {
             call.enqueue(new Callback<UserAccount>() {
                 @Override
                 public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
-                    Log.w("YellDashboardGet", "onResponse: " + response);
+                    Log.w("YellGetListDashboard", "onResponse: " + response);
                     if (response.isSuccessful()) {
                         List<String> dashboards = response.body().getDashboards();
                         getListDashboard(dashboards);
@@ -183,7 +184,7 @@ public class ListDashboardsFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<UserAccount> call, Throwable t) {
-                    Log.w("YellDashboardFragment", "onFailure: " + t.getMessage() );
+                    Log.w("YellGetListDashboard", "onFailure: " + t.getMessage() );
                 }
             });
         }
@@ -199,7 +200,7 @@ public class ListDashboardsFragment extends Fragment {
             call.enqueue(new Callback<DashboardCard>() {
                 @Override
                 public void onResponse(Call<DashboardCard> call, Response<DashboardCard> response) {
-                    Log.w("YellDashboardGet", "onResponse: " + response);
+                    Log.w("YellGetDashboard", "onResponse: " + response);
                     if (response.isSuccessful()) {
                         list.add(response.body());
                         dashboardsAdapter.notifyDataSetChanged();
@@ -214,7 +215,7 @@ public class ListDashboardsFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<DashboardCard> call, Throwable t) {
-                    Log.w("YellDashboardFragment", "onFailure: " + t.getMessage() );
+                    Log.w("YellGetDashboard", "onFailure: " + t.getMessage() );
                 }
             });
 

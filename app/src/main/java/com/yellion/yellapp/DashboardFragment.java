@@ -29,6 +29,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,9 +94,6 @@ public class DashboardFragment extends Fragment {
             binding.edtDescriptionDb.setText(dashboardCard.getDescription());
         }
 
-        if(dashboardCard.getTasks()!=null)
-            Log.e("dt", String.valueOf(dashboardCard.getTasks().size()));
-
         binding.backDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +101,6 @@ public class DashboardFragment extends Fragment {
                     Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("DASHBOARD");
                     if(frag != null)
                         getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
-                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
@@ -191,6 +188,7 @@ public class DashboardFragment extends Fragment {
                     Log.e(TAG, ex.toString());
                 }
                 binding.edtNameDb.setFocusable(false);
+
 
             }
         });
@@ -439,9 +437,10 @@ public class DashboardFragment extends Fragment {
         title.setText(spannable);
 
         deleteBt.setOnClickListener(view -> {
-            if(getFragmentManager() != null){
-                deleteDashboardFromServer(dashboardCard);
-                getFragmentManager().popBackStack();
+            if(getActivity()!= null){
+                Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("DASHBOARD");
+                if(frag != null)
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
             }
             dialog.dismiss();
         });
