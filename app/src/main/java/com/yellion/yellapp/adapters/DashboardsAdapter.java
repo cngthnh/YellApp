@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -73,12 +74,13 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
         if(dashboardCard == null){
             return;
         }
+
         holder.nameDashboard.setText(dashboardCard.getName());
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(1));
         holder.deleteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialogDeleteDashboard(holder, dashboardCard);
+                checkPermission(dashboardCard, holder);
             }
         });
 
@@ -130,7 +132,6 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
         deleteBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 deleteDashboardFromServer(dashboardCard);
                 mListDashboard.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
@@ -165,6 +166,39 @@ public class DashboardsAdapter extends RecyclerView.Adapter<DashboardsAdapter.Da
             @Override
             public void onFailure(Call<InfoMessage> call, Throwable t) {
                 Log.w("YellDeleteDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
+    }
+
+    private void checkPermission(DashboardCard dashboardCard, DashboardsViewHolder holder) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<UserAccount> call;
+        call = service.getUserProfile("compact");
+        call.enqueue(new Callback<UserAccount>() {
+            @Override
+            public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
+                Log.w("YellGetListDashboard", "onResponse: " + response);
+                if (response.isSuccessful()) {
+                    String uid = response.body().getId();
+                    for(int i = 0; i < dashboardCard.getUsers().size(); i++){
+                        if(uid.equals(dashboardCard.getUsers().get(i).getUid())){
+
+                            if(dashboardCard.getUsers().get(i).getRole().equals("admin"))
+                            {
+                                openDialogDeleteDashboard(holder, dashboardCard);
+                                return;
+                            }
+                            else {
+                                Toast.makeText(mContext, "Bạn không có quyền thực hiện chức năng này", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserAccount> call, Throwable t) {
+                Log.w("YellGetListDashboard", "onFailure: " + t.getMessage() );
             }
         });
     }

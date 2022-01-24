@@ -44,7 +44,7 @@
                     android:shadowDy="2"
                     android:shadowColor="@color/icon_tint_dark"
                     android:shadowRadius="3"
-                    android:textSize="28dp"/>
+                    android:textSize="24dp"/>
                 <TextView
                     android:id="@+id/label_db_home"
                     android:layout_width="wrap_content"

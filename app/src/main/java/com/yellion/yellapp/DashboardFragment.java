@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.moshi.Moshi;
+import com.yellion.yellapp.adapters.DashboardsAdapter;
 import com.yellion.yellapp.adapters.TaskAdapter;
 import com.yellion.yellapp.adapters.UsersAdapter;
 import com.yellion.yellapp.adapters.UsersDetailAdapter;
@@ -42,6 +43,7 @@ import com.yellion.yellapp.models.DashboardCard;
 import com.yellion.yellapp.models.DashboardPermission;
 import com.yellion.yellapp.models.ErrorMessage;
 import com.yellion.yellapp.models.InfoMessage;
+import com.yellion.yellapp.models.UserAccount;
 import com.yellion.yellapp.models.YellTask;
 import com.yellion.yellapp.utils.ApiService;
 import com.yellion.yellapp.utils.Client;
@@ -98,22 +100,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(getActivity()!= null){
-                    //Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("DASHBOARD");
-                    //if(frag != null)
-                    //    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
-
                     getActivity().getSupportFragmentManager().popBackStack();
-                    /*
-                    Fragment frg = null;
-                    frg = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_DASHBOARD");
-                    final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    ft.detach(frg);
-                    ft.attach(frg);
-                    ft.commit();
-                    */
-
-
                 }
             }
         });
@@ -121,24 +108,14 @@ public class DashboardFragment extends Fragment {
         binding.deleteInDb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialogDeleteDashboard(dashboardCard);
+                checkDeletePermission();
             }
         });
 
         binding.editDb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.edtNameDb.setFocusableInTouchMode(true);
-                binding.edtNameDb.setFocusable(true);
-
-                binding.editDb.setVisibility(View.GONE);
-                binding.deleteInDb.setVisibility(View.GONE);
-                binding.backDashboard.setVisibility(View.GONE);
-                binding.tvDescriptionDb.setVisibility(View.GONE);
-                binding.completeEditDb.setVisibility(View.VISIBLE);
-                binding.cancelEditDb.setVisibility(View.VISIBLE);
-                binding.edtDescriptionDb.setVisibility(View.VISIBLE);
-
+                checkEditPermission(1); //edit name and description
             }
         });
 
@@ -235,12 +212,97 @@ public class DashboardFragment extends Fragment {
         binding.fabDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                YellTask yell = new YellTask(dashboardCard.getId(),"Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
-                addTaskToServer(yell);
+                checkEditPermission(2);
             }
         });
 
         return view;
+    }
+
+    private void checkDeletePermission() {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<UserAccount> call;
+        call = service.getUserProfile("compact");
+        call.enqueue(new Callback<UserAccount>() {
+            @Override
+            public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
+                Log.w("YellGetListDashboard", "onResponse: " + response);
+                if (response.isSuccessful()) {
+                    String uid = response.body().getId();
+                    for(int i = 0; i < dashboardCard.getUsers().size(); i++){
+                        if(uid.equals(dashboardCard.getUsers().get(i).getUid())){
+
+                            if(dashboardCard.getUsers().get(i).getRole().equals("admin"))
+                            {
+                                openDialogDeleteDashboard(dashboardCard);
+                                return;
+                            }
+                            else {
+                                Toast.makeText(getContext(), "Bạn không có quyền thực hiện chức năng này", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserAccount> call, Throwable t) {
+                Log.w("YellGetListDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
+    }
+
+    private void checkEditPermission(int i) {
+        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+        Call<UserAccount> call;
+        call = service.getUserProfile("compact");
+        call.enqueue(new Callback<UserAccount>() {
+            @Override
+            public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
+                Log.w("YellGetListDashboard", "onResponse: " + response);
+                if (response.isSuccessful()) {
+                    String uid = response.body().getId();
+                    for(int i = 0; i < dashboardCard.getUsers().size(); i++){
+                        if(uid.equals(dashboardCard.getUsers().get(i).getUid())){
+
+                            if(dashboardCard.getUsers().get(i).getRole().equals("viewer"))
+                            {
+                                Toast.makeText(getContext(), "Bạn không có quyền thực hiện chức năng này", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                if(i == 1)
+                                    editDashboard();
+                                else if(i == 2)
+                                    addTask();
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserAccount> call, Throwable t) {
+                Log.w("YellGetListDashboard", "onFailure: " + t.getMessage() );
+            }
+        });
+    }
+
+    private void addTask() {
+        YellTask yell = new YellTask(dashboardCard.getId(),"Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
+        addTaskToServer(yell);
+    }
+
+    private void editDashboard() {
+        binding.edtNameDb.setFocusableInTouchMode(true);
+        binding.edtNameDb.setFocusable(true);
+        binding.editDb.setVisibility(View.GONE);
+        binding.deleteInDb.setVisibility(View.GONE);
+        binding.backDashboard.setVisibility(View.GONE);
+        binding.tvDescriptionDb.setVisibility(View.GONE);
+        binding.completeEditDb.setVisibility(View.VISIBLE);
+        binding.cancelEditDb.setVisibility(View.VISIBLE);
+        binding.edtDescriptionDb.setVisibility(View.VISIBLE);
     }
 
     private void getListTaskFromServer() {
@@ -450,10 +512,7 @@ public class DashboardFragment extends Fragment {
         title.setText(spannable);
 
         deleteBt.setOnClickListener(view -> {
-            if(getActivity() != null){
-                deleteDashboardFromServer(dashboardCard);
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
+            deleteDashboardFromServer(dashboardCard);
             dialog.dismiss();
         });
 
@@ -474,6 +533,9 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
                 Log.w("YellDeleteDashboard", "onResponse: " + response);
+                if(getActivity() != null){
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
             }
 
             @Override
