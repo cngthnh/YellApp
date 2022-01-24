@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.yellion.yellapp.LoadingDialog;
 import com.yellion.yellapp.R;
 import com.yellion.yellapp.TaskFragment;
 import com.yellion.yellapp.models.YellTask;
@@ -27,10 +28,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     ArrayList<YellTask> yellTaskArrayList;
     FragmentActivity activity;
+    String parentName;
 
     public TaskAdapter(FragmentActivity activity) {
         this.activity = activity;
         yellTaskArrayList = new ArrayList<>();
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public void addYellTask(YellTask yellTask) {
@@ -78,8 +84,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             @Override
             public void onClick(View v) {
                 TaskFragment fragment = TaskFragment.newInstance(yellTask.getName(),
-                        yellTask.getDashboard_id(),null,
-                        ((AppCompatEditText)activity.findViewById(R.id.taskName)).getText().toString());
+                        yellTask.getDashboard_id(),null, parentName);
                 activity.getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
                                 android.R.anim.slide_in_left, android.R.anim.slide_in_left)

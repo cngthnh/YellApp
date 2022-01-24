@@ -57,6 +57,7 @@ public class TaskFragment extends Fragment {
     FragmentTaskBinding binding;
     YellTaskViewModel viewModel;
     TaskAdapter yellTaskAdapter;
+    LoadingDialog loadingDialog;
 
 
     // TODO: Rename and change types of parameters
@@ -93,12 +94,14 @@ public class TaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadingDialog = new LoadingDialog(getActivity());
         viewModel = new ViewModelProvider(this).get(YellTaskViewModel.class);
         viewModel.init();
         viewModel.getYellTaskLiveData().observe(this, new Observer<YellTask>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChanged(YellTask yellTask) {
+                loadingDialog.dismissDialog();
                 currentYellTask = yellTask;
                 if (yellTask.getName() != null)
                     binding.taskName.setText(yellTask.getName());
@@ -118,6 +121,7 @@ public class TaskFragment extends Fragment {
             }
             else {
                 viewModel.getTask(taskId);
+                loadingDialog.startLoadingDialog();
             }
         }
         else {
@@ -454,7 +458,7 @@ public class TaskFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private String serverTime2MobileTime(String time) {
         SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm  dd/MM/YYYY");
-        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         try {
             Date date = isoFormat.parse(time);
             return currentFormat.format(date);
@@ -467,7 +471,7 @@ public class TaskFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private String mobileTime2ServerTime(String time) {
         SimpleDateFormat currentFormat = new SimpleDateFormat("HH:mm  dd/MM/YYYY");
-        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         try {
             Date date = currentFormat.parse(time);
             return isoFormat.format(date);
