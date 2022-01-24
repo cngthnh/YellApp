@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yellion.yellapp.LoadingDialog;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     ArrayList<YellTask> yellTaskArrayList;
+    MutableLiveData<Integer> sizeList;
     YellTaskRepository repository;
     FragmentActivity activity;
     String parentName;
@@ -36,10 +38,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         this.activity = activity;
         yellTaskArrayList = new ArrayList<>();
         repository = new YellTaskRepository(activity.getApplication());
+        sizeList = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<Integer> getSizeList (){
+        return sizeList;
     }
 
     public void setParentName(String parentName) {
         this.parentName = parentName;
+    }
+
+    public void setYellTaskArrayList(ArrayList<YellTask> yells) {
+        this.yellTaskArrayList = yells;
+        notifyDataSetChanged();
     }
 
     public void addYellTask(YellTask yellTask) {
@@ -49,6 +61,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     public void removeYellTask(int position) {
         yellTaskArrayList.remove(position);
+        sizeList.postValue(position);
         notifyItemRemoved(position);
     }
 

@@ -38,6 +38,7 @@ import com.yellion.yellapp.viewmodels.YellTaskViewModel;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -56,6 +57,7 @@ public class TaskFragment extends Fragment {
     private static final String ARG_PARAM5 = "parentId";
 
     YellTask currentYellTask;
+    ArrayList<YellTask> subTasks;
     FragmentTaskBinding binding;
     YellTaskViewModel viewModel;
     TaskAdapter yellTaskAdapter;
@@ -104,6 +106,7 @@ public class TaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        subTasks = new ArrayList<>();
         loadingDialog = new LoadingDialog(getActivity());
         viewModel = new ViewModelProvider(this).get(YellTaskViewModel.class);
         currentYellTask = new YellTask();
@@ -148,7 +151,11 @@ public class TaskFragment extends Fragment {
         viewModel.getTaskIdLiveData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                currentYellTask.setTask_id(s);
+                if (currentYellTask.getTask_id() == null)
+                    currentYellTask.setTask_id(s);
+                else {
+                    yellTaskAdapter.setYellTaskArrayList(subTasks);
+                }
             }
         });
         yellTaskAdapter = new TaskAdapter(getActivity());
@@ -458,12 +465,20 @@ public class TaskFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         binding.listTask.setAdapter(yellTaskAdapter);
         binding.listTask.setLayoutManager(linearLayoutManager);
-
+        yellTaskAdapter.getSizeList().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                subTasks.remove(integer);
+            }
+        });
         binding.addSubTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                YellTask yell = new YellTask("None","Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
-                yellTaskAdapter.addYellTask(yell);
+                YellTask yell = new YellTask(currentYellTask.getDashboard_id(),"Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
+                yell.setParent_id(currentYellTask.getTask_id());
+                yellTaskAdapter.setParentName(currentYellTask.getName());
+                subTasks.add(yell);
+                viewModel.addTask(yell);
             }
         });
     }
