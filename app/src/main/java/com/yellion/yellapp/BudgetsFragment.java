@@ -80,8 +80,9 @@ public class BudgetsFragment extends Fragment {
         binding.backListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getFragmentManager() != null) {
-                    getFragmentManager().popBackStack();
+                if (getActivity() != null)
+                {
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });

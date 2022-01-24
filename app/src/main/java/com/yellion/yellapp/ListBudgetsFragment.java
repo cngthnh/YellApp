@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,7 +58,7 @@ public class ListBudgetsFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recycleView.setLayoutManager(layoutManager);
 
-        budgetsAdapter = new BudgetsAdapter(getContext());
+        budgetsAdapter = new BudgetsAdapter(getContext(), sessionManager);
         list = new ArrayList<>();
 
         getListIdBudget();
@@ -71,9 +72,8 @@ public class ListBudgetsFragment extends Fragment {
         binding.backListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getFragmentManager() != null){
-                    getFragmentManager().popBackStack();
-                }
+                if (getActivity() != null)
+                    getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
@@ -81,12 +81,13 @@ public class ListBudgetsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 budgetsAdapter.notifyDataSetChanged();
-
                 CreateBudget createBudget = new CreateBudget();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                //transaction.remove(ListBudgetsFragment.this);
-                transaction.replace(R.id.list_budgets,createBudget).addToBackStack(null);
-                transaction.commit();
+
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer,createBudget)
+                        .addToBackStack(null).commit();
+
             }
         });
 

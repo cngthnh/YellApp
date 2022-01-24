@@ -49,8 +49,9 @@ public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsV
     ApiService service;
     Moshi moshi = new Moshi.Builder().build();
 
-    public BudgetsAdapter(Context mContext) {
+    public BudgetsAdapter(Context mContext, SessionManager sessionManager) {
         this.mContext = mContext;
+        this.sessionManager = sessionManager;
     }
 
     public void setData(List<BudgetCard> mListBudget) {

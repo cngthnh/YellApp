@@ -74,10 +74,14 @@ public class CreateBudget extends Fragment {
 
                     addBudgetToServer(budgetCard);
 
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.remove(CreateBudget.this);
-                    transaction.replace(R.id.create_budget_fragment, new ListBudgetsFragment()).addToBackStack(null);
-                    transaction.commit();}
+                /*    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainer,new ListBudgetsFragment())
+                            .addToBackStack(null).commit();*/
+
+                    if(getActivity() != null)
+                        getActivity().getSupportFragmentManager().popBackStack();
+                }
             }
         });
 
