@@ -2,6 +2,7 @@ package com.yellion.yellapp;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,6 +39,7 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
     List<TransactionCard> list;
     ApiService service;
     SessionManager sessionManager;
+    OnBackPressedCallback pressedCallback;
 
     public BudgetStatisticOutcomeFragment(BudgetCard budgetCard, SessionManager sessionManager) {
         this.budgetCard=budgetCard;
@@ -47,6 +49,20 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getActivity() != null)
+                {
+                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
+                    if(fragment == null)
+                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
+                    else
+                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
     }
 
     @Override
@@ -68,14 +84,7 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getActivity() != null)
-                {
-                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
-                    if(fragment == null)
-                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
-                    else
-                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
-                }
+                requireActivity().onBackPressed();
             }
         });
         binding.tn.setOnClickListener(new View.OnClickListener() {

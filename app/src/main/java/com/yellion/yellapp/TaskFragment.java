@@ -7,6 +7,7 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -318,7 +319,7 @@ public class TaskFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(getActivity()!= null){
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    requireActivity().onBackPressed();
                 }
             }
         });

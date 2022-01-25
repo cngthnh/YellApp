@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -45,6 +46,7 @@ public class BudgetsFragment extends Fragment {
     static List<TransactionCard> list;
     SessionManager sessionManager;
     ApiService service;
+    OnBackPressedCallback pressedCallback;
 
     public BudgetsFragment(BudgetCard budgetCard, SessionManager sessionManager) {
         this.budgetCard = budgetCard;
@@ -54,6 +56,20 @@ public class BudgetsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getActivity() != null)
+                {
+                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
+                    if(fragment == null)
+                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
+                    else
+                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -80,14 +96,7 @@ public class BudgetsFragment extends Fragment {
         binding.backListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getActivity() != null)
-                {
-                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
-                    if(fragment == null)
-                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
-                    else
-                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
-                }
+                requireActivity().onBackPressed();
             }
         });
 
@@ -273,6 +282,7 @@ public class BudgetsFragment extends Fragment {
                         View view=binding_ct.getRoot();
                         radioButton = (RadioButton) view.findViewById(idBtnSelected);
                         category=radioButton.getText().toString();
+                        requireActivity().onBackPressed();
                     }
                 });
             }

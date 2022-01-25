@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatCallback;
 import androidx.fragment.app.Fragment;
@@ -37,6 +38,7 @@ public class ListBudgetsFragment extends Fragment {
     List<BudgetCard> list;
     ApiService service;
     SessionManager sessionManager;
+    OnBackPressedCallback pressedCallback;
     List<String> listIdBudget;
     Moshi moshi = new Moshi.Builder().build();
     public ListBudgetsFragment() {
@@ -45,6 +47,16 @@ public class ListBudgetsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getActivity() != null)
+                {
+                    getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
     }
 
     @Override
@@ -72,8 +84,7 @@ public class ListBudgetsFragment extends Fragment {
         binding.backListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getActivity() != null)
-                    getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
+                requireActivity().onBackPressed();
             }
         });
 
