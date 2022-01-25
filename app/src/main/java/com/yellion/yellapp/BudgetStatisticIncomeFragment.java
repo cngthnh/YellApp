@@ -2,7 +2,6 @@ package com.yellion.yellapp;
 
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -37,7 +36,6 @@ public class BudgetStatisticIncomeFragment extends Fragment {
     BudgetCard budgetCard;
     List<TransactionCard> list;
     ApiService service;
-    OnBackPressedCallback pressedCallback;
     SessionManager sessionManager;
     public BudgetStatisticIncomeFragment(BudgetCard budgetCard, SessionManager sessionManager) {
         this.budgetCard=budgetCard;
@@ -47,20 +45,6 @@ public class BudgetStatisticIncomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pressedCallback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (getActivity() != null)
-                {
-                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
-                    if(fragment == null)
-                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
-                    else
-                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
-                }
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
     }
 
     @Override
@@ -82,7 +66,9 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requireActivity().onBackPressed();
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,listBudgetsFragment).commit();
             }
         });
         binding.tnn.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +76,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetStatisticOutcomeFragment budgetStatisticOutcomeFragment = new BudgetStatisticOutcomeFragment(budgetCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticOutcomeFragment).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticOutcomeFragment).commit();
 
             }
         });
@@ -100,7 +86,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).commit();
             }
         });
 
