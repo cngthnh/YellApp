@@ -73,7 +73,7 @@ public class ListBudgetsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (getActivity() != null)
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
             }
         });
 

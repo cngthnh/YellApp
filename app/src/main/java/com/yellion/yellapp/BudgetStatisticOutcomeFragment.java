@@ -69,7 +69,13 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (getActivity() != null)
-                    getActivity().getSupportFragmentManager().popBackStack();
+                {
+                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
+                    if(fragment == null)
+                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
+                    else
+                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
+                }
             }
         });
         binding.tn.setOnClickListener(new View.OnClickListener() {
