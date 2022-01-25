@@ -50,6 +50,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:maxLength="40"
                 android:paddingBottom="15dp"/>
             <TextView
                 android:layout_width="match_parent"
@@ -72,6 +73,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
                     android:textSize="20sp"
+                    android:maxLength="12"
                     android:inputType="number"/>
                 <TextView
                     android:layout_width="0dp"
@@ -87,8 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="2"
-                android:checkedButton="@+id/radio_income">
+                android:weightSum="2">
                 <RadioButton android:id="@+id/radio_income"
                     android:layout_width="0dp"
                     android:layout_weight="1"

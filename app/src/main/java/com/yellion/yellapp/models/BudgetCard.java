@@ -7,9 +7,9 @@ public class BudgetCard {
     @Json(name = "name")
     public String name;
     @Json(name = "balance")
-    public Integer balance;
+    public long balance;
     @Json(name = "threshold")
-    public Integer threshold;
+    public long threshold;
     @Json(name = "created_at")
     public String created_at;
     @Json(name = "type")
@@ -71,15 +71,15 @@ public class BudgetCard {
         this.name = name;
     }
 
-    public Integer getBalance() {
+    public long getBalance() {
         return balance;
     }
-    public void setBalance(Integer balance) { this.balance = balance; }
+    public void setBalance(long balance) { this.balance = balance; }
 
-    public Integer getThreshold() {
+    public long getThreshold() {
         return threshold;
     }
-    public void setThreshold(Integer threshold) {
+    public void setThreshold(long threshold) {
         this.threshold = threshold;
     }
 

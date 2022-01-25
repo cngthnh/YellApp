@@ -74,8 +74,8 @@ public class CreateBudget extends Fragment {
 
                 else{
                     budgetCard.setName(binding.budgetNameInput.getText().toString());
-                    budgetCard.setBalance(Integer.parseInt(binding.balanceInput.getText().toString()));
-                    budgetCard.setThreshold(Integer.parseInt(binding.thresholdInput.getText().toString()));
+                    budgetCard.setBalance(Long.parseLong(binding.balanceInput.getText().toString()));
+                    budgetCard.setThreshold(Long.parseLong(binding.thresholdInput.getText().toString()));
 
                     addBudgetToServer(budgetCard);
 

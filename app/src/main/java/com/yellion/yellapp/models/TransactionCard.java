@@ -10,7 +10,7 @@ public class TransactionCard {
     @Json(name = "content")
     public String content;
     @Json(name = "amount")
-    public int amount;
+    public long amount;
     @Json(name = "type")
     public Integer type;
     @Json(name = "purposes")
@@ -42,10 +42,10 @@ public class TransactionCard {
     public void setContent(String content) {
         this.content = content;
     }
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
     public Integer getType() {

@@ -16,8 +16,7 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:orientation="vertical"
-            android:id="@+id/radio_group_category"
-            android:checkedButton="@+id/radio_food">
+            android:id="@+id/radio_group_category">
                 <RadioButton android:id="@+id/radio_food"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -71,7 +71,11 @@ public class BudgetsAdapter extends RecyclerView.Adapter<BudgetsAdapter.BudgetsV
         if(budgetCard == null){
             return;
         }
+<<<<<<< Updated upstream
         holder.budget_id.setText(budgetCard.getName());
+=======
+        holder.budget_id.setText(budgetCard.name);
+>>>>>>> Stashed changes
         holder.threshold.setText(String.valueOf(budgetCard.threshold));
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(1));
         holder.deleteLayout.setOnClickListener(new View.OnClickListener() {

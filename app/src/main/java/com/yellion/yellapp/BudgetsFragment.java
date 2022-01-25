@@ -344,13 +344,16 @@ public class BudgetsFragment extends Fragment {
                     if (binding_ts.addContentTs.getText().toString().equals("") ||binding_ts.addAmountTs.getText().toString().equals("")
                             || transactionCard.getType() == -1 || category.equals("other"))
                         Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_LONG).show();
+                    else if(Long.parseLong(binding_ts.addAmountTs.getText().toString())>Long.parseLong(binding.idBalance.getText().toString())){
+                        Toast.makeText(getContext(),"Giao dịch vượt quá số dư!", Toast.LENGTH_LONG).show();
+                    }
                     else {
                         transactionCard.setContent(binding_ts.addContentTs.getText().toString());
                         transactionCard.setBudget_id(budgetCard.getId());
                         if (transactionCard.getType() == 1)
-                            transactionCard.setAmount(Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
+                            transactionCard.setAmount(Long.parseLong(binding_ts.addAmountTs.getText().toString()));
                         else
-                            transactionCard.setAmount(-1 * Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
+                            transactionCard.setAmount(-1 * Long.parseLong(binding_ts.addAmountTs.getText().toString()));
 
                         transactionCard.setPurpose(category);
 

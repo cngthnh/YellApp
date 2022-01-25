@@ -83,7 +83,12 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         createDate = createDate.substring(0, index);
         binding.idCreateDate.setText(createDate);
         binding.threshold.setText(String.valueOf(budgetCard.getThreshold()));
+<<<<<<< Updated upstream
         int progress = budgetCard.getBalance()/budgetCard.getThreshold()*100;
+=======
+        binding.balance2.setText(String.valueOf(budgetCard.getBalance()));
+        int progress = (int)(budgetCard.getBalance()/budgetCard.getThreshold()*100);
+>>>>>>> Stashed changes
 
         binding.circularProgressbar.setProgress(progress);
         binding.tv.setText(String.valueOf(progress)+'%');
