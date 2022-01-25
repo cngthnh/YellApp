@@ -135,7 +135,7 @@ public interface ApiService {
     @PATCH("transactions")
     Call<InfoMessage> editTransaction(@Body RequestBody body);
 
-    @DELETE("transactions")
+    @HTTP(method = "DELETE", path = "transactions", hasBody = true)
     @Headers("Content-Type: application/json")
     Call<InfoMessage> deleteTransaction(@Body RequestBody body);
 

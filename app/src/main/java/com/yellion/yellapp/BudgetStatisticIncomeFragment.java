@@ -2,6 +2,7 @@ package com.yellion.yellapp;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -36,6 +37,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
     BudgetCard budgetCard;
     List<TransactionCard> list;
     ApiService service;
+    OnBackPressedCallback pressedCallback;
     SessionManager sessionManager;
     public BudgetStatisticIncomeFragment(BudgetCard budgetCard, SessionManager sessionManager) {
         this.budgetCard=budgetCard;
@@ -45,6 +47,20 @@ public class BudgetStatisticIncomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getActivity() != null)
+                {
+                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
+                    if(fragment == null)
+                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
+                    else
+                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
     }
 
     @Override
@@ -55,20 +71,27 @@ public class BudgetStatisticIncomeFragment extends Fragment {
 
         binding.budgetName.setText(budgetCard.getName());
         binding.idBalance.setText(String.valueOf(budgetCard.getBalance()));
-        binding.idCreateDate.setText(budgetCard.getCreated_at());
+        String createDate = budgetCard.getCreated_at();
+        int index = createDate.indexOf("T");
+        createDate = createDate.substring(0, index);
+        binding.idCreateDate.setText(createDate);
         binding.threshold.setText(String.valueOf(budgetCard.getThreshold()));
         binding.balance2.setText(String.valueOf(budgetCard.getBalance()));
         int progress = budgetCard.getBalance()/budgetCard.getThreshold()*100;
-
+        if (progress > 100) progress = 100;
         binding.circularProgressbar.setProgress(progress);
         binding.tv.setText(String.valueOf(progress)+'%');
 
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< Updated upstream
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,listBudgetsFragment).commit();
+=======
+                requireActivity().onBackPressed();
+>>>>>>> Stashed changes
             }
         });
         binding.tnn.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +116,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recycleViewIncome.setLayoutManager(layoutManager);
 
-        transactionsAdapter = new TransactionsAdapter(getContext());
+        transactionsAdapter = new TransactionsAdapter(getContext(), sessionManager);
         list = new ArrayList<>();
         getListTransactionsFromServer();
         transactionsAdapter.setData(list);
@@ -106,31 +129,14 @@ public class BudgetStatisticIncomeFragment extends Fragment {
 
     private void getListTransactionsFromServer() {
         if (budgetCard.getTransactionsList() != null) {
-            List<String> listID = budgetCard.getTransactionsList();
-            for (int i = 0; i < listID.size(); ++i) {
-                service = Client.createServiceWithAuth(ApiService.class, sessionManager);
-                Call<TransactionCard> call;
-
-                call = service.getTransaction(listID.get(i));
-                call.enqueue(new Callback<TransactionCard>() {
-                    @Override
-                    public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
-                        Log.w("GetTransaction", "onResponse: " + response);
-                        if (response.isSuccessful()) {
-                            if (response.body().getType() >= 0)
-                                list.add(response.body());
-                            transactionsAdapter.notifyDataSetChanged();
-                        } else {
-                            ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                            Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
-                        }
+            {
+                List<TransactionCard> listID = budgetCard.getTransactionsList();
+                if (listID.size() != 0)
+                    for (int i = 0; i < listID.size(); ++i)
+                    {
+                        list.add(listID.get(i));
+                        transactionsAdapter.notifyDataSetChanged();
                     }
-
-                    @Override
-                    public void onFailure(Call<TransactionCard> call, Throwable t) {
-                        Log.w("YellInComeFragment", "onFailure: " + t.getMessage());
-                    }
-                });
             }
         }
     }

@@ -33,6 +33,9 @@ public class TransactionCard {
     public String getTran_id() {
         return tran_id;
     }
+    public void setTran_id(String id) {
+        this.tran_id = id;
+    }
     public String getContent() {
         return content;
     }

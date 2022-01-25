@@ -73,7 +73,10 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
 
         binding.budgetName.setText(budgetCard.getName());
         binding.idBalance.setText(String.valueOf(budgetCard.getBalance()));
-        binding.idCreateDate.setText(budgetCard.getCreated_at());
+        String createDate = budgetCard.getCreated_at();
+        int index = createDate.indexOf("T");
+        createDate = createDate.substring(0, index);
+        binding.idCreateDate.setText(createDate);
         binding.threshold.setText(String.valueOf(budgetCard.getThreshold()));
         binding.balance2.setText(String.valueOf(budgetCard.getBalance()));
         int progress = budgetCard.getBalance()/budgetCard.getThreshold()*100;
@@ -108,7 +111,7 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recycleViewOutcome.setLayoutManager(layoutManager);
 
-        transactionsAdapter = new TransactionsAdapter(getContext());
+        transactionsAdapter = new TransactionsAdapter(getContext(),sessionManager);
         list = new ArrayList<>();
         getListTransactionsFromServer();
         transactionsAdapter.setData(list);
@@ -122,32 +125,12 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
     private void getListTransactionsFromServer() {
         if (budgetCard.getTransactionsList() != null) {
             {
-                List<String> listID = budgetCard.getTransactionsList();
+                List<TransactionCard> listID = budgetCard.getTransactionsList();
                 if (listID.size() != 0)
-                    for (int i = 0; i < listID.size(); ++i) {
-                        service = Client.createServiceWithAuth(ApiService.class, sessionManager);
-                        Call<TransactionCard> call;
-
-                        call = service.getTransaction(listID.get(i));
-                        call.enqueue(new Callback<TransactionCard>() {
-                            @Override
-                            public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
-                                Log.w("GetTransaction", "onResponse: " + response);
-                                if (response.isSuccessful()) {
-                                    if (response.body().getType() < 0)
-                                        list.add(response.body());
-                                    transactionsAdapter.notifyDataSetChanged();
-                                } else {
-                                    ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                                    Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<TransactionCard> call, Throwable t) {
-                                Log.w("YellInComeFragment", "onFailure: " + t.getMessage());
-                            }
-                        });
+                    for (int i = 0; i < listID.size(); ++i)
+                    {
+                        list.add(listID.get(i));
+                        transactionsAdapter.notifyDataSetChanged();
                     }
             }
         }

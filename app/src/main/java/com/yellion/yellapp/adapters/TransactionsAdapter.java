@@ -47,7 +47,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     SessionManager sessionManager;
     ApiService service;
     Moshi moshi = new Moshi.Builder().build();
-    public TransactionsAdapter(Context mContext) {
+    public TransactionsAdapter(Context mContext, SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
         this.mContext = mContext;
     }
 
@@ -69,10 +70,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         if(transactionCard == null){
             return;
         }
-        holder.nameTransaction.setText(transactionCard.content);
-        holder.amount.setText(String.format("%d",transactionCard.type));
-        holder.purpose.setText(transactionCard.purpose);
-        //holder.time.setText(transactionCard.amount);
+        holder.nameTransaction.setText(transactionCard.getContent());
+        holder.amount.setText(String.valueOf(transactionCard.getAmount()));
+        holder.purpose.setText(transactionCard.getPurpose());
+        holder.time.setText(transactionCard.getCreated_at());
 
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(1));
         holder.deleteLayout.setOnClickListener(new View.OnClickListener() {

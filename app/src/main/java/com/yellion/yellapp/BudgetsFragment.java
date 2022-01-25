@@ -10,8 +10,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+<<<<<<< Updated upstream
+=======
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+>>>>>>> Stashed changes
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.squareup.moshi.Moshi;
@@ -43,6 +49,9 @@ public class BudgetsFragment extends Fragment {
     SessionManager sessionManager;
     static CreateTransactionFragment createTransactionFragment;
     ApiService service;
+    OnBackPressedCallback pressedCallback;
+    static CreateTransactionFragment createTransactionFragment;
+
 
     public BudgetsFragment(BudgetCard budgetCard, SessionManager sessionManager) {
         this.budgetCard = budgetCard;
@@ -52,6 +61,20 @@ public class BudgetsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getActivity() != null)
+                {
+                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
+                    if(fragment == null)
+                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
+                    else
+                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -64,12 +87,22 @@ public class BudgetsFragment extends Fragment {
         View view = binding.getRoot();
         binding.nameBg.setText(budgetCard.name);
         binding.idBalance.setText(String.valueOf(budgetCard.getBalance()));
-        binding.idCreateDate.setText(budgetCard.created_at);
+
+        String createDate = budgetCard.getCreated_at();
+        int index = createDate.indexOf("T");
+        createDate = createDate.substring(0, index);
+
+        binding.idCreateDate.setText(createDate);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recyclerViewTransaction.setLayoutManager(layoutManager);
 
+<<<<<<< Updated upstream
         transactionsAdapter = new TransactionsAdapter(getContext());
         listTransaction = new ArrayList<>();
+=======
+        transactionsAdapter = new TransactionsAdapter(getContext(),sessionManager);
+        list = new ArrayList<>();
+>>>>>>> Stashed changes
         getListTransactionsFromServer();
         transactionsAdapter.setData(listTransaction);
         transactionsAdapter.notifyDataSetChanged();
@@ -78,10 +111,7 @@ public class BudgetsFragment extends Fragment {
         binding.backListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getActivity() != null)
-                {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }
+                requireActivity().onBackPressed();
             }
         });
 
@@ -90,7 +120,11 @@ public class BudgetsFragment extends Fragment {
             public void onClick(View view) {
 
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
+<<<<<<< Updated upstream
                 createTransactionFragment = new CreateTransactionFragment(budgetCard, sessionManager);
+=======
+                CreateTransactionFragment createTransactionFragment = new CreateTransactionFragment(sessionManager);
+>>>>>>> Stashed changes
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,createTransactionFragment).addToBackStack(null).commit();
             }
         });
@@ -109,12 +143,15 @@ public class BudgetsFragment extends Fragment {
 
 
     private void getListTransactionsFromServer() {
-
         if (budgetCard.getTransactionsList() != null) {
-            List<String> listId = budgetCard.getTransactionsList();
-            for (int i = 0; i < listId.size(); ++i)
-                getTransactionFromServer(listId.get(i));
+            List<TransactionCard> listId = budgetCard.getTransactionsList();
+            for (int i = 0; i < listId.size(); ++i) {
+                list.add(listId.get(i));
+                transactionsAdapter.notifyDataSetChanged();
+            }
         }
+
+        binding.idBalance.setText(String.valueOf(budgetCard.getBalance()));
     }
 
     private void getTransactionFromServer(String id) {
@@ -149,12 +186,10 @@ public class BudgetsFragment extends Fragment {
         SessionManager sessionManager;
         ApiService service;
         Moshi moshi = new Moshi.Builder().build();
-        BudgetCard budgetCard;
         TransactionCard transactionCard;
         static String category="Ăn uống";
 
-        public CreateTransactionFragment(BudgetCard budgetCard, SessionManager sessionManager) {
-            this.budgetCard = budgetCard;
+        public CreateTransactionFragment(SessionManager sessionManager) {
             this.sessionManager = sessionManager;
         }
 
@@ -190,11 +225,24 @@ public class BudgetsFragment extends Fragment {
                     }
                     transactionCard.setContent(binding_ts.addContentTs.getText().toString());
                     transactionCard.setBudget_id(budgetCard.getId());
+<<<<<<< Updated upstream
                     transactionCard.setAmount(Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
                     transactionCard.setPurpose(category);
 
                     addTransactionToServer(transactionCard);
                     binding_ts.addTransactionFragment.setVisibility(View.GONE);
+=======
+                    if (transactionCard.getType() == 1)
+                        transactionCard.setAmount(Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
+                    else
+                        transactionCard.setAmount(-1*Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
+
+                    transactionCard.setPurpose(category);
+
+                    addTransactionToServer(transactionCard);
+
+                    //binding_ts.addTransactionFragment.setVisibility(View.GONE);
+>>>>>>> Stashed changes
                     transactionsAdapter.notifyDataSetChanged();
 
                     if (getActivity() != null)
@@ -211,6 +259,31 @@ public class BudgetsFragment extends Fragment {
             });
             return view;
         }
+        private void getBudget() {
+            service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+            Call<BudgetCard> call;
+
+            call = service.getBudget(budgetCard.getId(), "full");
+            call.enqueue(new Callback<BudgetCard>() {
+                @Override
+                public void onResponse(Call<BudgetCard> call, Response<BudgetCard> response) {
+                    Log.w("GetBudget", "onResponse: " + response);
+                    if (response.isSuccessful()) {
+                        budgetCard.setBalance(response.body().getBalance());
+                        budgetCard.setTransactionsList(response.body().getTransactionsList());
+
+                    } else {
+                        ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
+                        Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<BudgetCard> call, Throwable t) {
+                    Log.w("YellBudgetFragment", "onFailure: " + t.getMessage() );
+                }
+            });
+        }
 
         private void addTransactionToServer(TransactionCard transactionCard) {
             service = Client.createServiceWithAuth(ApiService.class, sessionManager);
@@ -226,10 +299,11 @@ public class BudgetsFragment extends Fragment {
                     Log.w("YellCreateTransaction", "onResponse: " + response);
                     if (response.isSuccessful()) {
                         //Toast.makeText(getActivity(), "Tạo thành công!", Toast.LENGTH_LONG).show();
+                        getBudget();
                     } else {
                         {
                             ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                            Toast.makeText(getActivity(), "Tạo thất bại! " + apiError.getMessage(), Toast.LENGTH_LONG).show();
+                            //  Toast.makeText(getActivity(), "Tạo thất bại! " + apiError.getMessage(), Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -258,7 +332,11 @@ public class BudgetsFragment extends Fragment {
             @Override
             public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState) {
+<<<<<<< Updated upstream
                 binding_ct = FragmentTransactionCategoryBinding.inflate(inflater, container,false);
+=======
+                binding_ct = FragmentTransactionCategoryBinding.inflate(inflater, container, false);
+>>>>>>> Stashed changes
                 View view = binding_ct.getRoot();
                 radioGroup = binding_ct.radioGroupCategory;
                 binding_ct.btnSaveCategory.setOnClickListener(new View.OnClickListener() {
@@ -266,12 +344,20 @@ public class BudgetsFragment extends Fragment {
                     public void onClick(View v) {
                         // get selected radio button from radioGroup
                         idBtnSelected = radioGroup.getCheckedRadioButtonId();
-                        View view=binding_ct.getRoot();
+                        View view = binding_ct.getRoot();
                         radioButton = (RadioButton) view.findViewById(idBtnSelected);
+<<<<<<< Updated upstream
                         category=radioButton.getText().toString();
                         binding_ts.categoryTs.setText("xin chào");
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,createTransactionFragment).commit();
+=======
+                        category = radioButton.getText().toString();
+                        binding_ts.categoryTs.setText("xin chào");
+
+                        if (getActivity() != null)
+                            getActivity().getSupportFragmentManager().popBackStack();
+>>>>>>> Stashed changes
                     }
                 });
 

@@ -17,7 +17,7 @@ public class BudgetCard {
     @Json(name = "budget_id")
     public String id;
     @Json(name = "transactions")
-    public List<String> transactions;
+    public List<TransactionCard> transactions;
     public String updated_at;
 
     public BudgetCard(){}
@@ -44,7 +44,7 @@ public class BudgetCard {
         this.type = type;
         this.created_at = created_at;
     }
-    public BudgetCard(String name, Integer balance, Integer threshold, Integer type, String id, List<String> transactions) {
+    public BudgetCard(String name, Integer balance, Integer threshold, Integer type, String id, List<TransactionCard> transactions) {
         this.name = name;
         this.balance = balance;
         this.threshold= threshold;
@@ -88,8 +88,8 @@ public class BudgetCard {
         this.created_at = created_at;
     }
 
-    public List<String> getTransactionsList() { return transactions;}
-    public void setTransactionsList(List<String> transactions) { this.transactions = transactions;}
+    public List<TransactionCard> getTransactionsList() { return transactions;}
+    public void setTransactionsList(List<TransactionCard> transactions) { this.transactions = transactions;}
 
     public String getUpdated_at() { return updated_at;}
     public void setUpdated_at(String updated_at) {
