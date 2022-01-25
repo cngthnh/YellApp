@@ -198,34 +198,40 @@ public class BudgetsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     transactionCard = new TransactionCard();
-
+                    transactionCard.setType(-1);
                     String InOutCome;
                     RadioGroup radioGroup;
                     RadioButton radioButton;
                     radioGroup = (RadioGroup) view.findViewById(R.id.radio_category_ts);
                     int selectedId = radioGroup.getCheckedRadioButtonId();
+                    if (selectedId != -1){
                     radioButton = (RadioButton) view.findViewById(selectedId);
                     InOutCome=radioButton.getText().toString();
                     switch (InOutCome){
                         case "Thu nhập": transactionCard.setType(1);
                         case "Chi tiêu": transactionCard.setType(0);
+                    }}
 
+                    if (binding_ts.addContentTs.getText().toString().equals("") ||binding_ts.addAmountTs.getText().toString().equals("")
+                            || transactionCard.getType() == -1 || category.equals("other"))
+                        Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_LONG).show();
+                    else {
+                        transactionCard.setContent(binding_ts.addContentTs.getText().toString());
+                        transactionCard.setBudget_id(budgetCard.getId());
+                        if (transactionCard.getType() == 1)
+                            transactionCard.setAmount(Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
+                        else
+                            transactionCard.setAmount(-1 * Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
+
+                        transactionCard.setPurpose(category);
+
+                        addTransactionToServer(transactionCard);
+
+                        //binding_ts.addTransactionFragment.setVisibility(View.GONE);
+                        transactionsAdapter.notifyDataSetChanged();
+                        if (getActivity() != null)
+                            getActivity().getSupportFragmentManager().popBackStack();
                     }
-                    transactionCard.setContent(binding_ts.addContentTs.getText().toString());
-                    transactionCard.setBudget_id(budgetCard.getId());
-                    if (transactionCard.getType() == 1)
-                        transactionCard.setAmount(Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
-                    else
-                        transactionCard.setAmount(-1*Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
-
-                    transactionCard.setPurpose(category);
-
-                    addTransactionToServer(transactionCard);
-
-                    //binding_ts.addTransactionFragment.setVisibility(View.GONE);
-                    transactionsAdapter.notifyDataSetChanged();
-                    if (getActivity() != null)
-                        getActivity().getSupportFragmentManager().popBackStack();
                 }
             });
             binding_ts.categoryTsLayout.setOnClickListener(new View.OnClickListener() {
