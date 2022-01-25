@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp"
+    android:id="@+id/category"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.9">
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:orientation="vertical"
+            android:id="@+id/radio_group_category"
+            >
+                <RadioButton android:id="@+id/radio_food"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ăn uống"
+                    android:drawableEnd="@drawable/ic_food"
+                    android:layout_weight="0.9"/>
+
+                <RadioButton android:id="@+id/radio_travel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Du lịch"
+                    android:drawableEnd="@drawable/ic_travel"
+                    android:layout_weight="0.9"/>
+
+                <RadioButton android:id="@+id/radio_shopping"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_shopping"
+                    android:text="Mua sắm"
+                    android:layout_weight="0.9"/>
+
+                <RadioButton android:id="@+id/radio_daily_use"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_home"
+                    android:text="Sinh hoạt gia đình"
+                    android:layout_weight="0.9"/>
+
+
+                <RadioButton android:id="@+id/radio_coffee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_coffee"
+                    android:text="Cà phê"
+                    android:layout_weight="0.9"
+                    />
+
+            <RadioButton android:id="@+id/radio_transport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_car"
+                android:text="Đi lại"
+                android:layout_weight="0.9"/>
+
+        </RadioGroup>
+
+    </ScrollView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save_category"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_height="50dp"
+        android:text="Lưu"
+        android:textSize="16dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        app:cornerRadius="10dp"
+        android:backgroundTint="@color/yellow"
+        android:layout_weight="0.1"/>
+
+</LinearLayout>

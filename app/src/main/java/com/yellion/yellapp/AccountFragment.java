@@ -7,17 +7,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.yellion.yellapp.databinding.FragmentAccountBinding;
 import com.yellion.yellapp.models.ErrorMessage;
+import com.yellion.yellapp.models.InfoMessage;
 import com.yellion.yellapp.models.UserAccount;
 import com.yellion.yellapp.utils.ApiService;
 import com.yellion.yellapp.utils.Client;
-import com.yellion.yellapp.utils.TokenManager;
+import com.yellion.yellapp.utils.SessionManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,8 +25,7 @@ import retrofit2.Response;
 
 public class AccountFragment extends Fragment {
 
-    TokenManager tokenManager;
-    Call<UserAccount> call;
+    SessionManager sessionManager;
     ApiService service;
     FragmentAccountBinding binding;
 
@@ -41,22 +40,52 @@ public class AccountFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        tokenManager = TokenManager.getInstance(getActivity().
+        sessionManager = SessionManager.getInstance(getActivity().
                 getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
 
-        if (tokenManager.getToken()!=null) {
-            service = Client.createServiceWithAuth(ApiService.class, tokenManager);
+        binding.backAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(getActivity() != null){
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            }
+        });
 
+        binding.signoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<InfoMessage> call = service.logout();
+                call.enqueue(new Callback<InfoMessage>() {
+                    @Override
+                    public void onResponse(Call<InfoMessage> call, Response<InfoMessage> response) {
+                        sessionManager.deleteToken();
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<InfoMessage> call, Throwable t) {
+                        Log.w("YellLogout", "onFailure: " + t.getMessage() );
+                    }
+                });
+            }
+        });
+
+        if (sessionManager.getToken()!=null) {
+            service = Client.createServiceWithAuth(ApiService.class, sessionManager);
+            Call<UserAccount> call;
             call = service.getUserProfile("compact");
             call.enqueue(new Callback<UserAccount>() {
                 @Override
                 public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
                     if (response.isSuccessful()) {
-                        binding.helloTitle.setText("Hi, " + response.body().getName());
+                        binding.fullNameText.setText(response.body().getName());
+                        binding.usernameText.setText("@" + response.body().getId());
                     } else {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
                         Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
-                        tokenManager.deleteToken();
+                        sessionManager.deleteToken();
                         Intent intent = new Intent(getActivity(), LoginActivity.class);
                         startActivity(intent);
                     }
@@ -74,9 +103,5 @@ public class AccountFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (call != null) {
-            call.cancel();
-            call = null;
-        }
     }
 }
