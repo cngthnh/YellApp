@@ -14,128 +14,54 @@
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="15dp"
             android:orientation="vertical"
             android:id="@+id/radio_group_category"
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"
-
-                >
                 <RadioButton android:id="@+id/radio_food"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ăn uống"
-                    android:paddingBottom="15dp"
-                    android:layout_weight="0.9"
+                    android:drawableEnd="@drawable/ic_food"
+                    android:layout_weight="0.9"/>
 
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_pizza"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="center"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"
-                >
                 <RadioButton android:id="@+id/radio_travel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Du lịch"
-                    android:paddingBottom="15dp"
+                    android:drawableEnd="@drawable/ic_travel"
                     android:layout_weight="0.9"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_travel"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="center"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"
-                >
+
                 <RadioButton android:id="@+id/radio_shopping"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_shopping"
                     android:text="Mua sắm"
-                    android:paddingBottom="15dp"
                     android:layout_weight="0.9"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_shopping"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="center"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"
-                >
+
                 <RadioButton android:id="@+id/radio_daily_use"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_home"
                     android:text="Sinh hoạt gia đình"
-                    android:paddingBottom="15dp"
                     android:layout_weight="0.9"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.1"
-                    android:src="@drawable/ic_home" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
                 <RadioButton android:id="@+id/radio_coffee"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_coffee"
                     android:text="Cà phê"
-                    android:paddingBottom="15dp"
                     android:layout_weight="0.9"
-                    android:layout_margin="10dp"
                     />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_coffee"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="center"/>
-            </LinearLayout><LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp"
-            >
 
             <RadioButton android:id="@+id/radio_transport"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_car"
                 android:text="Đi lại"
-                android:paddingBottom="15dp"
                 android:layout_weight="0.9"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_car"
-                android:layout_weight="0.1"
-                android:layout_gravity="center"/>
-        </LinearLayout>
+
         </RadioGroup>
 
     </ScrollView>
