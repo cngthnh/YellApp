@@ -262,8 +262,23 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length()>40)
+                if (s.toString().length()>40) {
                     taskName.setError("Nhập quá 40 ký tự");
+                    editNameTask.setClickable(false);
+                    editNameTask.setColorFilter(getResources().getColor(R.color.dark_gray));
+                }
+                else if (s.toString().length()==00){
+                    taskName.setError("Tên không được phép rỗng");
+                    editNameTask.setClickable(false);
+                    editNameTask.setColorFilter(getResources().getColor(R.color.dark_gray));
+                }
+                else {
+                    taskName.setError(null);
+                    editNameTask.setClickable(true);
+                    if (taskIcon.getTag() == "true")
+                        editNameTask.setColorFilter(getResources().getColor(R.color.green));
+                }
+
             }
         });
         deleteTask.setOnClickListener(new View.OnClickListener() {

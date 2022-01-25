@@ -8,11 +8,8 @@ com/yellion/yellapp/models/EmailConfirmation.java
  com.yellion.yellapp.models.EmailConfirmation
 com/yellion/yellapp/databinding/FragmentNotificationBinding.java
  com.yellion.yellapp.databinding.FragmentNotificationBinding
-com/yellion/yellapp/adapters/TaskAdapter.java
- com.yellion.yellapp.adapters.TaskAdapter
- com.yellion.yellapp.adapters.TaskAdapter$1
- com.yellion.yellapp.adapters.TaskAdapter$2
- com.yellion.yellapp.adapters.TaskAdapter$TaskViewHolder
+com/yellion/yellapp/databinding/ItemFileBinding.java
+ com.yellion.yellapp.databinding.ItemFileBinding
 com/yellion/yellapp/ListBudgetsFragment.java
  com.yellion.yellapp.ListBudgetsFragment
  com.yellion.yellapp.ListBudgetsFragment$1
@@ -306,6 +303,13 @@ com/yellion/yellapp/BudgetsFragment.java
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$4
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$TransactionCategoryFragment
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$TransactionCategoryFragment$1
+com/yellion/yellapp/databinding/FragmentTaskBinding.java
+ com.yellion.yellapp.databinding.FragmentTaskBinding
+com/yellion/yellapp/adapters/TaskAdapter.java
+ com.yellion.yellapp.adapters.TaskAdapter
+ com.yellion.yellapp.adapters.TaskAdapter$1
+ com.yellion.yellapp.adapters.TaskAdapter$2
+ com.yellion.yellapp.adapters.TaskAdapter$TaskViewHolder
 com/yellion/yellapp/TaskFragment.java
  com.yellion.yellapp.TaskFragment
  com.yellion.yellapp.TaskFragment$1
@@ -329,7 +333,3 @@ com/yellion/yellapp/TaskFragment.java
  com.yellion.yellapp.TaskFragment$7
  com.yellion.yellapp.TaskFragment$8
  com.yellion.yellapp.TaskFragment$9
-com/yellion/yellapp/databinding/FragmentTaskBinding.java
- com.yellion.yellapp.databinding.FragmentTaskBinding
-com/yellion/yellapp/databinding/ItemFileBinding.java
- com.yellion.yellapp.databinding.ItemFileBinding
