@@ -468,8 +468,19 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length()>200)
+                if (s.toString().length()>200) {
+                    editContent.setClickable(false);
+                    editContent.setColorFilter(getResources().getColor(R.color.dark_gray));
                     content.setError("Nhập quá 200 ký tự");
+                }
+                else
+                {
+                    if (editContentDiscard.getVisibility() == View.VISIBLE) {
+                        editContent.setClickable(true);
+                        editContent.setColorFilter(getResources().getColor(R.color.green));
+                    }
+                    content.setError(null);
+                }
             }
         });
 
