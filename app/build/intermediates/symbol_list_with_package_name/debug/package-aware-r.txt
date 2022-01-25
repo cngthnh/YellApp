@@ -2214,6 +2214,18 @@ id fill
 id fill_horizontal
 id fill_vertical
 id filled
+id filter1_all
+id filter1_car
+id filter1_coffee
+id filter1_food
+id filter1_home
+id filter1_shopping
+id filter1_travel
+id filter1_ts
+id filter_all
+id filter_income
+id filter_outcome
+id filter_ts
 id fitToContents
 id fixed
 id flip
@@ -2804,6 +2816,8 @@ layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
 layout transaction_category
+menu filter1_ts_menu
+menu filter_ts_menu
 menu permission_menu
 menu task_menu
 mipmap ic_launcher

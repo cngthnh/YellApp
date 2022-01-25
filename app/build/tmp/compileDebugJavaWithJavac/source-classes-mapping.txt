@@ -293,8 +293,12 @@ com/yellion/yellapp/BudgetsFragment.java
  com.yellion.yellapp.BudgetsFragment$1
  com.yellion.yellapp.BudgetsFragment$2
  com.yellion.yellapp.BudgetsFragment$3
+ com.yellion.yellapp.BudgetsFragment$3$1
  com.yellion.yellapp.BudgetsFragment$4
+ com.yellion.yellapp.BudgetsFragment$4$1
  com.yellion.yellapp.BudgetsFragment$5
+ com.yellion.yellapp.BudgetsFragment$6
+ com.yellion.yellapp.BudgetsFragment$7
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$1
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$2

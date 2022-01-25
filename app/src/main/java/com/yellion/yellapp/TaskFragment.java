@@ -120,16 +120,17 @@ public class TaskFragment extends Fragment {
                     loadingDialog.dismissDialog();
                 currentYellTask = yellTask;
                 if (yellTask != null) {
-                     if (currentYellTask.getEnd_time() != null)
+                    if (currentYellTask.getEnd_time() != null)
                         binding.deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
 
-                     if (currentYellTask.getPriority() != null) {
+                    if (currentYellTask.getPriority() != null) {
                         if (currentYellTask.getPriority() == 2)
                             binding.priorityTextView.setText("Thấp");
                         else if (currentYellTask.getPriority() == 0)
                             binding.priorityTextView.setText("Cao");
-                        else
+                        else {
                             binding.priorityTextView.setText("Thường");
+                        }
                     }
 
                     if (currentYellTask.getStatus() != null) {
@@ -142,11 +143,10 @@ public class TaskFragment extends Fragment {
                     if (yellTask.getName() != null)
                         binding.taskName.setText(yellTask.getName());
 
-                    if (yellTask.getContent() !=null )
+                    if (yellTask.getContent() != null)
                         binding.contentEditText.setText(yellTask.getContent());
+
                 }
-
-
             }
         });
         viewModel.getTaskIdLiveData().observe(this, new Observer<String>() {
@@ -383,8 +383,6 @@ public class TaskFragment extends Fragment {
             }
         });
         AppCompatEditText content = binding.contentEditText;
-        if (currentYellTask.getContent() != null)
-            content.setText(currentYellTask.getContent());
         AppCompatImageButton editContent = binding.editContent;
         AppCompatImageButton editContentDiscard = binding.editContentDiscard;
         StringBuffer currentContent = new StringBuffer();

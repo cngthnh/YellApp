@@ -61,6 +61,7 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
                     else
                         getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
                 }
+                this.setEnabled(false);
             }
         };
     }
@@ -70,6 +71,7 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentBudgetStatisticOutcomeBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
+        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
 
 
         binding.budgetName.setText(budgetCard.getName());
@@ -88,13 +90,13 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
                 requireActivity().onBackPressed();
             }
         });
         binding.tn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pressedCallback.setEnabled(false);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetStatisticIncomeFragment budgetStatisticIncomeFragment = new BudgetStatisticIncomeFragment(budgetCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticIncomeFragment).commit();
@@ -104,6 +106,7 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         binding.btnLS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pressedCallback.setEnabled(false);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).commit();

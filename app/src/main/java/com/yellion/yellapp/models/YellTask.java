@@ -51,7 +51,7 @@ public class YellTask {
     public YellTask(String dashboard_id, String name) {
         this.dashboard_id = dashboard_id;
         this.name = name;
-        this.status = 0;
+        this.status = null;
         this.task_id = null;
         this.noti_level = null;
         this.priority = null;
@@ -65,7 +65,7 @@ public class YellTask {
     public YellTask(String task_id) {
         this.dashboard_id = null;
         this.name = null;
-        this.status = 0;
+        this.status = null;
         this.task_id = task_id;
         this.noti_level = null;
         this.priority = null;

@@ -76,17 +76,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         YellTask yellTask = yellTaskArrayList.get(position);
         String taskName = yellTask.getName();
-        int status = yellTask.getStatus();
+        Integer status = yellTask.getStatus();
         if (yellTask == null)
             return;
         holder.taskName.setText(taskName);
-        if (status == 1)
+        if (status == null)
+        {
+
+        }
+        else if (status == 1)
         {
             holder.taskLabel.setText("Đã hoàn thành");
             holder.taskLabel.setBackgroundResource(R.drawable.frame_cover_item_task_green);
         }
-        else
-        {
+        else {
             holder.taskLabel.setText("Chưa hoàn thành");
             holder.taskLabel.setBackgroundResource(R.drawable.frame_cover_item_task_yellow);
         }

@@ -56,6 +56,7 @@ public class ListBudgetsFragment extends Fragment {
                     this.setEnabled(false);
                     getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
                 }
+                this.setEnabled(false);
             }
         };
     }
@@ -93,6 +94,7 @@ public class ListBudgetsFragment extends Fragment {
         binding.fabListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pressedCallback.setEnabled(false);
                 CreateBudget createBudget = new CreateBudget();
 
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
