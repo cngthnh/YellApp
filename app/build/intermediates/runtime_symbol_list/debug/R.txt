@@ -2223,7 +2223,6 @@ int id fragmentContainer 0x7f0a011b
 int id fragment_container_view_tag 0x7f0a011c
 int id frameLayout 0x7f0a011d
 int id frameTop 0x7f0a011e
-int id frame_name_db 0x7f0a011f
 int id frost 0x7f0a0120
 int id fullNameText 0x7f0a0121
 int id ghost_view 0x7f0a0122
