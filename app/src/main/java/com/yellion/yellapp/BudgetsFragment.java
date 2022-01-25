@@ -341,7 +341,7 @@ public class BudgetsFragment extends Fragment {
                     if (binding_ts.addContentTs.getText().toString().equals("") ||binding_ts.addAmountTs.getText().toString().equals("")
                             || transactionCard.getType() == -1 || category.equals("other"))
                         Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_LONG).show();
-                    else if(Long.parseLong(binding_ts.addAmountTs.getText().toString())>Long.parseLong(binding.idBalance.getText().toString())){
+                    else if(Long.parseLong(binding_ts.addAmountTs.getText().toString())>Long.parseLong(binding.idBalance.getText().toString()) && transactionCard.getType() == 0){
                         Toast.makeText(getContext(),"Giao dịch vượt quá số dư!", Toast.LENGTH_LONG).show();
                     }
                     else {

@@ -1846,7 +1846,6 @@ drawable ic_circle
 drawable ic_clock_black_24dp
 drawable ic_close
 drawable ic_close_1
-drawable ic_coffee
 drawable ic_dashboard
 drawable ic_date
 drawable ic_delete
@@ -1862,6 +1861,7 @@ drawable ic_filter
 drawable ic_food
 drawable ic_google
 drawable ic_home
+drawable ic_income_ct
 drawable ic_keyboard_black_24dp
 drawable ic_launcher_background
 drawable ic_launcher_foreground
@@ -2216,9 +2216,9 @@ id fill_vertical
 id filled
 id filter1_all
 id filter1_car
-id filter1_coffee
 id filter1_food
 id filter1_home
+id filter1_income
 id filter1_shopping
 id filter1_travel
 id filter1_ts
@@ -2425,11 +2425,11 @@ id progress_horizontal
 id purpose_ts
 id radio
 id radio_category_ts
-id radio_coffee
 id radio_daily_use
 id radio_food
 id radio_group_category
 id radio_income
+id radio_income_ct
 id radio_outcome
 id radio_shopping
 id radio_transport
@@ -2815,7 +2815,6 @@ layout text_view_with_line_height_from_layout
 layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
-layout transaction_category
 menu filter1_ts_menu
 menu filter_ts_menu
 menu permission_menu

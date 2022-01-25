@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Study/Software/Yell/app/src/main/res/layout/fragment_budget_statistic_income.xml" value="0.3569230769230769" />
+        <entry key="..\:/Study/Software/Yell/app/src/main/res/layout/fragment_budget_statistic_outcome.xml" value="0.1703125" />
+        <entry key="..\:/Study/Software/Yell/app/src/main/res/layout/item_dashboard.xml" value="0.3569230769230769" />
+        <entry key="..\:/Study/Software/Yell/app/src/main/res/layout/item_task.xml" value="0.3625" />
+        <entry key="..\:/Study/Software/Yell/app/src/main/res/layout/item_transition.xml" value="0.3569230769230769" />
         <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_budget_statistic_outcome.xml" value="0.1703125" />
         <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.19429347826086957" />
         <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_task.xml" value="0.19429347826086957" />

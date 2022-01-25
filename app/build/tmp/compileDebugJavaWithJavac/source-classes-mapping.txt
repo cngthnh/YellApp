@@ -47,12 +47,8 @@ com/yellion/yellapp/BottomSheetFilePicker.java
  com.yellion.yellapp.BottomSheetFilePicker$3
 com/yellion/yellapp/databinding/DialogDeleteBudgetBinding.java
  com.yellion.yellapp.databinding.DialogDeleteBudgetBinding
-com/yellion/yellapp/BudgetStatisticIncomeFragment.java
- com.yellion.yellapp.BudgetStatisticIncomeFragment
- com.yellion.yellapp.BudgetStatisticIncomeFragment$1
- com.yellion.yellapp.BudgetStatisticIncomeFragment$2
- com.yellion.yellapp.BudgetStatisticIncomeFragment$3
- com.yellion.yellapp.BudgetStatisticIncomeFragment$4
+com/yellion/yellapp/databinding/FragmentTaskBinding.java
+ com.yellion.yellapp.databinding.FragmentTaskBinding
 com/yellion/yellapp/models/DashboardPermission.java
  com.yellion.yellapp.models.DashboardPermission
 com/yellion/yellapp/models/UserAccount.java
@@ -118,12 +114,14 @@ com/yellion/yellapp/adapters/DashboardsHomeAdapter.java
  com.yellion.yellapp.adapters.DashboardsHomeAdapter
  com.yellion.yellapp.adapters.DashboardsHomeAdapter$1
  com.yellion.yellapp.adapters.DashboardsHomeAdapter$DashboardsHomeViewHolder
-com/yellion/yellapp/adapters/TransactionsAdapter.java
- com.yellion.yellapp.adapters.TransactionsAdapter
- com.yellion.yellapp.adapters.TransactionsAdapter$1
- com.yellion.yellapp.adapters.TransactionsAdapter$2
- com.yellion.yellapp.adapters.TransactionsAdapter$3
- com.yellion.yellapp.adapters.TransactionsAdapter$TransactionsViewHolder
+com/yellion/yellapp/adapters/BudgetsAdapter.java
+ com.yellion.yellapp.adapters.BudgetsAdapter
+ com.yellion.yellapp.adapters.BudgetsAdapter$1
+ com.yellion.yellapp.adapters.BudgetsAdapter$2
+ com.yellion.yellapp.adapters.BudgetsAdapter$3
+ com.yellion.yellapp.adapters.BudgetsAdapter$4
+ com.yellion.yellapp.adapters.BudgetsAdapter$5
+ com.yellion.yellapp.adapters.BudgetsAdapter$BudgetsViewHolder
 com/yellion/yellapp/utils/SessionManager.java
  com.yellion.yellapp.utils.SessionManager
 com/yellion/yellapp/utils/MySpannable.java
@@ -171,20 +169,12 @@ com/yellion/yellapp/databinding/DialogIconPickerBinding.java
  com.yellion.yellapp.databinding.DialogIconPickerBinding
 com/yellion/yellapp/utils/ApiService.java
  com.yellion.yellapp.utils.ApiService
-com/yellion/yellapp/BudgetStatisticOutcomeFragment.java
- com.yellion.yellapp.BudgetStatisticOutcomeFragment
- com.yellion.yellapp.BudgetStatisticOutcomeFragment$1
- com.yellion.yellapp.BudgetStatisticOutcomeFragment$2
- com.yellion.yellapp.BudgetStatisticOutcomeFragment$3
- com.yellion.yellapp.BudgetStatisticOutcomeFragment$4
-com/yellion/yellapp/databinding/TransactionCategoryBinding.java
- com.yellion.yellapp.databinding.TransactionCategoryBinding
+com/yellion/yellapp/databinding/ItemFileBinding.java
+ com.yellion.yellapp.databinding.ItemFileBinding
 com/yellion/yellapp/databinding/ItemDashboardHomeBinding.java
  com.yellion.yellapp.databinding.ItemDashboardHomeBinding
-com/yellion/yellapp/adapters/BudgetsHomeAdapter.java
- com.yellion.yellapp.adapters.BudgetsHomeAdapter
- com.yellion.yellapp.adapters.BudgetsHomeAdapter$1
- com.yellion.yellapp.adapters.BudgetsHomeAdapter$BudgetsHomeViewHolder
+com/yellion/yellapp/databinding/FragmentCreateBudgetBinding.java
+ com.yellion.yellapp.databinding.FragmentCreateBudgetBinding
 com/yellion/yellapp/databinding/DialogDeleteTransactionBinding.java
  com.yellion.yellapp.databinding.DialogDeleteTransactionBinding
 com/yellion/yellapp/databinding/FragmentBudgetsBinding.java
@@ -242,14 +232,29 @@ com/yellion/yellapp/models/TransactionCard.java
  com.yellion.yellapp.models.TransactionCard
 com/yellion/yellapp/databinding/ItemTransitionBinding.java
  com.yellion.yellapp.databinding.ItemTransitionBinding
-com/yellion/yellapp/adapters/BudgetsAdapter.java
- com.yellion.yellapp.adapters.BudgetsAdapter
- com.yellion.yellapp.adapters.BudgetsAdapter$1
- com.yellion.yellapp.adapters.BudgetsAdapter$2
- com.yellion.yellapp.adapters.BudgetsAdapter$3
- com.yellion.yellapp.adapters.BudgetsAdapter$4
- com.yellion.yellapp.adapters.BudgetsAdapter$5
- com.yellion.yellapp.adapters.BudgetsAdapter$BudgetsViewHolder
+com/yellion/yellapp/TaskFragment.java
+ com.yellion.yellapp.TaskFragment
+ com.yellion.yellapp.TaskFragment$1
+ com.yellion.yellapp.TaskFragment$10
+ com.yellion.yellapp.TaskFragment$10$1
+ com.yellion.yellapp.TaskFragment$11
+ com.yellion.yellapp.TaskFragment$11$1
+ com.yellion.yellapp.TaskFragment$12
+ com.yellion.yellapp.TaskFragment$13
+ com.yellion.yellapp.TaskFragment$14
+ com.yellion.yellapp.TaskFragment$15
+ com.yellion.yellapp.TaskFragment$16
+ com.yellion.yellapp.TaskFragment$17
+ com.yellion.yellapp.TaskFragment$2
+ com.yellion.yellapp.TaskFragment$3
+ com.yellion.yellapp.TaskFragment$4
+ com.yellion.yellapp.TaskFragment$5
+ com.yellion.yellapp.TaskFragment$5$1
+ com.yellion.yellapp.TaskFragment$5$2
+ com.yellion.yellapp.TaskFragment$6
+ com.yellion.yellapp.TaskFragment$7
+ com.yellion.yellapp.TaskFragment$8
+ com.yellion.yellapp.TaskFragment$9
 com/yellion/yellapp/databinding/ItemBudgetHomeBinding.java
  com.yellion.yellapp.databinding.ItemBudgetHomeBinding
 com/yellion/yellapp/databinding/ActivityRegisterBinding.java
@@ -288,8 +293,28 @@ com/yellion/yellapp/DeadlineTimeDialog.java
  com.yellion.yellapp.DeadlineTimeDialog$5
  com.yellion.yellapp.DeadlineTimeDialog$5$1
  com.yellion.yellapp.DeadlineTimeDialog$6
-com/yellion/yellapp/databinding/FragmentCreateBudgetBinding.java
- com.yellion.yellapp.databinding.FragmentCreateBudgetBinding
+com/yellion/yellapp/adapters/BudgetsHomeAdapter.java
+ com.yellion.yellapp.adapters.BudgetsHomeAdapter
+ com.yellion.yellapp.adapters.BudgetsHomeAdapter$1
+ com.yellion.yellapp.adapters.BudgetsHomeAdapter$BudgetsHomeViewHolder
+com/yellion/yellapp/adapters/TransactionsAdapter.java
+ com.yellion.yellapp.adapters.TransactionsAdapter
+ com.yellion.yellapp.adapters.TransactionsAdapter$1
+ com.yellion.yellapp.adapters.TransactionsAdapter$2
+ com.yellion.yellapp.adapters.TransactionsAdapter$3
+ com.yellion.yellapp.adapters.TransactionsAdapter$TransactionsViewHolder
+com/yellion/yellapp/BudgetStatisticOutcomeFragment.java
+ com.yellion.yellapp.BudgetStatisticOutcomeFragment
+ com.yellion.yellapp.BudgetStatisticOutcomeFragment$1
+ com.yellion.yellapp.BudgetStatisticOutcomeFragment$2
+ com.yellion.yellapp.BudgetStatisticOutcomeFragment$3
+ com.yellion.yellapp.BudgetStatisticOutcomeFragment$4
+com/yellion/yellapp/BudgetStatisticIncomeFragment.java
+ com.yellion.yellapp.BudgetStatisticIncomeFragment
+ com.yellion.yellapp.BudgetStatisticIncomeFragment$1
+ com.yellion.yellapp.BudgetStatisticIncomeFragment$2
+ com.yellion.yellapp.BudgetStatisticIncomeFragment$3
+ com.yellion.yellapp.BudgetStatisticIncomeFragment$4
 com/yellion/yellapp/BudgetsFragment.java
  com.yellion.yellapp.BudgetsFragment
  com.yellion.yellapp.BudgetsFragment$1
@@ -308,30 +333,3 @@ com/yellion/yellapp/BudgetsFragment.java
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$4
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$TransactionCategoryFragment
  com.yellion.yellapp.BudgetsFragment$CreateTransactionFragment$TransactionCategoryFragment$1
-com/yellion/yellapp/TaskFragment.java
- com.yellion.yellapp.TaskFragment
- com.yellion.yellapp.TaskFragment$1
- com.yellion.yellapp.TaskFragment$10
- com.yellion.yellapp.TaskFragment$10$1
- com.yellion.yellapp.TaskFragment$11
- com.yellion.yellapp.TaskFragment$11$1
- com.yellion.yellapp.TaskFragment$12
- com.yellion.yellapp.TaskFragment$13
- com.yellion.yellapp.TaskFragment$14
- com.yellion.yellapp.TaskFragment$15
- com.yellion.yellapp.TaskFragment$16
- com.yellion.yellapp.TaskFragment$17
- com.yellion.yellapp.TaskFragment$2
- com.yellion.yellapp.TaskFragment$3
- com.yellion.yellapp.TaskFragment$4
- com.yellion.yellapp.TaskFragment$5
- com.yellion.yellapp.TaskFragment$5$1
- com.yellion.yellapp.TaskFragment$5$2
- com.yellion.yellapp.TaskFragment$6
- com.yellion.yellapp.TaskFragment$7
- com.yellion.yellapp.TaskFragment$8
- com.yellion.yellapp.TaskFragment$9
-com/yellion/yellapp/databinding/FragmentTaskBinding.java
- com.yellion.yellapp.databinding.FragmentTaskBinding
-com/yellion/yellapp/databinding/ItemFileBinding.java
- com.yellion.yellapp.databinding.ItemFileBinding

@@ -69,7 +69,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         }
         holder.amount.setText(String.valueOf(transactionCard.getAmount()));
         holder.purpose.setText(transactionCard.getPurpose());
-        ////holder.time.setText(transactionCard.getCreated_at());
+        ///holder.time.setText(transactionCard.getCreated_at());
 
 
         if(transactionCard.getPurpose().equals("Ăn uống"))
