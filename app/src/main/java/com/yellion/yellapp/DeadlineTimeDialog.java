@@ -112,7 +112,7 @@ public class DeadlineTimeDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                date = binding.dateEditText.getText().toString();
             }
         });
 
@@ -152,7 +152,7 @@ public class DeadlineTimeDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                time = binding.timeEditText.getText().toString();
             }
         });
         return view;
