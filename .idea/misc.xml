@@ -3,17 +3,141 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< Updated upstream
         <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.19429347826086957" />
         <entry key="..\:/Users/Huy/Documents/Android/YellApp/app/src/main/res/layout/fragment_transaction_category.xml" value="0.25" />
+=======
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/bg_item_user.xml" value="0.14635416666666667" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/fram_topbar.xml" value="0.2703125" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/frame_cover_item_dashboard.xml" value="0.2703125" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_back.xml" value="0.2703125" />
+        <entry key="..\:/Android/Yell/app/src/main/res/drawable/ic_delete.xml" value="0.2703125" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/activity_register.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/dialog_delete_dashboard.xml" value="0.264" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_budgets.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_dashboard.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_dashboard1.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_dashboards.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/item_dashboard.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/Yell/app/src/main/res/layout/item_user.xml" value="0.2" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/bg_item_user.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/bnv_item_foreground_color.xml" value="0.362962962962963" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/circular.xml" value="0.362962962962963" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/fram_topbar.xml" value="0.3078125" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/frame_cover_item_budget.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic__edit.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_account.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_add.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_add_1.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_back.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_budget.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_calendar.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_cancel.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_check.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_dashboard.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_delete.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_expand_more.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_eye_hide.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_eye_show.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_facebook.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_filter.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_google.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_home.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_notifications.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_question.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_ripple.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_settings.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/ic_stopwatch.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/drawable/rectangle.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/activity_login.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/activity_main.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/activity_register.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/dialog_delete_budget.xml" value="0.35833333333333334" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_account.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_budget_statistic.xml" value="0.33" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_budget_statistic_outcome.xml" value="0.36443148688046645" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_budgets.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_create_budget.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_date_picker_dialog.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_history.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_home.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_list_budgets.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_statistic.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/fragment_time_picker.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/item_budget.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/item_transition.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/S/YellFrontEnd/app/src/main/res/layout/item_user.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/YellFrontEnd-main/app/src/main/res/layout/fragment_budgets.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/YellFrontEnd-main/app/src/main/res/layout/fragment_dashboard.xml" value="0.3625" />
+        <entry key="..\:/Users/Duc Minh/Desktop/YellFrontEnd-main/app/src/main/res/layout/fragment_list_budgets.xml" value="0.1762917933130699" />
+        <entry key="..\:/YellApp/app/src/main/res/drawable/circular2.xml" value="0.1" />
+        <entry key="..\:/YellApp/app/src/main/res/drawable/ic_baseline_bar_chart_24.xml" value="0.17222222222222222" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/dialog_delete_transaction.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_account.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_budget_statistic_income.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_budget_statistic_outcome.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_budgets.xml" value="0.3333333333333333" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_create_budget.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_create_transaction.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_home.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_list_budgets.xml" value="0.1" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_statistic.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/fragment_transaction_category.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/item_budget.xml" value="0.16666666666666666" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/item_transition.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/item_user.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/test.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/layout/transaction_category.xml" value="0.22" />
+        <entry key="..\:/YellApp/app/src/main/res/menu/filter1_ts_menu.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/menu/filter_all.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/menu/filter_ts_menu.xml" value="0.184375" />
+        <entry key="..\:/YellApp/app/src/main/res/menu/permission_menu.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/drawable/ic_add_1.xml" value="0.20052083333333334" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/drawable/ic_line.xml" value="0.16203703703703703" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/drawable/ic_pizza.xml" value="0.16203703703703703" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/drawable/rectangle.xml" value="0.20052083333333334" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/drawable/yellow_color.xml" value="0.16203703703703703" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/activity_register.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/budget_history.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/dialog_delete_transaction.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_account.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_budgets.xml" value="0.22" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_create_budget.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_create_transaction.xml" value="0.22" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_dashboard.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_history.xml" value="0.22" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_home.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_list_budgets.xml" value="0.10416666666666667" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/fragment_statistic.xml" value="0.1703125" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/item_budget.xml" value="0.3333333333333333" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/item_transition.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/item_user.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/test.xml" value="0.184375" />
+        <entry key="..\:/YellFrontEnd/app/src/main/res/layout/transaction_category.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/drawable-v24/ic_google.xml" value="0.3619791666666667" />
+        <entry key="app/src/main/res/drawable/ic_account.xml" value="0.19739583333333333" />
+>>>>>>> Stashed changes
         <entry key="app/src/main/res/drawable/ic_budget.xml" value="0.2078125" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.2078125" />
         <entry key="app/src/main/res/drawable/ic_ripple.xml" value="0.3619791666666667" />
         <entry key="app/src/main/res/layout-v26/activity_main.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3458333333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3458333333333333" />
+<<<<<<< Updated upstream
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.3458333333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3458333333333333" />
+=======
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
+>>>>>>> Stashed changes
       </map>
     </option>
   </component>

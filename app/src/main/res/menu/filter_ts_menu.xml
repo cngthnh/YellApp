@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Tất cả"
+        android:id="@+id/filter_all"/>
+    <item android:title="Thu nhập"
+        android:id="@+id/filter_income"/>
+    <item android:title="Chi tiêu"
+        android:id="@+id/filter_outcome"/>
+</menu>

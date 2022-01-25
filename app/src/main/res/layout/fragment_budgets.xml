@@ -183,6 +183,37 @@
                             android:stateListAnimator="@null"
                             app:cornerRadius="10dp" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal"
+                        android:weightSum="11">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:text="Tất cả"
+                            android:layout_weight="3"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textSize="18dp"
+                            android:paddingLeft="10dp"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_expand_more"
+                            android:layout_weight="1"
+                            android:id="@+id/filter_ts"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="5"/>
+                        <ImageView
+                            android:id="@+id/filter1_ts"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_filter"
+                            android:layout_weight="2"/>
+                    </LinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_transaction"
                         android:layout_width="match_parent"

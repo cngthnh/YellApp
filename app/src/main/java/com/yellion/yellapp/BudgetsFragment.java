@@ -1,12 +1,16 @@
 package com.yellion.yellapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -107,6 +111,116 @@ public class BudgetsFragment extends Fragment {
             }
         });
 
+        ImageView filterTs=binding.filterTs;
+        filterTs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context=getContext();
+                PopupMenu popupMenu=new PopupMenu(context,view);
+                popupMenu.getMenuInflater().inflate(R.menu.filter_ts_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        List<TransactionCard> listFilter=new ArrayList<>();
+                        listFilter.addAll(list);
+                        int n=list.size();
+                        switch (item.getItemId()){
+                            case R.id.filter_income:{
+                                for(int i=0;i<n;i++){
+                                    TransactionCard transactionCard=list.get(i);
+                                    if(transactionCard.getAmount()<0) listFilter.remove(transactionCard);
+                                }
+                                break;
+                            }
+                            case R.id.filter_outcome:{
+                                for(int i=0;i<n;i++){
+                                    TransactionCard transactionCard=list.get(i);
+                                    if(transactionCard.getAmount()>0) listFilter.remove(transactionCard);
+                                }
+                                break;
+                            }
+                            default:{
+                            }
+                        }
+                        transactionsAdapter.setData(listFilter);
+                        transactionsAdapter.notifyDataSetChanged();
+                        binding.recyclerViewTransaction.setAdapter(transactionsAdapter);
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+        ImageView filter1Ts=binding.filter1Ts;
+        filter1Ts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context=getContext();
+                PopupMenu popupMenu=new PopupMenu(context,view);
+                popupMenu.getMenuInflater().inflate(R.menu.filter1_ts_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        List<TransactionCard> listFilter=new ArrayList<>();
+                        listFilter.addAll(list);
+                        int n=list.size();
+                        switch (item.getItemId()){
+                            case R.id.filter1_food:{
+                                for(int i=0;i<n;i++){
+                                    TransactionCard transactionCard=list.get(i);
+                                    if(transactionCard.getPurpose()!="Ăn uống") listFilter.remove(transactionCard);
+                                }
+                                break;
+                            }
+                            case R.id.filter1_travel:{
+                                for(int i=0;i<n;i++){
+                                    TransactionCard transactionCard=list.get(i);
+                                    if(transactionCard.getPurpose()!="Du lịch") listFilter.remove(transactionCard);
+                                }
+                                break;
+                            }
+                            case R.id.filter1_shopping:{
+                                for(int i=0;i<n;i++){
+                                    TransactionCard transactionCard=list.get(i);
+                                    if(transactionCard.getPurpose()!="Mua sắm") listFilter.remove(transactionCard);
+                                }
+                                break;
+                            }
+                            case R.id.filter1_home:{
+                                for(int i=0;i<n;i++){
+                                    TransactionCard transactionCard=list.get(i);
+                                    if(transactionCard.getPurpose()!="Sinh hoạt gia đình") listFilter.remove(transactionCard);
+                                }
+                                break;
+                            }
+                            case R.id.filter1_coffee:{
+                                for(int i=0;i<n;i++){
+                                    TransactionCard transactionCard=list.get(i);
+                                    if(transactionCard.getPurpose()!="Cà phê") listFilter.remove(transactionCard);
+                                }
+                                break;
+                            }
+                            case R.id.filter1_car:{
+                                for(int i=0;i<n;i++){
+                                    TransactionCard transactionCard=list.get(i);
+                                    if(transactionCard.getPurpose()!="Đi lại") listFilter.remove(transactionCard);
+                                }
+                                break;
+                            }
+
+                            default:{
+                            }
+                        }
+                        transactionsAdapter.setData(listFilter);
+                        transactionsAdapter.notifyDataSetChanged();
+                        binding.recyclerViewTransaction.setAdapter(transactionsAdapter);
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
         binding.addTransactionBg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,6 +307,7 @@ public class BudgetsFragment extends Fragment {
                                  Bundle savedInstanceState) {
             binding_ts = FragmentCreateTransactionBinding.inflate(inflater, container, false);
             View view = binding_ts.getRoot();
+
             binding_ts.btnSaveTs.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
@@ -294,7 +409,6 @@ public class BudgetsFragment extends Fragment {
 
                     }
                 }
-
                 @Override
                 public void onFailure(Call<TransactionCard> call, Throwable t) {
                     Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
@@ -330,7 +444,7 @@ public class BudgetsFragment extends Fragment {
                         View view = binding_ct.getRoot();
                         radioButton = (RadioButton) view.findViewById(idBtnSelected);
                         category = radioButton.getText().toString();
-                        binding_ts.categoryTs.setText("xin chào");
+                        binding_ts.categoryTs.setText(category);
 
                         if (getActivity() != null)
                             getActivity().getSupportFragmentManager().popBackStack();

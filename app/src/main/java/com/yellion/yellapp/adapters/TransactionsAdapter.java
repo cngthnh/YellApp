@@ -68,9 +68,21 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             return;
         }
         holder.amount.setText(String.valueOf(transactionCard.getAmount()));
-        //holder.purpose.setText(transactionCard.getPurpose());
-        //holder.time.setText(transactionCard.getCreated_at());
-        holder.image.setImageResource(R.drawable.ic_car);
+        String purpose=transactionCard.getPurpose();
+//        holder.purpose.setText(purpose);
+//        holder.time.setText(transactionCard.getCreated_at());
+        if(purpose=="Ăn uống")
+        holder.image.setImageResource(R.drawable.ic_pizza);
+        else if(purpose=="Mua sắm")
+            holder.image.setImageResource(R.drawable.ic_shopping);
+        else if(purpose=="Sinh hoạt gia đình")
+            holder.image.setImageResource(R.drawable.ic_home);
+        else if(purpose=="Cà phê")
+            holder.image.setImageResource(R.drawable.ic_coffee);
+        else if(purpose=="Đi ")
+            holder.image.setImageResource(R.drawable.ic_car);
+
+
 
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(1));
         holder.deleteLayout.setOnClickListener(view -> openDialogDeleteTransaction(holder, transactionCard));
