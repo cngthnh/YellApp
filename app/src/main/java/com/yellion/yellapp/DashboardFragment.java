@@ -294,7 +294,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void addTask() {
-        YellTask yell = new YellTask(dashboardCard.getId(),"Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
+        YellTask yell = new YellTask(dashboardCard.getId(),"Untitled");
         addTaskToServer(yell);
     }
 

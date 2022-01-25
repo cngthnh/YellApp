@@ -121,7 +121,6 @@ com/yellion/yellapp/adapters/TransactionsAdapter.java
  com.yellion.yellapp.adapters.TransactionsAdapter$1
  com.yellion.yellapp.adapters.TransactionsAdapter$2
  com.yellion.yellapp.adapters.TransactionsAdapter$3
- com.yellion.yellapp.adapters.TransactionsAdapter$4
  com.yellion.yellapp.adapters.TransactionsAdapter$TransactionsViewHolder
 com/yellion/yellapp/utils/SessionManager.java
  com.yellion.yellapp.utils.SessionManager

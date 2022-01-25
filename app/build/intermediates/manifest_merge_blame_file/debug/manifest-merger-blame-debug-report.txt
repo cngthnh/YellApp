@@ -35,41 +35,40 @@
 21-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:13:9-54
 22        android:supportsRtl="true"
 22-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:14:9-35
-23        android:testOnly="true"
-24        android:theme="@style/Theme.YellApp" >
-24-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:15:9-45
-25        <activity
-25-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:16:9-18:39
-26            android:name="com.yellion.yellapp.RegisterActivity"
-26-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:17:13-45
-27            android:exported="true" />
-27-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:18:13-36
-28        <activity
-28-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:19:9-27:20
-29            android:name="com.yellion.yellapp.LoginActivity"
-29-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:20:13-42
-30            android:exported="true" >
-30-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:21:13-36
-31            <intent-filter>
-31-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:22:13-26:29
-32                <action android:name="android.intent.action.MAIN" />
-32-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:23:17-69
-32-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:23:25-66
-33
-34                <category android:name="android.intent.category.LAUNCHER" />
-34-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:25:17-77
-34-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:25:27-74
-35            </intent-filter>
-36        </activity>
-37        <activity
-37-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:28:9-33:20
-38            android:name="com.yellion.yellapp.MainActivity"
-38-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:29:13-41
-39            android:exported="true"
-39-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:30:13-36
-40            android:windowSoftInputMode="adjustPan" >
-40-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:31:13-52
-41        </activity>
-42    </application>
-43
-44</manifest>
+23        android:theme="@style/Theme.YellApp" >
+23-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:15:9-45
+24        <activity
+24-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:16:9-18:39
+25            android:name="com.yellion.yellapp.RegisterActivity"
+25-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:17:13-45
+26            android:exported="true" />
+26-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:18:13-36
+27        <activity
+27-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:19:9-27:20
+28            android:name="com.yellion.yellapp.LoginActivity"
+28-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:20:13-42
+29            android:exported="true" >
+29-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:21:13-36
+30            <intent-filter>
+30-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:22:13-26:29
+31                <action android:name="android.intent.action.MAIN" />
+31-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:23:17-69
+31-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:23:25-66
+32
+33                <category android:name="android.intent.category.LAUNCHER" />
+33-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:25:17-77
+33-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:25:27-74
+34            </intent-filter>
+35        </activity>
+36        <activity
+36-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:28:9-33:20
+37            android:name="com.yellion.yellapp.MainActivity"
+37-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:29:13-41
+38            android:exported="true"
+38-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:30:13-36
+39            android:windowSoftInputMode="adjustPan" >
+39-->C:\Users\Huy\Documents\Android\YellApp\app\src\main\AndroidManifest.xml:31:13-52
+40        </activity>
+41    </application>
+42
+43</manifest>

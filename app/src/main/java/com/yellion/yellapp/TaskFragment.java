@@ -475,7 +475,7 @@ public class TaskFragment extends Fragment {
         binding.addSubTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                YellTask yell = new YellTask(currentYellTask.getDashboard_id(),"Công việc "+String.valueOf(yellTaskAdapter.getItemCount()+1));
+                YellTask yell = new YellTask(currentYellTask.getDashboard_id(),"Untitled");
                 yell.setParent_id(currentYellTask.getTask_id());
                 yellTaskAdapter.setParentName(currentYellTask.getName());
                 subTasks.add(yell);
