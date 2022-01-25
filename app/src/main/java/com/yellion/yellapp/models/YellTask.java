@@ -28,6 +28,17 @@ public class YellTask {
     public String content;
 
     public YellTask() {
+        this.dashboard_id = null;
+        this.name = null;
+        this.status = null;
+        this.task_id = null;
+        this.noti_level = null;
+        this.priority = null;
+        this.parent_id = null;
+        this.start_time = null;
+        this.end_time = null;
+        this.labels = null;
+        this.content = null;
     }
 
     public YellTask(String dashboard_id, String name,

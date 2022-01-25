@@ -124,19 +124,19 @@ public class TaskFragment extends Fragment {
                         binding.deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
 
                     if (currentYellTask.getPriority() != null) {
-                        if (currentYellTask.getPriority() == 2)
+                        if (currentYellTask.getPriority() == 1)
                             binding.priorityTextView.setText("Thấp");
-                        else if (currentYellTask.getPriority() == 0)
-                            binding.priorityTextView.setText("Cao");
-                        else {
+                        else if (currentYellTask.getPriority() == 2)
                             binding.priorityTextView.setText("Thường");
+                        else if (currentYellTask.getPriority() == 3) {
+                            binding.priorityTextView.setText("Cao");
                         }
                     }
 
                     if (currentYellTask.getStatus() != null) {
-                        if (currentYellTask.getStatus() == 1)
+                        if (currentYellTask.getStatus() == 2)
                             binding.statusTextView.setText("Đã hoàn thành");
-                        else {
+                        else if (currentYellTask.getStatus() == 1) {
                             binding.statusTextView.setText("Chưa hoàn thành");
                         }
                     }
@@ -343,8 +343,6 @@ public class TaskFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setConfigTaskListener() {
         AppCompatTextView deadlineTask = binding.deadlineTask;
-        if (currentYellTask.getEnd_time() != null)
-            deadlineTask.setText(serverTime2MobileTime(currentYellTask.getEnd_time()));
         DeadlineTimeDialog deadlineTimeDialog = new DeadlineTimeDialog();
         deadlineTimeDialog.getDateTimeLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -365,14 +363,14 @@ public class TaskFragment extends Fragment {
         priority.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String [] priorities = new String[]{"Cao","Thường","Thấp"};
+                String [] priorities = new String[]{"Thấp","Thường","Cao"};
                 MaterialAlertDialogBuilder priorityDialog = new MaterialAlertDialogBuilder(getContext())
                         .setTitle("Độ ưu tiên")
                         .setItems(priorities, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 priority.setText(priorities[which]);
-                                currentYellTask.setPriority(which);
+                                currentYellTask.setPriority(which+1);
                                 viewModel.editTask(currentYellTask);
                             }
                         });
@@ -390,7 +388,7 @@ public class TaskFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 status.setText(statuses[which]);
-                                currentYellTask.setStatus(which);
+                                currentYellTask.setStatus(which+1);
                                 viewModel.editTask(currentYellTask);
                             }
                         });
@@ -449,10 +447,10 @@ public class TaskFragment extends Fragment {
         });
 
         AppCompatTextView chooseFileTextView = binding.chooseFileTextView;
+        BottomSheetFilePicker filePicker = new BottomSheetFilePicker();
         chooseFileTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetFilePicker filePicker = new BottomSheetFilePicker();
                 filePicker.show(getActivity().getSupportFragmentManager(),"File Picker");
             }
         });

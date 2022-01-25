@@ -142,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:padding="6dp"
-                        android:text=""
+                        android:text="Chưa có"
                         android:textSize="18dp">
 
                     </androidx.appcompat.widget.AppCompatTextView>
@@ -172,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:padding="6dp"
-                        android:text=""
+                        android:text="Chưa có"
                         android:textSize="18dp">
 
                     </androidx.appcompat.widget.AppCompatTextView>
@@ -202,7 +202,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:padding="6dp"
-                        android:text=""
+                        android:text="Chưa có"
                         android:textSize="18dp">
 
                     </androidx.appcompat.widget.AppCompatTextView>
@@ -232,7 +232,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:padding="6dp"
-                        android:text=""
+                        android:text="Chưa có"
                         android:textSize="18dp">
 
                     </androidx.appcompat.widget.AppCompatTextView>

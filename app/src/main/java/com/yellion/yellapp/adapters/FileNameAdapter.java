@@ -2,6 +2,7 @@ package com.yellion.yellapp.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.yellion.yellapp.R;
 
 import org.checkerframework.checker.units.qual.A;
@@ -63,7 +65,22 @@ public class FileNameAdapter extends RecyclerView.Adapter<FileNameAdapter.FileNa
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeFile(holder.getLayoutPosition());
+                MaterialAlertDialogBuilder confirmDelete = new MaterialAlertDialogBuilder(activity)
+                        .setTitle("Xoá công việc")
+                        .setMessage("Bạn có chắc chắn muốn xoá công việc này?")
+                        .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                removeFile(holder.getLayoutPosition());
+                            }
+                        })
+                        .setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                confirmDelete.show();
             }
         });
     }

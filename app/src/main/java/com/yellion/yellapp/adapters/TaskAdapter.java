@@ -84,12 +84,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         {
 
         }
-        else if (status == 1)
+        else if (status == 2)
         {
             holder.taskLabel.setText("Đã hoàn thành");
             holder.taskLabel.setBackgroundResource(R.drawable.frame_cover_item_task_green);
         }
-        else {
+        else if (status == 1) {
             holder.taskLabel.setText("Chưa hoàn thành");
             holder.taskLabel.setBackgroundResource(R.drawable.frame_cover_item_task_yellow);
         }
