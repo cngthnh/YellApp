@@ -85,13 +85,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< Updated upstream
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,listBudgetsFragment).commit();
-=======
                 requireActivity().onBackPressed();
->>>>>>> Stashed changes
             }
         });
         binding.tnn.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +93,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetStatisticOutcomeFragment budgetStatisticOutcomeFragment = new BudgetStatisticOutcomeFragment(budgetCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticOutcomeFragment).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticOutcomeFragment).addToBackStack(null).commit();
 
             }
         });
@@ -109,7 +103,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).addToBackStack(null).commit();
             }
         });
 

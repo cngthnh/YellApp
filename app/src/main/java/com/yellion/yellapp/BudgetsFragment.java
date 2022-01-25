@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -13,11 +14,8 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-<<<<<<< Updated upstream
-=======
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
->>>>>>> Stashed changes
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.squareup.moshi.Moshi;
@@ -45,9 +43,8 @@ public class BudgetsFragment extends Fragment {
     static FragmentBudgetsBinding binding;
     static BudgetCard budgetCard;
     static TransactionsAdapter transactionsAdapter = null;
-    static List<TransactionCard> listTransaction;
+    static List<TransactionCard> list;
     SessionManager sessionManager;
-    static CreateTransactionFragment createTransactionFragment;
     ApiService service;
     OnBackPressedCallback pressedCallback;
     static CreateTransactionFragment createTransactionFragment;
@@ -96,15 +93,10 @@ public class BudgetsFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recyclerViewTransaction.setLayoutManager(layoutManager);
 
-<<<<<<< Updated upstream
-        transactionsAdapter = new TransactionsAdapter(getContext());
-        listTransaction = new ArrayList<>();
-=======
         transactionsAdapter = new TransactionsAdapter(getContext(),sessionManager);
         list = new ArrayList<>();
->>>>>>> Stashed changes
         getListTransactionsFromServer();
-        transactionsAdapter.setData(listTransaction);
+        transactionsAdapter.setData(list);
         transactionsAdapter.notifyDataSetChanged();
         binding.recyclerViewTransaction.setVisibility(View.VISIBLE);
         binding.recyclerViewTransaction.setAdapter(transactionsAdapter);
@@ -120,11 +112,7 @@ public class BudgetsFragment extends Fragment {
             public void onClick(View view) {
 
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-<<<<<<< Updated upstream
-                createTransactionFragment = new CreateTransactionFragment(budgetCard, sessionManager);
-=======
                 CreateTransactionFragment createTransactionFragment = new CreateTransactionFragment(sessionManager);
->>>>>>> Stashed changes
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,createTransactionFragment).addToBackStack(null).commit();
             }
         });
@@ -134,7 +122,7 @@ public class BudgetsFragment extends Fragment {
 
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetStatisticIncomeFragment budgetStatisticIncomeFragment = new BudgetStatisticIncomeFragment(budgetCard, sessionManager);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticIncomeFragment).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticIncomeFragment).addToBackStack(null).commit();
 
             }
         });
@@ -164,7 +152,7 @@ public class BudgetsFragment extends Fragment {
             public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
                 Log.w("YellGetTransaction", "onResponse: " + response);
                 if (response.isSuccessful()) {
-                    listTransaction.add((response.body()));
+                    list.add((response.body()));
                     transactionsAdapter.notifyDataSetChanged();
                 } else {
                     ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
@@ -187,7 +175,8 @@ public class BudgetsFragment extends Fragment {
         ApiService service;
         Moshi moshi = new Moshi.Builder().build();
         TransactionCard transactionCard;
-        static String category="Ăn uống";
+
+        static String category="other";
 
         public CreateTransactionFragment(SessionManager sessionManager) {
             this.sessionManager = sessionManager;
@@ -216,7 +205,6 @@ public class BudgetsFragment extends Fragment {
                     radioGroup = (RadioGroup) view.findViewById(R.id.radio_category_ts);
                     int selectedId = radioGroup.getCheckedRadioButtonId();
                     radioButton = (RadioButton) view.findViewById(selectedId);
-                    if(radioButton==null)  binding_ts.btnSaveTs.setEnabled(false);
                     InOutCome=radioButton.getText().toString();
                     switch (InOutCome){
                         case "Thu nhập": transactionCard.setType(1);
@@ -225,13 +213,6 @@ public class BudgetsFragment extends Fragment {
                     }
                     transactionCard.setContent(binding_ts.addContentTs.getText().toString());
                     transactionCard.setBudget_id(budgetCard.getId());
-<<<<<<< Updated upstream
-                    transactionCard.setAmount(Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
-                    transactionCard.setPurpose(category);
-
-                    addTransactionToServer(transactionCard);
-                    binding_ts.addTransactionFragment.setVisibility(View.GONE);
-=======
                     if (transactionCard.getType() == 1)
                         transactionCard.setAmount(Integer.parseInt(binding_ts.addAmountTs.getText().toString()));
                     else
@@ -242,9 +223,7 @@ public class BudgetsFragment extends Fragment {
                     addTransactionToServer(transactionCard);
 
                     //binding_ts.addTransactionFragment.setVisibility(View.GONE);
->>>>>>> Stashed changes
                     transactionsAdapter.notifyDataSetChanged();
-
                     if (getActivity() != null)
                         getActivity().getSupportFragmentManager().popBackStack();
                 }
@@ -254,7 +233,7 @@ public class BudgetsFragment extends Fragment {
                 public void onClick(View v) {
                     TransactionCategoryFragment transactionCategoryFragment = new TransactionCategoryFragment();
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,transactionCategoryFragment).commit();
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,transactionCategoryFragment).addToBackStack(null).commit();
                 }
             });
             return view;
@@ -308,6 +287,7 @@ public class BudgetsFragment extends Fragment {
 
                     }
                 }
+
                 @Override
                 public void onFailure(Call<TransactionCard> call, Throwable t) {
                     Toast.makeText(getContext(), "Lỗi khi kết nối với server", Toast.LENGTH_LONG).show();
@@ -332,11 +312,7 @@ public class BudgetsFragment extends Fragment {
             @Override
             public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                      Bundle savedInstanceState) {
-<<<<<<< Updated upstream
-                binding_ct = FragmentTransactionCategoryBinding.inflate(inflater, container,false);
-=======
                 binding_ct = FragmentTransactionCategoryBinding.inflate(inflater, container, false);
->>>>>>> Stashed changes
                 View view = binding_ct.getRoot();
                 radioGroup = binding_ct.radioGroupCategory;
                 binding_ct.btnSaveCategory.setOnClickListener(new View.OnClickListener() {
@@ -346,18 +322,11 @@ public class BudgetsFragment extends Fragment {
                         idBtnSelected = radioGroup.getCheckedRadioButtonId();
                         View view = binding_ct.getRoot();
                         radioButton = (RadioButton) view.findViewById(idBtnSelected);
-<<<<<<< Updated upstream
-                        category=radioButton.getText().toString();
-                        binding_ts.categoryTs.setText("xin chào");
-                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,createTransactionFragment).commit();
-=======
                         category = radioButton.getText().toString();
                         binding_ts.categoryTs.setText("xin chào");
 
                         if (getActivity() != null)
                             getActivity().getSupportFragmentManager().popBackStack();
->>>>>>> Stashed changes
                     }
                 });
 
