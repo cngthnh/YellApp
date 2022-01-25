@@ -1,5 +1,4 @@
 package com.yellion.yellapp.adapters;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -15,12 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.squareup.moshi.Moshi;
@@ -30,9 +28,7 @@ import com.yellion.yellapp.models.TransactionCard;
 import com.yellion.yellapp.utils.ApiService;
 import com.yellion.yellapp.utils.Client;
 import com.yellion.yellapp.utils.SessionManager;
-
 import java.util.List;
-
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -43,7 +39,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
     private Context mContext = null;
     private List<TransactionCard> mListTransaction;
-    private ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
+    private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
     SessionManager sessionManager;
     ApiService service;
     Moshi moshi = new Moshi.Builder().build();
@@ -71,18 +67,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         if(transactionCard == null){
             return;
         }
-        holder.nameTransaction.setText(transactionCard.getContent());
         holder.amount.setText(String.valueOf(transactionCard.getAmount()));
-        holder.purpose.setText(transactionCard.getPurpose());
-        holder.time.setText(transactionCard.getCreated_at());
+        //holder.purpose.setText(transactionCard.getPurpose());
+        //holder.time.setText(transactionCard.getCreated_at());
+        holder.image.setImageResource(R.drawable.ic_car);
 
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(1));
-        holder.deleteLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialogDeleteTransaction(holder, transactionCard);
-            }
-        });
+        holder.deleteLayout.setOnClickListener(view -> openDialogDeleteTransaction(holder, transactionCard));
 
     }
 
@@ -167,24 +158,23 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         return 0;
     }
 
-    public class TransactionsViewHolder extends RecyclerView.ViewHolder{
-        private TextView nameTransaction;
-        private TextView amount;
-        private TextView time;
-        private TextView purpose;
-        private SwipeRevealLayout swipeRevealLayout;
-        private CardView deleteLayout;
-        private CardView itemLayout;
+    public static class TransactionsViewHolder extends RecyclerView.ViewHolder{
+        private final TextView amount;
+        private final TextView time;
+        private final TextView purpose;
+        private final SwipeRevealLayout swipeRevealLayout;
+        private final CardView deleteLayout;
+        private final ImageView image;
 
         public TransactionsViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameTransaction = itemView.findViewById((R.id.name_ts_item));
             amount = itemView.findViewById(R.id.amount_ts);
             swipeRevealLayout = itemView.findViewById(R.id.swipe_ts);
             deleteLayout = itemView.findViewById(R.id.delete_item_transaction);
-            itemLayout = itemView.findViewById(R.id.item_layout);
+            CardView itemLayout = itemView.findViewById(R.id.item_layout);
             time=itemView.findViewById(R.id.time_ts);
             purpose=itemView.findViewById(R.id.purpose_ts);
+            image=itemView.findViewById(R.id.image_ts);
         }
     }
 }
