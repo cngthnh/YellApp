@@ -41,8 +41,6 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
     SessionManager sessionManager;
     OnBackPressedCallback pressedCallback;
 
-    long income;
-
     public BudgetStatisticOutcomeFragment(BudgetCard budgetCard, SessionManager sessionManager) {
         this.budgetCard=budgetCard;
         this.sessionManager = sessionManager;
@@ -63,7 +61,6 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
                     else
                         getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
                 }
-                this.setEnabled(false);
             }
         };
     }
@@ -73,7 +70,6 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentBudgetStatisticOutcomeBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
-        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
 
 
         binding.budgetName.setText(budgetCard.getName());
@@ -83,12 +79,8 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         createDate = createDate.substring(0, index);
         binding.idCreateDate.setText(createDate);
         binding.threshold.setText(String.valueOf(budgetCard.getThreshold()));
-<<<<<<< Updated upstream
-        int progress = budgetCard.getBalance()/budgetCard.getThreshold()*100;
-=======
         binding.balance2.setText(String.valueOf(budgetCard.getBalance()));
         int progress = (int)(budgetCard.getBalance()/budgetCard.getThreshold()*100);
->>>>>>> Stashed changes
 
         binding.circularProgressbar.setProgress(progress);
         binding.tv.setText(String.valueOf(progress)+'%');
@@ -96,13 +88,13 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
                 requireActivity().onBackPressed();
             }
         });
         binding.tn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pressedCallback.setEnabled(false);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetStatisticIncomeFragment budgetStatisticIncomeFragment = new BudgetStatisticIncomeFragment(budgetCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetStatisticIncomeFragment).commit();
@@ -112,7 +104,6 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         binding.btnLS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pressedCallback.setEnabled(false);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 BudgetsFragment budgetsFragment = new BudgetsFragment(budgetCard, sessionManager);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,budgetsFragment).commit();
@@ -125,11 +116,14 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
         transactionsAdapter = new TransactionsAdapter(getContext(),sessionManager);
         list = new ArrayList<>();
         getListTransactionsFromServer();
+        for(int i=list.size()-1;i>=0;i--){
+            TransactionCard a=list.get(i);
+            if(a.getAmount()>0) list.remove(a);
+        }
         transactionsAdapter.setData(list);
         transactionsAdapter.notifyDataSetChanged();
         binding.recycleViewOutcome.setVisibility(View.VISIBLE);
         binding.recycleViewOutcome.setAdapter(transactionsAdapter);
-        binding.balance2.setText(String.valueOf(income));
 
         return view;
     }
@@ -140,9 +134,7 @@ public class BudgetStatisticOutcomeFragment extends Fragment {
                 List<TransactionCard> listID = budgetCard.getTransactionsList();
                 if (listID.size() != 0)
                     for (int i = 0; i < listID.size(); ++i)
-                        if (listID.get(i).getAmount()<0)
-                        {
-                            income += -listID.get(i).getAmount();
+                    {
                         list.add(listID.get(i));
                         transactionsAdapter.notifyDataSetChanged();
                     }

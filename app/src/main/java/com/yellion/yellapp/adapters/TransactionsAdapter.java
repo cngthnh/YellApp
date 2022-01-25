@@ -72,16 +72,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         ////holder.time.setText(transactionCard.getCreated_at());
 
 
-        if(transactionCard.getPurpose()=="Ăn uống")
+        if(transactionCard.getPurpose().equals("Ăn uống"))
         holder.image.setImageResource(R.drawable.ic_pizza);
-        else if(transactionCard.getPurpose()=="Mua sắm")
+        else if(transactionCard.getPurpose().equals("Du lịch"))
+            holder.image.setImageResource(R.drawable.ic_travel);
+        else if(transactionCard.getPurpose().equals("Mua sắm"))
             holder.image.setImageResource(R.drawable.ic_shopping);
-        else if(transactionCard.getPurpose()=="Sinh hoạt gia đình")
+        else if(transactionCard.getPurpose().equals("Sinh hoạt gia đình"))
             holder.image.setImageResource(R.drawable.ic_home);
-        else if(transactionCard.getPurpose()=="Cà phê")
-            holder.image.setImageResource(R.drawable.ic_coffee);
-        else if(transactionCard.getPurpose()=="Đi ")
-            holder.image.setImageResource(R.drawable.ic_car);
+        else if(transactionCard.getPurpose().equals("Thu nhập"))
+            holder.image.setImageResource(R.drawable.ic_income_ct);
+        else holder.image.setImageResource(R.drawable.ic_car);
 
 
 

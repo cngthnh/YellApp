@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
@@ -18,8 +17,6 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.squareup.moshi.Moshi;
@@ -169,42 +166,42 @@ public class BudgetsFragment extends Fragment {
                             case R.id.filter1_food:{
                                 for(int i=0;i<n;i++){
                                     TransactionCard transactionCard=list.get(i);
-                                    if(transactionCard.getPurpose()!="Ăn uống") listFilter.remove(transactionCard);
+                                    if(!transactionCard.getPurpose().equals("Ăn uống")) listFilter.remove(transactionCard);
                                 }
                                 break;
                             }
                             case R.id.filter1_travel:{
                                 for(int i=0;i<n;i++){
                                     TransactionCard transactionCard=list.get(i);
-                                    if(transactionCard.getPurpose()!="Du lịch") listFilter.remove(transactionCard);
+                                    if(!transactionCard.getPurpose().equals("Du lịch")) listFilter.remove(transactionCard);
                                 }
                                 break;
                             }
                             case R.id.filter1_shopping:{
                                 for(int i=0;i<n;i++){
                                     TransactionCard transactionCard=list.get(i);
-                                    if(transactionCard.getPurpose()!="Mua sắm") listFilter.remove(transactionCard);
+                                    if(!transactionCard.getPurpose().equals("Mua sắm")) listFilter.remove(transactionCard);
                                 }
                                 break;
                             }
                             case R.id.filter1_home:{
                                 for(int i=0;i<n;i++){
                                     TransactionCard transactionCard=list.get(i);
-                                    if(transactionCard.getPurpose()!="Sinh hoạt gia đình") listFilter.remove(transactionCard);
+                                    if(!transactionCard.getPurpose().equals("Sinh hoạt gia đình")) listFilter.remove(transactionCard);
                                 }
                                 break;
                             }
-                            case R.id.filter1_coffee:{
+                            case R.id.filter1_income:{
                                 for(int i=0;i<n;i++){
                                     TransactionCard transactionCard=list.get(i);
-                                    if(transactionCard.getPurpose()!="Cà phê") listFilter.remove(transactionCard);
+                                    if(!transactionCard.getPurpose().equals("Thu nhập")) listFilter.remove(transactionCard);
                                 }
                                 break;
                             }
                             case R.id.filter1_car:{
                                 for(int i=0;i<n;i++){
                                     TransactionCard transactionCard=list.get(i);
-                                    if(transactionCard.getPurpose()!="Đi lại") listFilter.remove(transactionCard);
+                                    if(!transactionCard.getPurpose().equals("Đi lại")) listFilter.remove(transactionCard);
                                 }
                                 break;
                             }

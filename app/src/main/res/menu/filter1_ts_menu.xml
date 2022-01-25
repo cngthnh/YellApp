@@ -13,8 +13,8 @@
         android:id="@+id/filter1_shopping"/>
     <item android:title="Sinh hoạt gia đình"
         android:id="@+id/filter1_home"/>
-    <item android:title="Cà phê"
-        android:id="@+id/filter1_coffee"/>
     <item android:title="Đi lại"
         android:id="@+id/filter1_car"/>
+    <item android:title="Thu nhập"
+        android:id="@+id/filter1_income"/>
 </menu>

@@ -120,6 +120,10 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         transactionsAdapter = new TransactionsAdapter(getContext(), sessionManager);
         list = new ArrayList<>();
         getListTransactionsFromServer();
+        for(int i=list.size()-1;i>=0;i--){
+            TransactionCard a=list.get(i);
+            if(a.getAmount()<0) list.remove(a);
+        }
         transactionsAdapter.setData(list);
         transactionsAdapter.notifyDataSetChanged();
         binding.recycleViewIncome.setVisibility(View.VISIBLE);
