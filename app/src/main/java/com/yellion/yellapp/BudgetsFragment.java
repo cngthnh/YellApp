@@ -63,6 +63,7 @@ public class BudgetsFragment extends Fragment {
             public void handleOnBackPressed() {
                 if (getActivity() != null)
                 {
+                    this.setEnabled(false);
                     Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
                     if(fragment == null)
                         getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
@@ -71,7 +72,6 @@ public class BudgetsFragment extends Fragment {
                 }
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -79,7 +79,6 @@ public class BudgetsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         binding = FragmentBudgetsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         binding.nameBg.setText(budgetCard.name);
@@ -103,6 +102,7 @@ public class BudgetsFragment extends Fragment {
         binding.backListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
                 requireActivity().onBackPressed();
             }
         });
@@ -250,6 +250,7 @@ public class BudgetsFragment extends Fragment {
                     if (response.isSuccessful()) {
                         budgetCard.setBalance(response.body().getBalance());
                         budgetCard.setTransactionsList(response.body().getTransactionsList());
+                        transactionsAdapter.setData(budgetCard.getTransactionsList());
 
                     } else {
                         ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());

@@ -1,5 +1,6 @@
 package com.yellion.yellapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,11 +53,11 @@ public class ListBudgetsFragment extends Fragment {
             public void handleOnBackPressed() {
                 if (getActivity() != null)
                 {
+                    this.setEnabled(false);
                     getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
                 }
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
     }
 
     @Override
@@ -84,6 +85,7 @@ public class ListBudgetsFragment extends Fragment {
         binding.backListBudgets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
                 requireActivity().onBackPressed();
             }
         });

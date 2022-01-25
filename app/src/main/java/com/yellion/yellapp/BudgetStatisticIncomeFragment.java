@@ -52,6 +52,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
             public void handleOnBackPressed() {
                 if (getActivity() != null)
                 {
+                    this.setEnabled(false);
                     Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
                     if(fragment == null)
                         getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
@@ -60,7 +61,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
                 }
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
+
     }
 
     @Override
@@ -85,6 +86,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                requireActivity().getOnBackPressedDispatcher().addCallback(pressedCallback);
                 requireActivity().onBackPressed();
             }
         });

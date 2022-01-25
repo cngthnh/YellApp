@@ -54,6 +54,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
     public void setData(List<TransactionCard> mListTransaction) {
         this.mListTransaction = mListTransaction;
+        notifyDataSetChanged();
     }
 
     @NonNull
