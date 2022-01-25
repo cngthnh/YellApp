@@ -5,16 +5,16 @@ import com.squareup.moshi.Json;
 public class TransactionCard {
     @Json(name = "budget_id")
     public String budget_id;
-    @Json(name = "tran_id")
-    public String tran_id;
+    @Json(name = "transaction_id")
+    public String transaction_id;
     @Json(name = "content")
     public String content;
     @Json(name = "amount")
     public int amount;
     @Json(name = "type")
     public Integer type;
-    @Json(name = "purpose")
-    public String purpose;
+    @Json(name = "purposes")
+    public String purposes;
     @Json(name = "created_at")
     public String created_at;
 
@@ -31,10 +31,10 @@ public class TransactionCard {
         return created_at;
     }
     public String getTran_id() {
-        return tran_id;
+        return transaction_id;
     }
     public void setTran_id(String id) {
-        this.tran_id = id;
+        this.transaction_id = id;
     }
     public String getContent() {
         return content;
@@ -55,25 +55,25 @@ public class TransactionCard {
         this.type = type;
     }
     public String getPurpose() {
-        return purpose;
+        return this.purposes;
     }
     public void setPurpose(String purpose) {
-        this.purpose = purpose;
+        this.purposes = purpose;
     }
 
     public TransactionCard(String content,int amount, Integer type,String purpose){
      this.content =content;
      this.amount =amount;
      this.type =type;
-     this.purpose =purpose;
+     this.purposes =purpose;
     }
     public TransactionCard(String budget_id,String tran_id,String content,int amount,int type,String purpose,String created_at){
         this.budget_id=budget_id;
-        this.tran_id=tran_id;
+        this.transaction_id=tran_id;
         this.content=content;
         this.amount=amount;
         this.type=type;
-        this.purpose=purpose;
+        this.purposes=purpose;
         this.created_at=created_at;
     }
 }

@@ -284,7 +284,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="30dp"
                                 android:paddingTop="5dp"
-                                android:text="Số dư hiện tại"
+                                android:text="Tổng thu nhập"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 

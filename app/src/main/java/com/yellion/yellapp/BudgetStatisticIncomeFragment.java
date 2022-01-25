@@ -39,6 +39,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
     ApiService service;
     OnBackPressedCallback pressedCallback;
     SessionManager sessionManager;
+    long income;
     public BudgetStatisticIncomeFragment(BudgetCard budgetCard, SessionManager sessionManager) {
         this.budgetCard=budgetCard;
         this.sessionManager = sessionManager;
@@ -83,7 +84,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         int progress = budgetCard.getBalance()/budgetCard.getThreshold()*100;
         if (progress > 100) progress = 100;
         binding.circularProgressbar.setProgress(progress);
-        binding.tv.setText(String.valueOf(progress)+'%');
+        binding.tv.setText(String.valueOf(progress)+"%");
 
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +124,7 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         transactionsAdapter.notifyDataSetChanged();
         binding.recycleViewIncome.setVisibility(View.VISIBLE);
         binding.recycleViewIncome.setAdapter(transactionsAdapter);
+        binding.balance2.setText(String.valueOf(income));
 
         return view;
     }
@@ -133,7 +135,10 @@ public class BudgetStatisticIncomeFragment extends Fragment {
                 List<TransactionCard> listID = budgetCard.getTransactionsList();
                 if (listID.size() != 0)
                     for (int i = 0; i < listID.size(); ++i)
+                    if (listID.get(i).getAmount()>0)
                     {
+                        income += listID.get(i).getAmount();
+
                         list.add(listID.get(i));
                         transactionsAdapter.notifyDataSetChanged();
                     }

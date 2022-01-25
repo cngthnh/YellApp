@@ -246,6 +246,9 @@ public class BudgetsFragment extends Fragment {
 
 
     private void getListTransactionsFromServer() {
+        getBudget();
+        binding.idBalance.setText(String.valueOf(budgetCard.getBalance()));
+
         if (budgetCard.getTransactionsList() != null) {
             List<TransactionCard> listId = budgetCard.getTransactionsList();
             for (int i = 0; i < listId.size(); ++i) {
@@ -254,30 +257,31 @@ public class BudgetsFragment extends Fragment {
             }
         }
 
-        binding.idBalance.setText(String.valueOf(budgetCard.getBalance()));
     }
 
-    private void getTransactionFromServer(String id) {
+    private void getBudget() {
         service = Client.createServiceWithAuth(ApiService.class, sessionManager);
-        Call<TransactionCard> call;
-        call = service.getTransaction(id);
+        Call<BudgetCard> call;
 
-        call.enqueue(new Callback<TransactionCard>() {
+        call = service.getBudget(budgetCard.getId(), "full");
+        call.enqueue(new Callback<BudgetCard>() {
             @Override
-            public void onResponse(Call<TransactionCard> call, Response<TransactionCard> response) {
-                Log.w("YellGetTransaction", "onResponse: " + response);
+            public void onResponse(Call<BudgetCard> call, Response<BudgetCard> response) {
+                Log.w("GetBudget", "onResponse: " + response);
                 if (response.isSuccessful()) {
-                    list.add((response.body()));
-                    transactionsAdapter.notifyDataSetChanged();
+                    budgetCard.setBalance(response.body().getBalance());
+                    budgetCard.setTransactionsList(response.body().getTransactionsList());
+                    transactionsAdapter.setData(budgetCard.getTransactionsList());
+
                 } else {
                     ErrorMessage apiError = ErrorMessage.convertErrors(response.errorBody());
-                    Toast.makeText(getContext(), apiError.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), apiError.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<TransactionCard> call, Throwable t) {
-                Log.w("YellTransactionFragment", "onFailure: " + t.getMessage());
+            public void onFailure(Call<BudgetCard> call, Throwable t) {
+                Log.w("YellBudgetFragment", "onFailure: " + t.getMessage() );
             }
         });
     }
@@ -324,8 +328,17 @@ public class BudgetsFragment extends Fragment {
                     radioButton = (RadioButton) view.findViewById(selectedId);
                     InOutCome=radioButton.getText().toString();
                     switch (InOutCome){
-                        case "Thu nhập": transactionCard.setType(1);
-                        case "Chi tiêu": transactionCard.setType(0);
+                        case "Thu nhập":
+                        {
+                            transactionCard.setType(1);
+                            break;
+                        }
+                        case "Chi tiêu":
+                        {
+                            transactionCard.setType(0);
+                            break;
+
+                        }
                     }}
 
                     if (binding_ts.addContentTs.getText().toString().equals("") ||binding_ts.addAmountTs.getText().toString().equals("")
@@ -446,7 +459,6 @@ public class BudgetsFragment extends Fragment {
                         radioButton = (RadioButton) view.findViewById(idBtnSelected);
                         category = radioButton.getText().toString();
                         binding_ts.categoryTs.setText(category);
-
                         if (getActivity() != null)
                             getActivity().getSupportFragmentManager().popBackStack();
                     }

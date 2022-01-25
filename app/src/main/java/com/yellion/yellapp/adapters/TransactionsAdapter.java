@@ -68,18 +68,19 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             return;
         }
         holder.amount.setText(String.valueOf(transactionCard.getAmount()));
-        String purpose=transactionCard.getPurpose();
-//        holder.purpose.setText(purpose);
-//        holder.time.setText(transactionCard.getCreated_at());
-        if(purpose=="Ăn uống")
+        holder.purpose.setText(transactionCard.getPurpose());
+        ////holder.time.setText(transactionCard.getCreated_at());
+
+
+        if(transactionCard.getPurpose()=="Ăn uống")
         holder.image.setImageResource(R.drawable.ic_pizza);
-        else if(purpose=="Mua sắm")
+        else if(transactionCard.getPurpose()=="Mua sắm")
             holder.image.setImageResource(R.drawable.ic_shopping);
-        else if(purpose=="Sinh hoạt gia đình")
+        else if(transactionCard.getPurpose()=="Sinh hoạt gia đình")
             holder.image.setImageResource(R.drawable.ic_home);
-        else if(purpose=="Cà phê")
+        else if(transactionCard.getPurpose()=="Cà phê")
             holder.image.setImageResource(R.drawable.ic_coffee);
-        else if(purpose=="Đi ")
+        else if(transactionCard.getPurpose()=="Đi ")
             holder.image.setImageResource(R.drawable.ic_car);
 
 
