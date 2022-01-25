@@ -23,11 +23,9 @@ import java.util.ArrayList;
 public class FileNameAdapter extends RecyclerView.Adapter<FileNameAdapter.FileNameViewHolder>{
 
     ArrayList<String> fileNameList;
-    Activity activity;
     MutableLiveData<Integer> countFileItem;
 
-    public FileNameAdapter(Activity activity) {
-        this.activity = activity;
+    public FileNameAdapter() {
         fileNameList = new ArrayList<>();
         countFileItem = new MutableLiveData<>();
         countFileItem.postValue(0);
@@ -65,7 +63,7 @@ public class FileNameAdapter extends RecyclerView.Adapter<FileNameAdapter.FileNa
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaterialAlertDialogBuilder confirmDelete = new MaterialAlertDialogBuilder(activity)
+                MaterialAlertDialogBuilder confirmDelete = new MaterialAlertDialogBuilder(v.getContext())
                         .setTitle("Xoá công việc")
                         .setMessage("Bạn có chắc chắn muốn xoá công việc này?")
                         .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {

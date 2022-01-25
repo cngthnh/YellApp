@@ -45,6 +45,7 @@ public class BottomSheetFilePicker extends BottomSheetDialogFragment {
     FileNameAdapter fileNameAdapter;
 
     public BottomSheetFilePicker () {
+        fileNameAdapter = new FileNameAdapter();
     }
 
     @Nullable
@@ -53,7 +54,6 @@ public class BottomSheetFilePicker extends BottomSheetDialogFragment {
         binding = DialogAttachBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         recyclerView = binding.fileNameList;
-        fileNameAdapter = new FileNameAdapter(getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(fileNameAdapter);
