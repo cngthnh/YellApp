@@ -2038,6 +2038,7 @@ id autoCompleteToStart
 id avatarImg
 id back
 id backButton
+id back_account
 id back_dashboard
 id back_list_budgets
 id back_list_dashboards
@@ -2297,7 +2298,6 @@ id list_tasks
 id list_users
 id listview_background_shape
 id loginBtn
-id mainAppBar
 id masked
 id match_constraint
 id match_parent
@@ -2365,10 +2365,6 @@ id name_db_home_item
 id name_db_item
 id name_ts_item
 id name_user
-id navAccount
-id navBudgets
-id navDashboards
-id navHome
 id navigation_bar_item_icon_view
 id navigation_bar_item_labels_group
 id navigation_bar_item_large_label_view

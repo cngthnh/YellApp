@@ -6,69 +6,69 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml
+8-->D:\Android\Yell\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="31" />
-9-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml
+9-->D:\Android\Yell\app\src\main\AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-11-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:5:5-79
-11-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:5:22-76
+11-->D:\Android\Yell\app\src\main\AndroidManifest.xml:5:5-79
+11-->D:\Android\Yell\app\src\main\AndroidManifest.xml:5:22-76
 12    <uses-permission android:name="android.permission.INTERNET" />
-12-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:6:5-67
-12-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:6:22-64
+12-->D:\Android\Yell\app\src\main\AndroidManifest.xml:6:5-67
+12-->D:\Android\Yell\app\src\main\AndroidManifest.xml:6:22-64
 13    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-13-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:7:5-79
-13-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:7:22-77
+13-->D:\Android\Yell\app\src\main\AndroidManifest.xml:7:5-79
+13-->D:\Android\Yell\app\src\main\AndroidManifest.xml:7:22-77
 14
 15    <application
-15-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:9:5-34:19
+15-->D:\Android\Yell\app\src\main\AndroidManifest.xml:9:5-34:19
 16        android:allowBackup="true"
-16-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:10:9-35
+16-->D:\Android\Yell\app\src\main\AndroidManifest.xml:10:9-35
 17        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-17-->[androidx.core:core:1.5.0] C:\Users\Duc Minh\.gradle\caches\transforms-3\255d63c0f9f8f5d12ab3191ffb377750\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
+17-->[androidx.core:core:1.5.0] C:\Users\DELL\.gradle\caches\transforms-3\255d63c0f9f8f5d12ab3191ffb377750\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
 18        android:debuggable="true"
 19        android:icon="@mipmap/ic_launcher"
-19-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:11:9-43
+19-->D:\Android\Yell\app\src\main\AndroidManifest.xml:11:9-43
 20        android:label="@string/app_name"
-20-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:12:9-41
+20-->D:\Android\Yell\app\src\main\AndroidManifest.xml:12:9-41
 21        android:roundIcon="@mipmap/ic_launcher_round"
-21-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:13:9-54
+21-->D:\Android\Yell\app\src\main\AndroidManifest.xml:13:9-54
 22        android:supportsRtl="true"
-22-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:14:9-35
+22-->D:\Android\Yell\app\src\main\AndroidManifest.xml:14:9-35
 23        android:testOnly="true"
 24        android:theme="@style/Theme.YellApp" >
-24-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:15:9-45
+24-->D:\Android\Yell\app\src\main\AndroidManifest.xml:15:9-45
 25        <activity
-25-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:16:9-18:39
+25-->D:\Android\Yell\app\src\main\AndroidManifest.xml:16:9-18:39
 26            android:name="com.yellion.yellapp.RegisterActivity"
-26-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:17:13-45
+26-->D:\Android\Yell\app\src\main\AndroidManifest.xml:17:13-45
 27            android:exported="true" />
-27-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:18:13-36
+27-->D:\Android\Yell\app\src\main\AndroidManifest.xml:18:13-36
 28        <activity
-28-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:19:9-27:20
+28-->D:\Android\Yell\app\src\main\AndroidManifest.xml:19:9-27:20
 29            android:name="com.yellion.yellapp.LoginActivity"
-29-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:20:13-42
+29-->D:\Android\Yell\app\src\main\AndroidManifest.xml:20:13-42
 30            android:exported="true" >
-30-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:21:13-36
+30-->D:\Android\Yell\app\src\main\AndroidManifest.xml:21:13-36
 31            <intent-filter>
-31-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:22:13-26:29
+31-->D:\Android\Yell\app\src\main\AndroidManifest.xml:22:13-26:29
 32                <action android:name="android.intent.action.MAIN" />
-32-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:23:17-69
-32-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:23:25-66
+32-->D:\Android\Yell\app\src\main\AndroidManifest.xml:23:17-69
+32-->D:\Android\Yell\app\src\main\AndroidManifest.xml:23:25-66
 33
 34                <category android:name="android.intent.category.LAUNCHER" />
-34-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:25:17-77
-34-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:25:27-74
+34-->D:\Android\Yell\app\src\main\AndroidManifest.xml:25:17-77
+34-->D:\Android\Yell\app\src\main\AndroidManifest.xml:25:27-74
 35            </intent-filter>
 36        </activity>
 37        <activity
-37-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:28:9-33:20
+37-->D:\Android\Yell\app\src\main\AndroidManifest.xml:28:9-33:20
 38            android:name="com.yellion.yellapp.MainActivity"
-38-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:29:13-41
+38-->D:\Android\Yell\app\src\main\AndroidManifest.xml:29:13-41
 39            android:exported="true"
-39-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:30:13-36
+39-->D:\Android\Yell\app\src\main\AndroidManifest.xml:30:13-36
 40            android:windowSoftInputMode="adjustPan" >
-40-->D:\Study\Software\Yell\FinalYell\YellApp\app\src\main\AndroidManifest.xml:31:13-52
+40-->D:\Android\Yell\app\src\main\AndroidManifest.xml:31:13-52
 41        </activity>
 42    </application>
 43

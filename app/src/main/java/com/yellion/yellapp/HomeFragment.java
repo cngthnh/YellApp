@@ -60,7 +60,17 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,listBudgetsFragment).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,listBudgetsFragment, "LIST_BUDGET").addToBackStack("LIST_BUDGET").commit();
+            }
+        });
+
+        binding.avatarImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                AccountFragment accountFragment = new AccountFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,accountFragment
+                        , "ACCOUNT").addToBackStack(null).commit();
             }
         });
 
@@ -69,7 +79,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 NotificationFragment notificationFragment = new NotificationFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,notificationFragment, "NOTIFICATION").addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,notificationFragment
+                        , "NOTIFICATION").addToBackStack(null).commit();
             }
         });
         binding.viewAllDashboardsBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +88,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 ListDashboardsFragment dashboardsFragment = new ListDashboardsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,dashboardsFragment, "LIST_DASHBOARD").addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,dashboardsFragment
+                        , "LIST_DASHBOARD").addToBackStack(null).commit();
             }
         });
 

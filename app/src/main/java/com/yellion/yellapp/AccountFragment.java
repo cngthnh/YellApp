@@ -43,6 +43,15 @@ public class AccountFragment extends Fragment {
         sessionManager = SessionManager.getInstance(getActivity().
                 getSharedPreferences(getResources().getString(R.string.yell_sp), Context.MODE_PRIVATE));
 
+        binding.backAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(getActivity() != null){
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            }
+        });
+
         binding.signoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

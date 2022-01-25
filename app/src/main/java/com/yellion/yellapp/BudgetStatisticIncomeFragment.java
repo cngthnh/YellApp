@@ -66,9 +66,14 @@ public class BudgetStatisticIncomeFragment extends Fragment {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                ListBudgetsFragment listBudgetsFragment = new ListBudgetsFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,listBudgetsFragment).addToBackStack(null).commit();
+                if (getActivity() != null)
+                {
+                    Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("LIST_BUDGET");
+                    if(fragment == null)
+                        getActivity().getSupportFragmentManager().popBackStack("HOME", 0);
+                    else
+                        getActivity().getSupportFragmentManager().popBackStack("LIST_BUDGET", 0);
+                }
             }
         });
         binding.tnn.setOnClickListener(new View.OnClickListener() {

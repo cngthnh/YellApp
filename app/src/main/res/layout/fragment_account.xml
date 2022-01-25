@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageButton
+            android:id="@+id/back_account"
             android:layout_width="30dp"
             android:layout_height="match_parent"
             style="?android:attr/borderlessButtonStyle"
